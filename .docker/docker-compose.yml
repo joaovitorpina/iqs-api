@@ -1,0 +1,33 @@
+services:
+  iqs-api:
+    container_name: iqs-api
+    build:
+      context: ../
+      dockerfile: ./.docker/Dockerfile
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
+    ports:
+      - '3010:8080'
+    env_file: ../.env
+    networks:
+      - iqs-network
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    platform: linux/x86_64
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
+    networks:
+      - iqs-network
+    volumes:
+      - ./config:/docker-entrypoint-initdb.d
+      - ./data/mysql:/var/lib/mysql
+
+networks:
+  iqs-network:
+    driver: bridge
