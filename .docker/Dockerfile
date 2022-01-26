@@ -5,6 +5,11 @@ COPY . ./
 RUN go mod download
 RUN go build -o /iqs-api
 
+FROM alpine:latest AS final
+WORKDIR /app
+
+COPY --from=builder /iqs-api /
+
 ENV GIN_MODE=release
 ENV PORT=8080
 EXPOSE 8080

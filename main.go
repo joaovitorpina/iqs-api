@@ -11,7 +11,7 @@ import (
 func init() {
 	err := godotenv.Load()
 
-	if err != nil {
+	if err != nil && gin.IsDebugging() {
 		log.Fatal(err)
 	}
 }

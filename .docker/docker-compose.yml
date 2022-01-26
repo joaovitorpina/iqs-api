@@ -6,6 +6,8 @@ services:
       dockerfile: ./.docker/Dockerfile
     extra_hosts:
       - 'host.docker.internal:172.17.0.1'
+    depends_on:
+      - mysql
     ports:
       - '3010:8080'
     env_file: ../.env
