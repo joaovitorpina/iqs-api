@@ -5,13 +5,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"profissional/dtos"
+	"profissional/ent"
 	"profissional/ent/convenio"
 	profissionalQuery "profissional/ent/profissional"
-	"profissional/services"
 	"strconv"
 )
 
-func BuscarConveniosPorProfissional(httpContext *gin.Context) {
+type ConvenioController struct {
+	Client *ent.Client
+}
+
+func (controller ConvenioController) BuscarConveniosPorProfissional(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 
 	if err != nil {
@@ -19,7 +23,9 @@ func BuscarConveniosPorProfissional(httpContext *gin.Context) {
 		return
 	}
 
-	convenios, err := services.DbClient.Convenio.Query().Where(convenio.HasProfissionalWith(profissionalQuery.ID(id))).All(context.Background())
+	convenios, err := controller.Client.Convenio.Query().
+		Where(convenio.HasProfissionalWith(profissionalQuery.ID(id))).
+		All(context.Background())
 
 	if err != nil {
 		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

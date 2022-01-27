@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"profissional/ent"
 	"profissional/ent/foto"
 	"profissional/ent/podcast"
 	profissionalQuery "profissional/ent/profissional"
@@ -11,11 +12,14 @@ import (
 	"profissional/mappers/fotos-mapper"
 	podcast_mapper "profissional/mappers/podcast-mapper"
 	videos_mapper "profissional/mappers/videos-mapper"
-	"profissional/services"
 	"strconv"
 )
 
-func BuscarFotosPorProfissional(httpContext *gin.Context) {
+type MidiasController struct {
+	Client *ent.Client
+}
+
+func (controller MidiasController) BuscarFotosPorProfissional(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 
 	if err != nil {
@@ -23,7 +27,9 @@ func BuscarFotosPorProfissional(httpContext *gin.Context) {
 		return
 	}
 
-	fotos, err := services.DbClient.Foto.Query().Where(foto.HasProfissionalWith(profissionalQuery.ID(id))).All(context.Background())
+	fotos, err := controller.Client.Foto.Query().
+		Where(foto.HasProfissionalWith(profissionalQuery.ID(id))).
+		All(context.Background())
 
 	if err != nil {
 		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -33,7 +39,7 @@ func BuscarFotosPorProfissional(httpContext *gin.Context) {
 	httpContext.JSON(http.StatusOK, fotos_mapper.ToDomain(fotos))
 }
 
-func BuscarVideosPorProfissional(httpContext *gin.Context) {
+func (controller MidiasController) BuscarVideosPorProfissional(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 
 	if err != nil {
@@ -41,7 +47,9 @@ func BuscarVideosPorProfissional(httpContext *gin.Context) {
 		return
 	}
 
-	videos, err := services.DbClient.Video.Query().Where(video.HasProfissionalWith(profissionalQuery.ID(id))).All(context.Background())
+	videos, err := controller.Client.Video.Query().
+		Where(video.HasProfissionalWith(profissionalQuery.ID(id))).
+		All(context.Background())
 
 	if err != nil {
 		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -51,7 +59,7 @@ func BuscarVideosPorProfissional(httpContext *gin.Context) {
 	httpContext.JSON(http.StatusOK, videos_mapper.ToDomain(videos))
 }
 
-func BuscarPodcastsPorProfissional(httpContext *gin.Context) {
+func (controller MidiasController) BuscarPodcastsPorProfissional(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 
 	if err != nil {
@@ -59,7 +67,9 @@ func BuscarPodcastsPorProfissional(httpContext *gin.Context) {
 		return
 	}
 
-	podcasts, err := services.DbClient.Podcast.Query().Where(podcast.HasProfissionalWith(profissionalQuery.ID(id))).All(context.Background())
+	podcasts, err := controller.Client.Podcast.Query().
+		Where(podcast.HasProfissionalWith(profissionalQuery.ID(id))).
+		All(context.Background())
 
 	if err != nil {
 		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

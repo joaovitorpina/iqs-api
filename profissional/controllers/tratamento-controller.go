@@ -4,13 +4,17 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"profissional/ent"
 	profissionalQuery "profissional/ent/profissional"
 	"profissional/ent/tratamento"
-	"profissional/services"
 	"strconv"
 )
 
-func ListarTratamentosPorProfissional(httpContext *gin.Context) {
+type TratamentosController struct {
+	Client *ent.Client
+}
+
+func (controller TratamentosController) ListarTratamentosPorProfissional(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Query("id"))
 
 	if err != nil {
@@ -18,7 +22,7 @@ func ListarTratamentosPorProfissional(httpContext *gin.Context) {
 		return
 	}
 
-	tratamentos, err := services.DbClient.Tratamento.Query().
+	tratamentos, err := controller.Client.Tratamento.Query().
 		Where(tratamento.HasProfissionalWith(profissionalQuery.ID(id))).
 		All(context.Background())
 

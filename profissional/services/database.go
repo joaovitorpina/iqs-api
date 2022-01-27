@@ -8,17 +8,20 @@ import (
 	"profissional/ent"
 )
 
-var DbClient *ent.Client
-
 func InitDatabase() {
+	client := CreateDbClient()
+	defer client.Close()
+
+	if err := client.Schema.Create(context.Background()); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func CreateDbClient() *ent.Client {
 	client, err := ent.Open("mysql", os.Getenv("DATABASE_URL")+"/profissionais?parseTime=True")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if err := client.Schema.Create(context.Background()); err != nil {
-		log.Fatal(err)
-	}
-
-	DbClient = client
+	return client
 }

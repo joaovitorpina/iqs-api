@@ -11,11 +11,14 @@ import (
 	profissionalQuery "profissional/ent/profissional"
 	"profissional/ent/whatsapp"
 	"profissional/mappers/especializacao-mapper"
-	"profissional/services"
 	"strconv"
 )
 
-func ListarProfissionaisReduzido(httpContext *gin.Context) {
+type ProfissionaisController struct {
+	Client *ent.Client
+}
+
+func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContext *gin.Context) {
 	var form dtos.BuscarListagemProfissionaisQuery
 	err := httpContext.BindQuery(&form)
 
@@ -24,7 +27,7 @@ func ListarProfissionaisReduzido(httpContext *gin.Context) {
 		return
 	}
 
-	query := services.DbClient.Profissional.Query().
+	query := controller.Client.Profissional.Query().
 		WithEspecializacoes(func(especializacaoQuery *ent.EspecializacaoQuery) {
 			especializacaoQuery.WithAreasaude()
 		}).WithWhatsapps(func(whatsAppQuery *ent.WhatsAppQuery) {
@@ -89,7 +92,7 @@ func ListarProfissionaisReduzido(httpContext *gin.Context) {
 	httpContext.JSON(http.StatusOK, responseBody)
 }
 
-func BuscarProfissionalPorId(httpContext *gin.Context) {
+func (controller ProfissionaisController) BuscarProfissionalPorId(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 
 	if err != nil {
@@ -97,7 +100,7 @@ func BuscarProfissionalPorId(httpContext *gin.Context) {
 		return
 	}
 
-	profissional, err := services.DbClient.Profissional.Query().
+	profissional, err := controller.Client.Profissional.Query().
 		Where(profissionalQuery.ID(id)).
 		WithEspecializacoes().
 		First(context.Background())
