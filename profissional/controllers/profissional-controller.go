@@ -31,7 +31,7 @@ func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContex
 		WithEspecializacoes(func(especializacaoQuery *ent.EspecializacaoQuery) {
 			especializacaoQuery.WithAreasaude()
 		}).WithWhatsapps(func(whatsAppQuery *ent.WhatsAppQuery) {
-		whatsAppQuery.Where(whatsapp.Principal(true)).Limit(1)
+		whatsAppQuery.Where(whatsapp.Principal(true))
 	})
 
 	if form.Limite >= 0 {
@@ -102,7 +102,9 @@ func (controller ProfissionaisController) BuscarProfissionalPorId(httpContext *g
 
 	profissional, err := controller.Client.Profissional.Query().
 		Where(profissionalQuery.ID(id)).
-		WithEspecializacoes().
+		WithEspecializacoes(func(especializacaoQuery *ent.EspecializacaoQuery) {
+			especializacaoQuery.WithAreasaude()
+		}).
 		First(context.Background())
 
 	if err != nil {
