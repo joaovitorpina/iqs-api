@@ -15,7 +15,7 @@ type TratamentosController struct {
 }
 
 func (controller TratamentosController) ListarTratamentosPorProfissional(httpContext *gin.Context) {
-	id, err := strconv.Atoi(httpContext.Query("id"))
+	id, err := strconv.Atoi(httpContext.Param("id"))
 
 	if err != nil {
 		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
