@@ -11,11 +11,11 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "gomod" # See documentation for possible values
-      directory: "/endereco" # Location of package manifests
-      schedule:
-        interval: "daily"
+    directory: "/endereco" # Location of package manifests
+    schedule:
+      interval: "daily"
 
   - package-ecosystem: "gomod" # See documentation for possible values
-      directory: "/profissional" # Location of package manifests
-      schedule:
-        interval: "daily"
+    directory: "/profissional" # Location of package manifests
+    schedule:
+      interval: "daily"
