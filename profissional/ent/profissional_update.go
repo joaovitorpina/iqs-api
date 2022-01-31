@@ -173,9 +173,37 @@ func (pu *ProfissionalUpdate) SetEmail(s string) *ProfissionalUpdate {
 	return pu
 }
 
+// SetNillableEmail sets the "email" field if the given value is not nil.
+func (pu *ProfissionalUpdate) SetNillableEmail(s *string) *ProfissionalUpdate {
+	if s != nil {
+		pu.SetEmail(*s)
+	}
+	return pu
+}
+
+// ClearEmail clears the value of the "email" field.
+func (pu *ProfissionalUpdate) ClearEmail() *ProfissionalUpdate {
+	pu.mutation.ClearEmail()
+	return pu
+}
+
 // SetSite sets the "site" field.
 func (pu *ProfissionalUpdate) SetSite(s string) *ProfissionalUpdate {
 	pu.mutation.SetSite(s)
+	return pu
+}
+
+// SetNillableSite sets the "site" field if the given value is not nil.
+func (pu *ProfissionalUpdate) SetNillableSite(s *string) *ProfissionalUpdate {
+	if s != nil {
+		pu.SetSite(*s)
+	}
+	return pu
+}
+
+// ClearSite clears the value of the "site" field.
+func (pu *ProfissionalUpdate) ClearSite() *ProfissionalUpdate {
+	pu.mutation.ClearSite()
 	return pu
 }
 
@@ -769,10 +797,22 @@ func (pu *ProfissionalUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: profissional.FieldEmail,
 		})
 	}
+	if pu.mutation.EmailCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: profissional.FieldEmail,
+		})
+	}
 	if value, ok := pu.mutation.Site(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: profissional.FieldSite,
+		})
+	}
+	if pu.mutation.SiteCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: profissional.FieldSite,
 		})
 	}
@@ -1398,9 +1438,37 @@ func (puo *ProfissionalUpdateOne) SetEmail(s string) *ProfissionalUpdateOne {
 	return puo
 }
 
+// SetNillableEmail sets the "email" field if the given value is not nil.
+func (puo *ProfissionalUpdateOne) SetNillableEmail(s *string) *ProfissionalUpdateOne {
+	if s != nil {
+		puo.SetEmail(*s)
+	}
+	return puo
+}
+
+// ClearEmail clears the value of the "email" field.
+func (puo *ProfissionalUpdateOne) ClearEmail() *ProfissionalUpdateOne {
+	puo.mutation.ClearEmail()
+	return puo
+}
+
 // SetSite sets the "site" field.
 func (puo *ProfissionalUpdateOne) SetSite(s string) *ProfissionalUpdateOne {
 	puo.mutation.SetSite(s)
+	return puo
+}
+
+// SetNillableSite sets the "site" field if the given value is not nil.
+func (puo *ProfissionalUpdateOne) SetNillableSite(s *string) *ProfissionalUpdateOne {
+	if s != nil {
+		puo.SetSite(*s)
+	}
+	return puo
+}
+
+// ClearSite clears the value of the "site" field.
+func (puo *ProfissionalUpdateOne) ClearSite() *ProfissionalUpdateOne {
+	puo.mutation.ClearSite()
 	return puo
 }
 
@@ -2018,10 +2086,22 @@ func (puo *ProfissionalUpdateOne) sqlSave(ctx context.Context) (_node *Profissio
 			Column: profissional.FieldEmail,
 		})
 	}
+	if puo.mutation.EmailCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: profissional.FieldEmail,
+		})
+	}
 	if value, ok := puo.mutation.Site(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
+			Column: profissional.FieldSite,
+		})
+	}
+	if puo.mutation.SiteCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
 			Column: profissional.FieldSite,
 		})
 	}

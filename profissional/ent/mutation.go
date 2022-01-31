@@ -2818,9 +2818,22 @@ func (m *ProfissionalMutation) OldEmail(ctx context.Context) (v string, err erro
 	return oldValue.Email, nil
 }
 
+// ClearEmail clears the value of the "email" field.
+func (m *ProfissionalMutation) ClearEmail() {
+	m.email = nil
+	m.clearedFields[profissional.FieldEmail] = struct{}{}
+}
+
+// EmailCleared returns if the "email" field was cleared in this mutation.
+func (m *ProfissionalMutation) EmailCleared() bool {
+	_, ok := m.clearedFields[profissional.FieldEmail]
+	return ok
+}
+
 // ResetEmail resets all changes to the "email" field.
 func (m *ProfissionalMutation) ResetEmail() {
 	m.email = nil
+	delete(m.clearedFields, profissional.FieldEmail)
 }
 
 // SetSite sets the "site" field.
@@ -2854,9 +2867,22 @@ func (m *ProfissionalMutation) OldSite(ctx context.Context) (v string, err error
 	return oldValue.Site, nil
 }
 
+// ClearSite clears the value of the "site" field.
+func (m *ProfissionalMutation) ClearSite() {
+	m.site = nil
+	m.clearedFields[profissional.FieldSite] = struct{}{}
+}
+
+// SiteCleared returns if the "site" field was cleared in this mutation.
+func (m *ProfissionalMutation) SiteCleared() bool {
+	_, ok := m.clearedFields[profissional.FieldSite]
+	return ok
+}
+
 // ResetSite resets all changes to the "site" field.
 func (m *ProfissionalMutation) ResetSite() {
 	m.site = nil
+	delete(m.clearedFields, profissional.FieldSite)
 }
 
 // SetFacebook sets the "facebook" field.
@@ -3997,6 +4023,12 @@ func (m *ProfissionalMutation) ClearedFields() []string {
 	if m.FieldCleared(profissional.FieldNumeroIdentificacao) {
 		fields = append(fields, profissional.FieldNumeroIdentificacao)
 	}
+	if m.FieldCleared(profissional.FieldEmail) {
+		fields = append(fields, profissional.FieldEmail)
+	}
+	if m.FieldCleared(profissional.FieldSite) {
+		fields = append(fields, profissional.FieldSite)
+	}
 	if m.FieldCleared(profissional.FieldFacebook) {
 		fields = append(fields, profissional.FieldFacebook)
 	}
@@ -4031,6 +4063,12 @@ func (m *ProfissionalMutation) ClearField(name string) error {
 		return nil
 	case profissional.FieldNumeroIdentificacao:
 		m.ClearNumeroIdentificacao()
+		return nil
+	case profissional.FieldEmail:
+		m.ClearEmail()
+		return nil
+	case profissional.FieldSite:
+		m.ClearSite()
 		return nil
 	case profissional.FieldFacebook:
 		m.ClearFacebook()

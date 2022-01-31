@@ -155,9 +155,25 @@ func (pc *ProfissionalCreate) SetEmail(s string) *ProfissionalCreate {
 	return pc
 }
 
+// SetNillableEmail sets the "email" field if the given value is not nil.
+func (pc *ProfissionalCreate) SetNillableEmail(s *string) *ProfissionalCreate {
+	if s != nil {
+		pc.SetEmail(*s)
+	}
+	return pc
+}
+
 // SetSite sets the "site" field.
 func (pc *ProfissionalCreate) SetSite(s string) *ProfissionalCreate {
 	pc.mutation.SetSite(s)
+	return pc
+}
+
+// SetNillableSite sets the "site" field if the given value is not nil.
+func (pc *ProfissionalCreate) SetNillableSite(s *string) *ProfissionalCreate {
+	if s != nil {
+		pc.SetSite(*s)
+	}
 	return pc
 }
 
@@ -464,12 +480,6 @@ func (pc *ProfissionalCreate) check() error {
 	}
 	if _, ok := pc.mutation.Celular(); !ok {
 		return &ValidationError{Name: "celular", err: errors.New(`ent: missing required field "Profissional.celular"`)}
-	}
-	if _, ok := pc.mutation.Email(); !ok {
-		return &ValidationError{Name: "email", err: errors.New(`ent: missing required field "Profissional.email"`)}
-	}
-	if _, ok := pc.mutation.Site(); !ok {
-		return &ValidationError{Name: "site", err: errors.New(`ent: missing required field "Profissional.site"`)}
 	}
 	if _, ok := pc.mutation.UnidadeID(); !ok {
 		return &ValidationError{Name: "unidade_id", err: errors.New(`ent: missing required field "Profissional.unidade_id"`)}

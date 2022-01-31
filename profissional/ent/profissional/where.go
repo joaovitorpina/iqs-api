@@ -1259,6 +1259,20 @@ func EmailHasSuffix(v string) predicate.Profissional {
 	})
 }
 
+// EmailIsNil applies the IsNil predicate on the "email" field.
+func EmailIsNil() predicate.Profissional {
+	return predicate.Profissional(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldEmail)))
+	})
+}
+
+// EmailNotNil applies the NotNil predicate on the "email" field.
+func EmailNotNil() predicate.Profissional {
+	return predicate.Profissional(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldEmail)))
+	})
+}
+
 // EmailEqualFold applies the EqualFold predicate on the "email" field.
 func EmailEqualFold(v string) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
@@ -1367,6 +1381,20 @@ func SiteHasPrefix(v string) predicate.Profissional {
 func SiteHasSuffix(v string) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.HasSuffix(s.C(FieldSite), v))
+	})
+}
+
+// SiteIsNil applies the IsNil predicate on the "site" field.
+func SiteIsNil() predicate.Profissional {
+	return predicate.Profissional(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldSite)))
+	})
+}
+
+// SiteNotNil applies the NotNil predicate on the "site" field.
+func SiteNotNil() predicate.Profissional {
+	return predicate.Profissional(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldSite)))
 	})
 }
 
