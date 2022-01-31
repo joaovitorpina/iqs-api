@@ -15,6 +15,14 @@ type ConvenioController struct {
 	Client *ent.Client
 }
 
+// BuscarConveniosPorProfissional godoc
+// @Summary      Busca os convenios do profissional
+// @Description  Buscar os convenios do profisional por id
+// @Tags         Convenio
+// @Produce      json
+// @Param        id   path      int                           true  "Id do profissional"
+// @Success      200  {object}  dtos.BuscarConveniosResponse  "Convenios"
+// @Router       /profissionais/{id}/convenios [get]
 func (controller ConvenioController) BuscarConveniosPorProfissional(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 

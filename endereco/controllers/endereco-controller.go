@@ -8,18 +8,26 @@ import (
 	"endereco/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
+// BuscarEnderecoPorId godoc
+// @Summary      Busca um endereco por id
+// @Description  Retorna o endereco pelo id enviado
+// @Tags         Endereco
+// @Produce      json
+// @Param        id   path      int                          true  "Id do Endereco"
+// @Success      200  {object}  dtos.BuscarEnderecoResponse  "Endereco"
+// @Router       /enderecos/{id} [get]
 func BuscarEnderecoPorId(httpContext *gin.Context) {
-	var query dtos.BuscarEnderecoQuery
-	err := httpContext.BindQuery(&query)
+	id, err := strconv.Atoi(httpContext.Param("id"))
 
 	if err != nil {
 		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	endereco, err := services.DbClient.Endereco.Query().Where(enderecoQuery.ID(query.Id)).WithCep(func(cepQuery *ent.CepQuery) {
+	endereco, err := services.DbClient.Endereco.Query().Where(enderecoQuery.ID(id)).WithCep(func(cepQuery *ent.CepQuery) {
 		cepQuery.WithCidade(func(cidadeQuery *ent.CidadeQuery) {
 			cidadeQuery.WithEstado()
 		})

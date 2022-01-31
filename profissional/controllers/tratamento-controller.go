@@ -14,6 +14,14 @@ type TratamentosController struct {
 	Client *ent.Client
 }
 
+// ListarTratamentosPorProfissional godoc
+// @Summary      Busca os tratamentos do profissional
+// @Description  Buscar os tratamentos do profisional por id
+// @Tags         Tratamentos
+// @Produce      json
+// @Param        id   path      int       true  "Id do profissional"
+// @Success      200  {object}  []string  "Tratamentos"
+// @Router       /profissionais/{id}/tratamentos [get]
 func (controller TratamentosController) ListarTratamentosPorProfissional(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 

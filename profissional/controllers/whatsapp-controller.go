@@ -15,6 +15,14 @@ type WhatsappController struct {
 	Client *ent.Client
 }
 
+// BuscarWhatsappsPorProfissional godoc
+// @Summary      Busca os WhatsApp`s do profissional
+// @Description  Buscar os WhatsApp`s do profisional por id
+// @Tags         WhatsApp
+// @Produce      json
+// @Param        id   path      int                             true  "Id do profissional"
+// @Success      200  {object}  []dtos.BuscarWhatsappsResponse  "WhatsApp`s"
+// @Router       /profissionais/{id}/whatsapps [get]
 func (controller WhatsappController) BuscarWhatsappsPorProfissional(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 

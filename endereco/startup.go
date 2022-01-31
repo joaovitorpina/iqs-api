@@ -14,6 +14,6 @@ func Startup(server *gin.Engine) {
 func AddRoutes(server *gin.Engine) {
 	routes := server.Group("/enderecos")
 	{
-		routes.GET("/", controllers.BuscarEnderecoPorId)
+		routes.GET("/:id", controllers.BuscarEnderecoPorId)
 	}
 }

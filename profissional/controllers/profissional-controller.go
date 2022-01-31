@@ -18,6 +18,14 @@ type ProfissionaisController struct {
 	Client *ent.Client
 }
 
+// ListarProfissionaisReduzido godoc
+// @Summary      Listagem de profissionais pela busca
+// @Description  Realiza a listagem com paginacão dos profissionais a partir dos dados enviados para busca
+// @Tags         Profissional
+// @Produce      json
+// @Param        parametros  query     dtos.BuscarListagemProfissionaisQuery     true  "Parametros"
+// @Success      200  {object}  dtos.BuscarListagemProfissionaisResponse  "Listagem profissionais"
+// @Router       /profissionais [get]
 func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContext *gin.Context) {
 	var form dtos.BuscarListagemProfissionaisQuery
 	err := httpContext.BindQuery(&form)
@@ -92,6 +100,14 @@ func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContex
 	httpContext.JSON(http.StatusOK, responseBody)
 }
 
+// BuscarProfissionalPorId godoc
+// @Summary      Busca todas as informacões do profissional
+// @Description  Retorna todos os detalhes do profissional pelo id
+// @Tags         Profissional
+// @Produce      json
+// @Param        id   path      int                                       true  "Id do profissional"
+// @Success      200         {object}  dtos.BuscarListagemProfissionaisResponse  "Listagem profissionais"
+// @Router       /profissionais/{id} [get]
 func (controller ProfissionaisController) BuscarProfissionalPorId(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 

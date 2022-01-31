@@ -1,9 +1,5 @@
 package dtos
 
-type BuscarEnderecoQuery struct {
-	Id int `form:"id" binding:"required"`
-}
-
 type BuscarEnderecoResponse struct {
 	Logradouro string `json:"logradouro"`
 	Bairro     string `json:"bairro"`

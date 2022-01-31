@@ -1,0 +1,464 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Essa é a API para o site do Informacão que Salva e o admin.",
+    "title": "IQS API",
+    "contact": {
+      "name": "João Vitor Goncalves Pina",
+      "email": "joaovitorpina@icloud.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0"
+  },
+  "paths": {
+    "/enderecos/{id}": {
+      "get": {
+        "description": "Retorna o endereco pelo id enviado",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Endereco"
+        ],
+        "summary": "Busca um endereco por id",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Id do Endereco",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Endereco",
+            "schema": {
+              "$ref": "#/definitions/dtos.BuscarEnderecoResponse"
+            }
+          }
+        }
+      }
+    },
+    "/profissionais": {
+      "get": {
+        "description": "Realiza a listagem com paginacão dos profissionais a partir dos dados enviados para busca",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Listagem de profissionais pela busca",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "especialidadeId",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "limite",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "nome",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "pagina",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "tipoProfissionalId",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "unidadeId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listagem profissionais",
+            "schema": {
+              "$ref": "#/definitions/dtos.BuscarListagemProfissionaisResponse"
+            }
+          }
+        }
+      }
+    },
+    "/profissionais/{id}": {
+      "get": {
+        "description": "Retorna todos os detalhes do profissional pelo id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Busca todas as informacões do profissional",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Id do profissional",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listagem profissionais",
+            "schema": {
+              "$ref": "#/definitions/dtos.BuscarListagemProfissionaisResponse"
+            }
+          }
+        }
+      }
+    },
+    "/profissionais/{id}/convenios": {
+      "get": {
+        "description": "Buscar os convenios do profisional por id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Convenio"
+        ],
+        "summary": "Busca os convenios do profissional",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Id do profissional",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Convenios",
+            "schema": {
+              "$ref": "#/definitions/dtos.BuscarConveniosResponse"
+            }
+          }
+        }
+      }
+    },
+    "/profissionais/{id}/midias/fotos": {
+      "get": {
+        "description": "Buscar as fotos do profisional por id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Midias"
+        ],
+        "summary": "Busca as fotos do profissional",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Id do profissional",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fotos",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dtos.BuscarFotosResponse"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profissionais/{id}/midias/podcasts": {
+      "get": {
+        "description": "Buscar os podcasts do profisional por id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Midias"
+        ],
+        "summary": "Busca os podcasts do profissional",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Id do profissional",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Podcasts",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dtos.BuscarPodcastsResponse"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profissionais/{id}/midias/videos": {
+      "get": {
+        "description": "Buscar os videos do profisional por id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Midias"
+        ],
+        "summary": "Busca os videos do profissional",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Id do profissional",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Videos",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dtos.BuscarVideosResponse"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profissionais/{id}/tratamentos": {
+      "get": {
+        "description": "Buscar os tratamentos do profisional por id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Tratamentos"
+        ],
+        "summary": "Busca os tratamentos do profissional",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Id do profissional",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tratamentos",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profissionais/{id}/whatsapps": {
+      "get": {
+        "description": "Buscar os WhatsApp`s do profisional por id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "WhatsApp"
+        ],
+        "summary": "Busca os WhatsApp`s do profissional",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Id do profissional",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "WhatsApp`s",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dtos.BuscarWhatsappsResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "dtos.BuscarConveniosResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dtos.BuscarEnderecoResponse": {
+      "type": "object",
+      "properties": {
+        "bairro": {
+          "type": "string"
+        },
+        "cep": {
+          "type": "integer"
+        },
+        "cidade": {
+          "type": "string"
+        },
+        "estado": {
+          "type": "string"
+        },
+        "logradouro": {
+          "type": "string"
+        },
+        "numero": {
+          "type": "string"
+        }
+      }
+    },
+    "dtos.BuscarFotosResponse": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "dtos.BuscarListagemProfissionaisResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dtos.ProfissionalReduzido"
+          }
+        },
+        "pagina": {
+          "type": "integer"
+        },
+        "quantidade": {
+          "type": "integer"
+        }
+      }
+    },
+    "dtos.BuscarPodcastsResponse": {
+      "type": "object",
+      "properties": {
+        "codigo": {
+          "type": "string"
+        },
+        "titulo": {
+          "type": "string"
+        }
+      }
+    },
+    "dtos.BuscarVideosResponse": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "url_thumbnail": {
+          "type": "string"
+        }
+      }
+    },
+    "dtos.BuscarWhatsappsResponse": {
+      "type": "object",
+      "properties": {
+        "numero": {
+          "type": "integer"
+        },
+        "principal": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dtos.ProfissionalReduzido": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "especialidades": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "facebook": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "imagem_perfil_url": {
+          "type": "string"
+        },
+        "instagram": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "recomendado": {
+          "type": "boolean"
+        },
+        "site": {
+          "type": "string"
+        },
+        "tipo": {
+          "type": "string"
+        },
+        "unidade_id": {
+          "type": "integer"
+        },
+        "url_amigavel": {
+          "type": "string"
+        },
+        "whatsapp": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
