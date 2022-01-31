@@ -8,6 +8,7 @@ import (
 	"endereco/ent/endereco"
 	"endereco/ent/estado"
 	"endereco/ent/schema"
+	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -48,11 +49,24 @@ func init() {
 	cidadeDescNome := cidadeFields[0].Descriptor()
 	// cidade.NomeValidator is a validator for the "nome" field. It is called by the builders before save.
 	cidade.NomeValidator = cidadeDescNome.Validators[0].(func(string) error)
+	enderecoMixin := schema.Endereco{}.Mixin()
+	enderecoMixinFields0 := enderecoMixin[0].Fields()
+	_ = enderecoMixinFields0
 	enderecoFields := schema.Endereco{}.Fields()
 	_ = enderecoFields
+	// enderecoDescCreateTime is the schema descriptor for create_time field.
+	enderecoDescCreateTime := enderecoMixinFields0[0].Descriptor()
+	// endereco.DefaultCreateTime holds the default value on creation for the create_time field.
+	endereco.DefaultCreateTime = enderecoDescCreateTime.Default.(func() time.Time)
+	// enderecoDescUpdateTime is the schema descriptor for update_time field.
+	enderecoDescUpdateTime := enderecoMixinFields0[1].Descriptor()
+	// endereco.DefaultUpdateTime holds the default value on creation for the update_time field.
+	endereco.DefaultUpdateTime = enderecoDescUpdateTime.Default.(func() time.Time)
+	// endereco.UpdateDefaultUpdateTime holds the default value on update for the update_time field.
+	endereco.UpdateDefaultUpdateTime = enderecoDescUpdateTime.UpdateDefault.(func() time.Time)
 	// enderecoDescNumero is the schema descriptor for numero field.
 	enderecoDescNumero := enderecoFields[0].Descriptor()
-	// endereco-controller.NumeroValidator is a validator for the "numero" field. It is called by the builders before save.
+	// endereco.NumeroValidator is a validator for the "numero" field. It is called by the builders before save.
 	endereco.NumeroValidator = enderecoDescNumero.Validators[0].(func(string) error)
 	estadoFields := schema.Estado{}.Fields()
 	_ = estadoFields

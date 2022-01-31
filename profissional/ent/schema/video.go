@@ -25,6 +25,7 @@ func (Video) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("profissional", Profissional.Type).
 			Ref("videos").
-			Unique(),
+			Unique().
+			Required(),
 	}
 }

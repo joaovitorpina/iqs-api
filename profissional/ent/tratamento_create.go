@@ -32,14 +32,6 @@ func (tc *TratamentoCreate) SetProfissionalID(id int) *TratamentoCreate {
 	return tc
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (tc *TratamentoCreate) SetNillableProfissionalID(id *int) *TratamentoCreate {
-	if id != nil {
-		tc = tc.SetProfissionalID(*id)
-	}
-	return tc
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (tc *TratamentoCreate) SetProfissional(p *Profissional) *TratamentoCreate {
 	return tc.SetProfissionalID(p.ID)
@@ -117,6 +109,9 @@ func (tc *TratamentoCreate) ExecX(ctx context.Context) {
 func (tc *TratamentoCreate) check() error {
 	if _, ok := tc.mutation.Descricao(); !ok {
 		return &ValidationError{Name: "descricao", err: errors.New(`ent: missing required field "Tratamento.descricao"`)}
+	}
+	if _, ok := tc.mutation.ProfissionalID(); !ok {
+		return &ValidationError{Name: "profissional", err: errors.New(`ent: missing required edge "Tratamento.profissional"`)}
 	}
 	return nil
 }

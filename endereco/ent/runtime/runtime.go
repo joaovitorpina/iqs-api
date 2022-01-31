@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in endereco-controller/ent/runtime.go
+// The schema-stitching logic is generated in endereco/ent/runtime.go
 
 const (
 	Version = "v0.10.0"                                         // Version of ent codegen.

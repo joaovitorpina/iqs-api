@@ -291,12 +291,12 @@ func (eq *EnderecoQuery) WithCep(opts ...func(*CepQuery)) *EnderecoQuery {
 // Example:
 //
 //	var v []struct {
-//		Numero string `json:"numero,omitempty"`
+//		CreateTime time.Time `json:"create_time,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Endereco.Query().
-//		GroupBy(endereco.FieldNumero).
+//		GroupBy(endereco.FieldCreateTime).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -318,11 +318,11 @@ func (eq *EnderecoQuery) GroupBy(field string, fields ...string) *EnderecoGroupB
 // Example:
 //
 //	var v []struct {
-//		Numero string `json:"numero,omitempty"`
+//		CreateTime time.Time `json:"create_time,omitempty"`
 //	}
 //
 //	client.Endereco.Query().
-//		Select(endereco.FieldNumero).
+//		Select(endereco.FieldCreateTime).
 //		Scan(ctx, &v)
 //
 func (eq *EnderecoQuery) Select(fields ...string) *EnderecoSelect {

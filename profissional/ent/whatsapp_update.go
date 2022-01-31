@@ -61,14 +61,6 @@ func (wau *WhatsAppUpdate) SetProfissionalID(id int) *WhatsAppUpdate {
 	return wau
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (wau *WhatsAppUpdate) SetNillableProfissionalID(id *int) *WhatsAppUpdate {
-	if id != nil {
-		wau = wau.SetProfissionalID(*id)
-	}
-	return wau
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (wau *WhatsAppUpdate) SetProfissional(p *Profissional) *WhatsAppUpdate {
 	return wau.SetProfissionalID(p.ID)
@@ -92,12 +84,18 @@ func (wau *WhatsAppUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(wau.hooks) == 0 {
+		if err = wau.check(); err != nil {
+			return 0, err
+		}
 		affected, err = wau.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*WhatsAppMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = wau.check(); err != nil {
+				return 0, err
 			}
 			wau.mutation = mutation
 			affected, err = wau.sqlSave(ctx)
@@ -137,6 +135,14 @@ func (wau *WhatsAppUpdate) ExecX(ctx context.Context) {
 	if err := wau.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (wau *WhatsAppUpdate) check() error {
+	if _, ok := wau.mutation.ProfissionalID(); wau.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "WhatsApp.profissional"`)
+	}
+	return nil
 }
 
 func (wau *WhatsAppUpdate) sqlSave(ctx context.Context) (n int, err error) {
@@ -265,14 +271,6 @@ func (wauo *WhatsAppUpdateOne) SetProfissionalID(id int) *WhatsAppUpdateOne {
 	return wauo
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (wauo *WhatsAppUpdateOne) SetNillableProfissionalID(id *int) *WhatsAppUpdateOne {
-	if id != nil {
-		wauo = wauo.SetProfissionalID(*id)
-	}
-	return wauo
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (wauo *WhatsAppUpdateOne) SetProfissional(p *Profissional) *WhatsAppUpdateOne {
 	return wauo.SetProfissionalID(p.ID)
@@ -303,12 +301,18 @@ func (wauo *WhatsAppUpdateOne) Save(ctx context.Context) (*WhatsApp, error) {
 		node *WhatsApp
 	)
 	if len(wauo.hooks) == 0 {
+		if err = wauo.check(); err != nil {
+			return nil, err
+		}
 		node, err = wauo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*WhatsAppMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = wauo.check(); err != nil {
+				return nil, err
 			}
 			wauo.mutation = mutation
 			node, err = wauo.sqlSave(ctx)
@@ -348,6 +352,14 @@ func (wauo *WhatsAppUpdateOne) ExecX(ctx context.Context) {
 	if err := wauo.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (wauo *WhatsAppUpdateOne) check() error {
+	if _, ok := wauo.mutation.ProfissionalID(); wauo.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "WhatsApp.profissional"`)
+	}
+	return nil
 }
 
 func (wauo *WhatsAppUpdateOne) sqlSave(ctx context.Context) (_node *WhatsApp, err error) {

@@ -38,14 +38,6 @@ func (fc *FotoCreate) SetProfissionalID(id int) *FotoCreate {
 	return fc
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (fc *FotoCreate) SetNillableProfissionalID(id *int) *FotoCreate {
-	if id != nil {
-		fc = fc.SetProfissionalID(*id)
-	}
-	return fc
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (fc *FotoCreate) SetProfissional(p *Profissional) *FotoCreate {
 	return fc.SetProfissionalID(p.ID)
@@ -126,6 +118,9 @@ func (fc *FotoCreate) check() error {
 	}
 	if _, ok := fc.mutation.URL(); !ok {
 		return &ValidationError{Name: "url", err: errors.New(`ent: missing required field "Foto.url"`)}
+	}
+	if _, ok := fc.mutation.ProfissionalID(); !ok {
+		return &ValidationError{Name: "profissional", err: errors.New(`ent: missing required edge "Foto.profissional"`)}
 	}
 	return nil
 }

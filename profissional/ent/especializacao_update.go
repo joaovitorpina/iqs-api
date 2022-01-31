@@ -41,14 +41,6 @@ func (eu *EspecializacaoUpdate) SetAreasaudeID(id int) *EspecializacaoUpdate {
 	return eu
 }
 
-// SetNillableAreasaudeID sets the "areasaude" edge to the AreaSaude entity by ID if the given value is not nil.
-func (eu *EspecializacaoUpdate) SetNillableAreasaudeID(id *int) *EspecializacaoUpdate {
-	if id != nil {
-		eu = eu.SetAreasaudeID(*id)
-	}
-	return eu
-}
-
 // SetAreasaude sets the "areasaude" edge to the AreaSaude entity.
 func (eu *EspecializacaoUpdate) SetAreasaude(a *AreaSaude) *EspecializacaoUpdate {
 	return eu.SetAreasaudeID(a.ID)
@@ -108,12 +100,18 @@ func (eu *EspecializacaoUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(eu.hooks) == 0 {
+		if err = eu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = eu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*EspecializacaoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = eu.check(); err != nil {
+				return 0, err
 			}
 			eu.mutation = mutation
 			affected, err = eu.sqlSave(ctx)
@@ -153,6 +151,14 @@ func (eu *EspecializacaoUpdate) ExecX(ctx context.Context) {
 	if err := eu.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (eu *EspecializacaoUpdate) check() error {
+	if _, ok := eu.mutation.AreasaudeID(); eu.mutation.AreasaudeCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Especializacao.areasaude"`)
+	}
+	return nil
 }
 
 func (eu *EspecializacaoUpdate) sqlSave(ctx context.Context) (n int, err error) {
@@ -300,14 +306,6 @@ func (euo *EspecializacaoUpdateOne) SetAreasaudeID(id int) *EspecializacaoUpdate
 	return euo
 }
 
-// SetNillableAreasaudeID sets the "areasaude" edge to the AreaSaude entity by ID if the given value is not nil.
-func (euo *EspecializacaoUpdateOne) SetNillableAreasaudeID(id *int) *EspecializacaoUpdateOne {
-	if id != nil {
-		euo = euo.SetAreasaudeID(*id)
-	}
-	return euo
-}
-
 // SetAreasaude sets the "areasaude" edge to the AreaSaude entity.
 func (euo *EspecializacaoUpdateOne) SetAreasaude(a *AreaSaude) *EspecializacaoUpdateOne {
 	return euo.SetAreasaudeID(a.ID)
@@ -374,12 +372,18 @@ func (euo *EspecializacaoUpdateOne) Save(ctx context.Context) (*Especializacao, 
 		node *Especializacao
 	)
 	if len(euo.hooks) == 0 {
+		if err = euo.check(); err != nil {
+			return nil, err
+		}
 		node, err = euo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*EspecializacaoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = euo.check(); err != nil {
+				return nil, err
 			}
 			euo.mutation = mutation
 			node, err = euo.sqlSave(ctx)
@@ -419,6 +423,14 @@ func (euo *EspecializacaoUpdateOne) ExecX(ctx context.Context) {
 	if err := euo.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (euo *EspecializacaoUpdateOne) check() error {
+	if _, ok := euo.mutation.AreasaudeID(); euo.mutation.AreasaudeCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Especializacao.areasaude"`)
+	}
+	return nil
 }
 
 func (euo *EspecializacaoUpdateOne) sqlSave(ctx context.Context) (_node *Especializacao, err error) {

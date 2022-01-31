@@ -25,6 +25,7 @@ func (WhatsApp) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("profissional", Profissional.Type).
 			Ref("whatsapps").
-			Unique(),
+			Unique().
+			Required(),
 	}
 }

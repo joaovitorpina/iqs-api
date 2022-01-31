@@ -45,14 +45,6 @@ func (cc *CepCreate) SetCidadeID(id int) *CepCreate {
 	return cc
 }
 
-// SetNillableCidadeID sets the "cidade" edge to the Cidade entity by ID if the given value is not nil.
-func (cc *CepCreate) SetNillableCidadeID(id *int) *CepCreate {
-	if id != nil {
-		cc = cc.SetCidadeID(*id)
-	}
-	return cc
-}
-
 // SetCidade sets the "cidade" edge to the Cidade entity.
 func (cc *CepCreate) SetCidade(c *Cidade) *CepCreate {
 	return cc.SetCidadeID(c.ID)
@@ -163,6 +155,9 @@ func (cc *CepCreate) check() error {
 		if err := cep.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Cep.id": %w`, err)}
 		}
+	}
+	if _, ok := cc.mutation.CidadeID(); !ok {
+		return &ValidationError{Name: "cidade", err: errors.New(`ent: missing required edge "Cep.cidade"`)}
 	}
 	return nil
 }

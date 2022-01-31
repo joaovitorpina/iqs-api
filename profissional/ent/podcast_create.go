@@ -38,14 +38,6 @@ func (pc *PodcastCreate) SetProfissionalID(id int) *PodcastCreate {
 	return pc
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (pc *PodcastCreate) SetNillableProfissionalID(id *int) *PodcastCreate {
-	if id != nil {
-		pc = pc.SetProfissionalID(*id)
-	}
-	return pc
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (pc *PodcastCreate) SetProfissional(p *Profissional) *PodcastCreate {
 	return pc.SetProfissionalID(p.ID)
@@ -126,6 +118,9 @@ func (pc *PodcastCreate) check() error {
 	}
 	if _, ok := pc.mutation.Codigo(); !ok {
 		return &ValidationError{Name: "codigo", err: errors.New(`ent: missing required field "Podcast.codigo"`)}
+	}
+	if _, ok := pc.mutation.ProfissionalID(); !ok {
+		return &ValidationError{Name: "profissional", err: errors.New(`ent: missing required edge "Podcast.profissional"`)}
 	}
 	return nil
 }

@@ -46,14 +46,6 @@ func (wac *WhatsAppCreate) SetProfissionalID(id int) *WhatsAppCreate {
 	return wac
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (wac *WhatsAppCreate) SetNillableProfissionalID(id *int) *WhatsAppCreate {
-	if id != nil {
-		wac = wac.SetProfissionalID(*id)
-	}
-	return wac
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (wac *WhatsAppCreate) SetProfissional(p *Profissional) *WhatsAppCreate {
 	return wac.SetProfissionalID(p.ID)
@@ -143,6 +135,9 @@ func (wac *WhatsAppCreate) check() error {
 	}
 	if _, ok := wac.mutation.Principal(); !ok {
 		return &ValidationError{Name: "principal", err: errors.New(`ent: missing required field "WhatsApp.principal"`)}
+	}
+	if _, ok := wac.mutation.ProfissionalID(); !ok {
+		return &ValidationError{Name: "profissional", err: errors.New(`ent: missing required edge "WhatsApp.profissional"`)}
 	}
 	return nil
 }

@@ -23,7 +23,8 @@ func (Cidade) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("estado", Estado.Type).
 			Ref("cidades").
-			Unique(),
+			Unique().
+			Required(),
 		edge.To("ceps", Cep.Type),
 	}
 }

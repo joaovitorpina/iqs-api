@@ -33,14 +33,6 @@ func (cc *CidadeCreate) SetEstadoID(id int) *CidadeCreate {
 	return cc
 }
 
-// SetNillableEstadoID sets the "estado" edge to the Estado entity by ID if the given value is not nil.
-func (cc *CidadeCreate) SetNillableEstadoID(id *int) *CidadeCreate {
-	if id != nil {
-		cc = cc.SetEstadoID(*id)
-	}
-	return cc
-}
-
 // SetEstado sets the "estado" edge to the Estado entity.
 func (cc *CidadeCreate) SetEstado(e *Estado) *CidadeCreate {
 	return cc.SetEstadoID(e.ID)
@@ -138,6 +130,9 @@ func (cc *CidadeCreate) check() error {
 		if err := cidade.NomeValidator(v); err != nil {
 			return &ValidationError{Name: "nome", err: fmt.Errorf(`ent: validator failed for field "Cidade.nome": %w`, err)}
 		}
+	}
+	if _, ok := cc.mutation.EstadoID(); !ok {
+		return &ValidationError{Name: "estado", err: errors.New(`ent: missing required edge "Cidade.estado"`)}
 	}
 	return nil
 }

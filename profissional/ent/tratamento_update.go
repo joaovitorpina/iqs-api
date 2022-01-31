@@ -40,14 +40,6 @@ func (tu *TratamentoUpdate) SetProfissionalID(id int) *TratamentoUpdate {
 	return tu
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (tu *TratamentoUpdate) SetNillableProfissionalID(id *int) *TratamentoUpdate {
-	if id != nil {
-		tu = tu.SetProfissionalID(*id)
-	}
-	return tu
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (tu *TratamentoUpdate) SetProfissional(p *Profissional) *TratamentoUpdate {
 	return tu.SetProfissionalID(p.ID)
@@ -71,12 +63,18 @@ func (tu *TratamentoUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(tu.hooks) == 0 {
+		if err = tu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = tu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*TratamentoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = tu.check(); err != nil {
+				return 0, err
 			}
 			tu.mutation = mutation
 			affected, err = tu.sqlSave(ctx)
@@ -116,6 +114,14 @@ func (tu *TratamentoUpdate) ExecX(ctx context.Context) {
 	if err := tu.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (tu *TratamentoUpdate) check() error {
+	if _, ok := tu.mutation.ProfissionalID(); tu.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Tratamento.profissional"`)
+	}
+	return nil
 }
 
 func (tu *TratamentoUpdate) sqlSave(ctx context.Context) (n int, err error) {
@@ -209,14 +215,6 @@ func (tuo *TratamentoUpdateOne) SetProfissionalID(id int) *TratamentoUpdateOne {
 	return tuo
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (tuo *TratamentoUpdateOne) SetNillableProfissionalID(id *int) *TratamentoUpdateOne {
-	if id != nil {
-		tuo = tuo.SetProfissionalID(*id)
-	}
-	return tuo
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (tuo *TratamentoUpdateOne) SetProfissional(p *Profissional) *TratamentoUpdateOne {
 	return tuo.SetProfissionalID(p.ID)
@@ -247,12 +245,18 @@ func (tuo *TratamentoUpdateOne) Save(ctx context.Context) (*Tratamento, error) {
 		node *Tratamento
 	)
 	if len(tuo.hooks) == 0 {
+		if err = tuo.check(); err != nil {
+			return nil, err
+		}
 		node, err = tuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*TratamentoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = tuo.check(); err != nil {
+				return nil, err
 			}
 			tuo.mutation = mutation
 			node, err = tuo.sqlSave(ctx)
@@ -292,6 +296,14 @@ func (tuo *TratamentoUpdateOne) ExecX(ctx context.Context) {
 	if err := tuo.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (tuo *TratamentoUpdateOne) check() error {
+	if _, ok := tuo.mutation.ProfissionalID(); tuo.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Tratamento.profissional"`)
+	}
+	return nil
 }
 
 func (tuo *TratamentoUpdateOne) sqlSave(ctx context.Context) (_node *Tratamento, err error) {

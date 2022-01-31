@@ -24,6 +24,7 @@ func (Foto) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("profissional", Profissional.Type).
 			Ref("fotos").
-			Unique(),
+			Unique().
+			Required(),
 	}
 }

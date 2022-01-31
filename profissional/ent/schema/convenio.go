@@ -23,6 +23,7 @@ func (Convenio) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("profissional", Profissional.Type).
 			Ref("convenios").
-			Unique(),
+			Unique().
+			Required(),
 	}
 }

@@ -12,7 +12,7 @@ type Cep func(*sql.Selector)
 // Cidade is the predicate function for cidade builders.
 type Cidade func(*sql.Selector)
 
-// Endereco is the predicate function for endereco-controller builders.
+// Endereco is the predicate function for endereco builders.
 type Endereco func(*sql.Selector)
 
 // Estado is the predicate function for estado builders.

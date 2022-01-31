@@ -46,14 +46,6 @@ func (pu *PodcastUpdate) SetProfissionalID(id int) *PodcastUpdate {
 	return pu
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (pu *PodcastUpdate) SetNillableProfissionalID(id *int) *PodcastUpdate {
-	if id != nil {
-		pu = pu.SetProfissionalID(*id)
-	}
-	return pu
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (pu *PodcastUpdate) SetProfissional(p *Profissional) *PodcastUpdate {
 	return pu.SetProfissionalID(p.ID)
@@ -77,12 +69,18 @@ func (pu *PodcastUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(pu.hooks) == 0 {
+		if err = pu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = pu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*PodcastMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = pu.check(); err != nil {
+				return 0, err
 			}
 			pu.mutation = mutation
 			affected, err = pu.sqlSave(ctx)
@@ -122,6 +120,14 @@ func (pu *PodcastUpdate) ExecX(ctx context.Context) {
 	if err := pu.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (pu *PodcastUpdate) check() error {
+	if _, ok := pu.mutation.ProfissionalID(); pu.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Podcast.profissional"`)
+	}
+	return nil
 }
 
 func (pu *PodcastUpdate) sqlSave(ctx context.Context) (n int, err error) {
@@ -228,14 +234,6 @@ func (puo *PodcastUpdateOne) SetProfissionalID(id int) *PodcastUpdateOne {
 	return puo
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (puo *PodcastUpdateOne) SetNillableProfissionalID(id *int) *PodcastUpdateOne {
-	if id != nil {
-		puo = puo.SetProfissionalID(*id)
-	}
-	return puo
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (puo *PodcastUpdateOne) SetProfissional(p *Profissional) *PodcastUpdateOne {
 	return puo.SetProfissionalID(p.ID)
@@ -266,12 +264,18 @@ func (puo *PodcastUpdateOne) Save(ctx context.Context) (*Podcast, error) {
 		node *Podcast
 	)
 	if len(puo.hooks) == 0 {
+		if err = puo.check(); err != nil {
+			return nil, err
+		}
 		node, err = puo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*PodcastMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = puo.check(); err != nil {
+				return nil, err
 			}
 			puo.mutation = mutation
 			node, err = puo.sqlSave(ctx)
@@ -311,6 +315,14 @@ func (puo *PodcastUpdateOne) ExecX(ctx context.Context) {
 	if err := puo.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (puo *PodcastUpdateOne) check() error {
+	if _, ok := puo.mutation.ProfissionalID(); puo.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Podcast.profissional"`)
+	}
+	return nil
 }
 
 func (puo *PodcastUpdateOne) sqlSave(ctx context.Context) (_node *Podcast, err error) {

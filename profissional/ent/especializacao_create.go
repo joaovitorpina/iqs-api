@@ -33,14 +33,6 @@ func (ec *EspecializacaoCreate) SetAreasaudeID(id int) *EspecializacaoCreate {
 	return ec
 }
 
-// SetNillableAreasaudeID sets the "areasaude" edge to the AreaSaude entity by ID if the given value is not nil.
-func (ec *EspecializacaoCreate) SetNillableAreasaudeID(id *int) *EspecializacaoCreate {
-	if id != nil {
-		ec = ec.SetAreasaudeID(*id)
-	}
-	return ec
-}
-
 // SetAreasaude sets the "areasaude" edge to the AreaSaude entity.
 func (ec *EspecializacaoCreate) SetAreasaude(a *AreaSaude) *EspecializacaoCreate {
 	return ec.SetAreasaudeID(a.ID)
@@ -133,6 +125,9 @@ func (ec *EspecializacaoCreate) ExecX(ctx context.Context) {
 func (ec *EspecializacaoCreate) check() error {
 	if _, ok := ec.mutation.Descricao(); !ok {
 		return &ValidationError{Name: "descricao", err: errors.New(`ent: missing required field "Especializacao.descricao"`)}
+	}
+	if _, ok := ec.mutation.AreasaudeID(); !ok {
+		return &ValidationError{Name: "areasaude", err: errors.New(`ent: missing required edge "Especializacao.areasaude"`)}
 	}
 	return nil
 }

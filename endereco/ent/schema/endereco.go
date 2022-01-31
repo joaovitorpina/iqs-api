@@ -30,6 +30,7 @@ func (Endereco) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("cep", Cep.Type).
 			Ref("enderecos").
-			Unique(),
+			Unique().
+			Required(),
 	}
 }

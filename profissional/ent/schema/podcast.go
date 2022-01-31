@@ -24,6 +24,7 @@ func (Podcast) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("profissional", Profissional.Type).
 			Ref("podcasts").
-			Unique(),
+			Unique().
+			Required(),
 	}
 }

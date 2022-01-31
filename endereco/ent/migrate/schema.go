@@ -52,6 +52,8 @@ var (
 	// EnderecosColumns holds the columns for the "enderecos" table.
 	EnderecosColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "create_time", Type: field.TypeTime},
+		{Name: "update_time", Type: field.TypeTime},
 		{Name: "numero", Type: field.TypeString},
 		{Name: "cep_enderecos", Type: field.TypeInt32, Nullable: true},
 	}
@@ -63,7 +65,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "enderecos_ceps_enderecos",
-				Columns:    []*schema.Column{EnderecosColumns[2]},
+				Columns:    []*schema.Column{EnderecosColumns[4]},
 				RefColumns: []*schema.Column{CepsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

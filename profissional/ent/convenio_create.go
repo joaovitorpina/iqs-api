@@ -32,14 +32,6 @@ func (cc *ConvenioCreate) SetProfissionalID(id int) *ConvenioCreate {
 	return cc
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (cc *ConvenioCreate) SetNillableProfissionalID(id *int) *ConvenioCreate {
-	if id != nil {
-		cc = cc.SetProfissionalID(*id)
-	}
-	return cc
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (cc *ConvenioCreate) SetProfissional(p *Profissional) *ConvenioCreate {
 	return cc.SetProfissionalID(p.ID)
@@ -117,6 +109,9 @@ func (cc *ConvenioCreate) ExecX(ctx context.Context) {
 func (cc *ConvenioCreate) check() error {
 	if _, ok := cc.mutation.Nome(); !ok {
 		return &ValidationError{Name: "nome", err: errors.New(`ent: missing required field "Convenio.nome"`)}
+	}
+	if _, ok := cc.mutation.ProfissionalID(); !ok {
+		return &ValidationError{Name: "profissional", err: errors.New(`ent: missing required edge "Convenio.profissional"`)}
 	}
 	return nil
 }

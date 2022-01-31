@@ -52,14 +52,6 @@ func (vu *VideoUpdate) SetProfissionalID(id int) *VideoUpdate {
 	return vu
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (vu *VideoUpdate) SetNillableProfissionalID(id *int) *VideoUpdate {
-	if id != nil {
-		vu = vu.SetProfissionalID(*id)
-	}
-	return vu
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (vu *VideoUpdate) SetProfissional(p *Profissional) *VideoUpdate {
 	return vu.SetProfissionalID(p.ID)
@@ -83,12 +75,18 @@ func (vu *VideoUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(vu.hooks) == 0 {
+		if err = vu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = vu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*VideoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = vu.check(); err != nil {
+				return 0, err
 			}
 			vu.mutation = mutation
 			affected, err = vu.sqlSave(ctx)
@@ -128,6 +126,14 @@ func (vu *VideoUpdate) ExecX(ctx context.Context) {
 	if err := vu.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (vu *VideoUpdate) check() error {
+	if _, ok := vu.mutation.ProfissionalID(); vu.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Video.profissional"`)
+	}
+	return nil
 }
 
 func (vu *VideoUpdate) sqlSave(ctx context.Context) (n int, err error) {
@@ -247,14 +253,6 @@ func (vuo *VideoUpdateOne) SetProfissionalID(id int) *VideoUpdateOne {
 	return vuo
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (vuo *VideoUpdateOne) SetNillableProfissionalID(id *int) *VideoUpdateOne {
-	if id != nil {
-		vuo = vuo.SetProfissionalID(*id)
-	}
-	return vuo
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (vuo *VideoUpdateOne) SetProfissional(p *Profissional) *VideoUpdateOne {
 	return vuo.SetProfissionalID(p.ID)
@@ -285,12 +283,18 @@ func (vuo *VideoUpdateOne) Save(ctx context.Context) (*Video, error) {
 		node *Video
 	)
 	if len(vuo.hooks) == 0 {
+		if err = vuo.check(); err != nil {
+			return nil, err
+		}
 		node, err = vuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*VideoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = vuo.check(); err != nil {
+				return nil, err
 			}
 			vuo.mutation = mutation
 			node, err = vuo.sqlSave(ctx)
@@ -330,6 +334,14 @@ func (vuo *VideoUpdateOne) ExecX(ctx context.Context) {
 	if err := vuo.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (vuo *VideoUpdateOne) check() error {
+	if _, ok := vuo.mutation.ProfissionalID(); vuo.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Video.profissional"`)
+	}
+	return nil
 }
 
 func (vuo *VideoUpdateOne) sqlSave(ctx context.Context) (_node *Video, err error) {

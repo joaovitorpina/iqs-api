@@ -46,14 +46,6 @@ func (fu *FotoUpdate) SetProfissionalID(id int) *FotoUpdate {
 	return fu
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (fu *FotoUpdate) SetNillableProfissionalID(id *int) *FotoUpdate {
-	if id != nil {
-		fu = fu.SetProfissionalID(*id)
-	}
-	return fu
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (fu *FotoUpdate) SetProfissional(p *Profissional) *FotoUpdate {
 	return fu.SetProfissionalID(p.ID)
@@ -77,12 +69,18 @@ func (fu *FotoUpdate) Save(ctx context.Context) (int, error) {
 		affected int
 	)
 	if len(fu.hooks) == 0 {
+		if err = fu.check(); err != nil {
+			return 0, err
+		}
 		affected, err = fu.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*FotoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = fu.check(); err != nil {
+				return 0, err
 			}
 			fu.mutation = mutation
 			affected, err = fu.sqlSave(ctx)
@@ -122,6 +120,14 @@ func (fu *FotoUpdate) ExecX(ctx context.Context) {
 	if err := fu.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (fu *FotoUpdate) check() error {
+	if _, ok := fu.mutation.ProfissionalID(); fu.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Foto.profissional"`)
+	}
+	return nil
 }
 
 func (fu *FotoUpdate) sqlSave(ctx context.Context) (n int, err error) {
@@ -228,14 +234,6 @@ func (fuo *FotoUpdateOne) SetProfissionalID(id int) *FotoUpdateOne {
 	return fuo
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (fuo *FotoUpdateOne) SetNillableProfissionalID(id *int) *FotoUpdateOne {
-	if id != nil {
-		fuo = fuo.SetProfissionalID(*id)
-	}
-	return fuo
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (fuo *FotoUpdateOne) SetProfissional(p *Profissional) *FotoUpdateOne {
 	return fuo.SetProfissionalID(p.ID)
@@ -266,12 +264,18 @@ func (fuo *FotoUpdateOne) Save(ctx context.Context) (*Foto, error) {
 		node *Foto
 	)
 	if len(fuo.hooks) == 0 {
+		if err = fuo.check(); err != nil {
+			return nil, err
+		}
 		node, err = fuo.sqlSave(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 			mutation, ok := m.(*FotoMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
+			}
+			if err = fuo.check(); err != nil {
+				return nil, err
 			}
 			fuo.mutation = mutation
 			node, err = fuo.sqlSave(ctx)
@@ -311,6 +315,14 @@ func (fuo *FotoUpdateOne) ExecX(ctx context.Context) {
 	if err := fuo.Exec(ctx); err != nil {
 		panic(err)
 	}
+}
+
+// check runs all checks and user-defined validators on the builder.
+func (fuo *FotoUpdateOne) check() error {
+	if _, ok := fuo.mutation.ProfissionalID(); fuo.mutation.ProfissionalCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Foto.profissional"`)
+	}
+	return nil
 }
 
 func (fuo *FotoUpdateOne) sqlSave(ctx context.Context) (_node *Foto, err error) {

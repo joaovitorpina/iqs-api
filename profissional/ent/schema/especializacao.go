@@ -23,7 +23,8 @@ func (Especializacao) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("areasaude", AreaSaude.Type).
 			Ref("especializacoes").
-			Unique(),
+			Unique().
+			Required(),
 		edge.To("profissionais", Profissional.Type),
 	}
 }

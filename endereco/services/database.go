@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"endereco/ent"
+	"entgo.io/ent/dialect/sql/schema"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"os"
@@ -16,7 +17,7 @@ func InitDatabase() {
 		log.Fatal(err)
 	}
 
-	if err := client.Schema.Create(context.Background()); err != nil {
+	if err := client.Schema.Create(context.Background(), schema.WithAtlas(true)); err != nil {
 		log.Fatal(err)
 	}
 

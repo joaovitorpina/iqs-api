@@ -399,7 +399,7 @@ func NewEnderecoClient(c config) *EnderecoClient {
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `endereco-controller.Hooks(f(g(h())))`.
+// A call to `Use(f, g, h)` equals to `endereco.Hooks(f(g(h())))`.
 func (c *EnderecoClient) Use(hooks ...Hook) {
 	c.hooks.Endereco = append(c.hooks.Endereco, hooks...)
 }

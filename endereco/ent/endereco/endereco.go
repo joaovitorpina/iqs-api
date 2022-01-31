@@ -2,16 +2,24 @@
 
 package endereco
 
+import (
+	"time"
+)
+
 const (
-	// Label holds the string label denoting the endereco-controller type in the database.
-	Label = "endereco-controller"
+	// Label holds the string label denoting the endereco type in the database.
+	Label = "endereco"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldCreateTime holds the string denoting the create_time field in the database.
+	FieldCreateTime = "create_time"
+	// FieldUpdateTime holds the string denoting the update_time field in the database.
+	FieldUpdateTime = "update_time"
 	// FieldNumero holds the string denoting the numero field in the database.
 	FieldNumero = "numero"
 	// EdgeCep holds the string denoting the cep edge name in mutations.
 	EdgeCep = "cep"
-	// Table holds the table name of the endereco-controller in the database.
+	// Table holds the table name of the endereco in the database.
 	Table = "enderecos"
 	// CepTable is the table that holds the cep relation/edge.
 	CepTable = "enderecos"
@@ -22,9 +30,11 @@ const (
 	CepColumn = "cep_enderecos"
 )
 
-// Columns holds all SQL columns for endereco-controller fields.
+// Columns holds all SQL columns for endereco fields.
 var Columns = []string{
 	FieldID,
+	FieldCreateTime,
+	FieldUpdateTime,
 	FieldNumero,
 }
 
@@ -50,6 +60,12 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultCreateTime holds the default value on creation for the "create_time" field.
+	DefaultCreateTime func() time.Time
+	// DefaultUpdateTime holds the default value on creation for the "update_time" field.
+	DefaultUpdateTime func() time.Time
+	// UpdateDefaultUpdateTime holds the default value on update for the "update_time" field.
+	UpdateDefaultUpdateTime func() time.Time
 	// NumeroValidator is a validator for the "numero" field. It is called by the builders before save.
 	NumeroValidator func(string) error
 )

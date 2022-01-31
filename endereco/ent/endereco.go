@@ -7,6 +7,7 @@ import (
 	"endereco/ent/endereco"
 	"fmt"
 	"strings"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -16,6 +17,10 @@ type Endereco struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// CreateTime holds the value of the "create_time" field.
+	CreateTime time.Time `json:"create_time,omitempty"`
+	// UpdateTime holds the value of the "update_time" field.
+	UpdateTime time.Time `json:"update_time,omitempty"`
 	// Numero holds the value of the "numero" field.
 	Numero string `json:"numero,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -56,6 +61,8 @@ func (*Endereco) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = new(sql.NullInt64)
 		case endereco.FieldNumero:
 			values[i] = new(sql.NullString)
+		case endereco.FieldCreateTime, endereco.FieldUpdateTime:
+			values[i] = new(sql.NullTime)
 		case endereco.ForeignKeys[0]: // cep_enderecos
 			values[i] = new(sql.NullInt64)
 		default:
@@ -79,6 +86,18 @@ func (e *Endereco) assignValues(columns []string, values []interface{}) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			e.ID = int(value.Int64)
+		case endereco.FieldCreateTime:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+			} else if value.Valid {
+				e.CreateTime = value.Time
+			}
+		case endereco.FieldUpdateTime:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field update_time", values[i])
+			} else if value.Valid {
+				e.UpdateTime = value.Time
+			}
 		case endereco.FieldNumero:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field numero", values[i])
@@ -125,6 +144,10 @@ func (e *Endereco) String() string {
 	var builder strings.Builder
 	builder.WriteString("Endereco(")
 	builder.WriteString(fmt.Sprintf("id=%v", e.ID))
+	builder.WriteString(", create_time=")
+	builder.WriteString(e.CreateTime.Format(time.ANSIC))
+	builder.WriteString(", update_time=")
+	builder.WriteString(e.UpdateTime.Format(time.ANSIC))
 	builder.WriteString(", numero=")
 	builder.WriteString(e.Numero)
 	builder.WriteByte(')')

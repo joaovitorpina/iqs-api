@@ -31,7 +31,8 @@ func (Cep) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("cidade", Cidade.Type).
 			Ref("ceps").
-			Unique(),
+			Unique().
+			Required(),
 		edge.To("enderecos", Endereco.Type),
 	}
 }

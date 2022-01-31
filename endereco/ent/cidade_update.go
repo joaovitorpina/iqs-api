@@ -41,14 +41,6 @@ func (cu *CidadeUpdate) SetEstadoID(id int) *CidadeUpdate {
 	return cu
 }
 
-// SetNillableEstadoID sets the "estado" edge to the Estado entity by ID if the given value is not nil.
-func (cu *CidadeUpdate) SetNillableEstadoID(id *int) *CidadeUpdate {
-	if id != nil {
-		cu = cu.SetEstadoID(*id)
-	}
-	return cu
-}
-
 // SetEstado sets the "estado" edge to the Estado entity.
 func (cu *CidadeUpdate) SetEstado(e *Estado) *CidadeUpdate {
 	return cu.SetEstadoID(e.ID)
@@ -167,6 +159,9 @@ func (cu *CidadeUpdate) check() error {
 		if err := cidade.NomeValidator(v); err != nil {
 			return &ValidationError{Name: "nome", err: fmt.Errorf(`ent: validator failed for field "Cidade.nome": %w`, err)}
 		}
+	}
+	if _, ok := cu.mutation.EstadoID(); cu.mutation.EstadoCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Cidade.estado"`)
 	}
 	return nil
 }
@@ -316,14 +311,6 @@ func (cuo *CidadeUpdateOne) SetEstadoID(id int) *CidadeUpdateOne {
 	return cuo
 }
 
-// SetNillableEstadoID sets the "estado" edge to the Estado entity by ID if the given value is not nil.
-func (cuo *CidadeUpdateOne) SetNillableEstadoID(id *int) *CidadeUpdateOne {
-	if id != nil {
-		cuo = cuo.SetEstadoID(*id)
-	}
-	return cuo
-}
-
 // SetEstado sets the "estado" edge to the Estado entity.
 func (cuo *CidadeUpdateOne) SetEstado(e *Estado) *CidadeUpdateOne {
 	return cuo.SetEstadoID(e.ID)
@@ -449,6 +436,9 @@ func (cuo *CidadeUpdateOne) check() error {
 		if err := cidade.NomeValidator(v); err != nil {
 			return &ValidationError{Name: "nome", err: fmt.Errorf(`ent: validator failed for field "Cidade.nome": %w`, err)}
 		}
+	}
+	if _, ok := cuo.mutation.EstadoID(); cuo.mutation.EstadoCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Cidade.estado"`)
 	}
 	return nil
 }

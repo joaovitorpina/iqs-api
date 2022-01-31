@@ -8,6 +8,7 @@ import (
 	"endereco/ent/endereco"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -20,6 +21,34 @@ type EnderecoCreate struct {
 	hooks    []Hook
 }
 
+// SetCreateTime sets the "create_time" field.
+func (ec *EnderecoCreate) SetCreateTime(t time.Time) *EnderecoCreate {
+	ec.mutation.SetCreateTime(t)
+	return ec
+}
+
+// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
+func (ec *EnderecoCreate) SetNillableCreateTime(t *time.Time) *EnderecoCreate {
+	if t != nil {
+		ec.SetCreateTime(*t)
+	}
+	return ec
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (ec *EnderecoCreate) SetUpdateTime(t time.Time) *EnderecoCreate {
+	ec.mutation.SetUpdateTime(t)
+	return ec
+}
+
+// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
+func (ec *EnderecoCreate) SetNillableUpdateTime(t *time.Time) *EnderecoCreate {
+	if t != nil {
+		ec.SetUpdateTime(*t)
+	}
+	return ec
+}
+
 // SetNumero sets the "numero" field.
 func (ec *EnderecoCreate) SetNumero(s string) *EnderecoCreate {
 	ec.mutation.SetNumero(s)
@@ -29,14 +58,6 @@ func (ec *EnderecoCreate) SetNumero(s string) *EnderecoCreate {
 // SetCepID sets the "cep" edge to the Cep entity by ID.
 func (ec *EnderecoCreate) SetCepID(id int32) *EnderecoCreate {
 	ec.mutation.SetCepID(id)
-	return ec
-}
-
-// SetNillableCepID sets the "cep" edge to the Cep entity by ID if the given value is not nil.
-func (ec *EnderecoCreate) SetNillableCepID(id *int32) *EnderecoCreate {
-	if id != nil {
-		ec = ec.SetCepID(*id)
-	}
 	return ec
 }
 
@@ -56,6 +77,7 @@ func (ec *EnderecoCreate) Save(ctx context.Context) (*Endereco, error) {
 		err  error
 		node *Endereco
 	)
+	ec.defaults()
 	if len(ec.hooks) == 0 {
 		if err = ec.check(); err != nil {
 			return nil, err
@@ -113,8 +135,26 @@ func (ec *EnderecoCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (ec *EnderecoCreate) defaults() {
+	if _, ok := ec.mutation.CreateTime(); !ok {
+		v := endereco.DefaultCreateTime()
+		ec.mutation.SetCreateTime(v)
+	}
+	if _, ok := ec.mutation.UpdateTime(); !ok {
+		v := endereco.DefaultUpdateTime()
+		ec.mutation.SetUpdateTime(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (ec *EnderecoCreate) check() error {
+	if _, ok := ec.mutation.CreateTime(); !ok {
+		return &ValidationError{Name: "create_time", err: errors.New(`ent: missing required field "Endereco.create_time"`)}
+	}
+	if _, ok := ec.mutation.UpdateTime(); !ok {
+		return &ValidationError{Name: "update_time", err: errors.New(`ent: missing required field "Endereco.update_time"`)}
+	}
 	if _, ok := ec.mutation.Numero(); !ok {
 		return &ValidationError{Name: "numero", err: errors.New(`ent: missing required field "Endereco.numero"`)}
 	}
@@ -122,6 +162,9 @@ func (ec *EnderecoCreate) check() error {
 		if err := endereco.NumeroValidator(v); err != nil {
 			return &ValidationError{Name: "numero", err: fmt.Errorf(`ent: validator failed for field "Endereco.numero": %w`, err)}
 		}
+	}
+	if _, ok := ec.mutation.CepID(); !ok {
+		return &ValidationError{Name: "cep", err: errors.New(`ent: missing required edge "Endereco.cep"`)}
 	}
 	return nil
 }
@@ -150,6 +193,22 @@ func (ec *EnderecoCreate) createSpec() (*Endereco, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
+	if value, ok := ec.mutation.CreateTime(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: endereco.FieldCreateTime,
+		})
+		_node.CreateTime = value
+	}
+	if value, ok := ec.mutation.UpdateTime(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: endereco.FieldUpdateTime,
+		})
+		_node.UpdateTime = value
+	}
 	if value, ok := ec.mutation.Numero(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -195,6 +254,7 @@ func (ecb *EnderecoCreateBulk) Save(ctx context.Context) ([]*Endereco, error) {
 	for i := range ecb.builders {
 		func(i int, root context.Context) {
 			builder := ecb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*EnderecoMutation)
 				if !ok {

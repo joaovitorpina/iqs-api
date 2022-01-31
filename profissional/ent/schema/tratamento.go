@@ -23,6 +23,7 @@ func (Tratamento) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("profissional", Profissional.Type).
 			Ref("tratamentos").
-			Unique(),
+			Unique().
+			Required(),
 	}
 }

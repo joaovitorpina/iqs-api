@@ -9,6 +9,7 @@ import (
 	"endereco/ent/predicate"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -28,6 +29,12 @@ func (eu *EnderecoUpdate) Where(ps ...predicate.Endereco) *EnderecoUpdate {
 	return eu
 }
 
+// SetUpdateTime sets the "update_time" field.
+func (eu *EnderecoUpdate) SetUpdateTime(t time.Time) *EnderecoUpdate {
+	eu.mutation.SetUpdateTime(t)
+	return eu
+}
+
 // SetNumero sets the "numero" field.
 func (eu *EnderecoUpdate) SetNumero(s string) *EnderecoUpdate {
 	eu.mutation.SetNumero(s)
@@ -37,14 +44,6 @@ func (eu *EnderecoUpdate) SetNumero(s string) *EnderecoUpdate {
 // SetCepID sets the "cep" edge to the Cep entity by ID.
 func (eu *EnderecoUpdate) SetCepID(id int32) *EnderecoUpdate {
 	eu.mutation.SetCepID(id)
-	return eu
-}
-
-// SetNillableCepID sets the "cep" edge to the Cep entity by ID if the given value is not nil.
-func (eu *EnderecoUpdate) SetNillableCepID(id *int32) *EnderecoUpdate {
-	if id != nil {
-		eu = eu.SetCepID(*id)
-	}
 	return eu
 }
 
@@ -70,6 +69,7 @@ func (eu *EnderecoUpdate) Save(ctx context.Context) (int, error) {
 		err      error
 		affected int
 	)
+	eu.defaults()
 	if len(eu.hooks) == 0 {
 		if err = eu.check(); err != nil {
 			return 0, err
@@ -124,12 +124,23 @@ func (eu *EnderecoUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (eu *EnderecoUpdate) defaults() {
+	if _, ok := eu.mutation.UpdateTime(); !ok {
+		v := endereco.UpdateDefaultUpdateTime()
+		eu.mutation.SetUpdateTime(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (eu *EnderecoUpdate) check() error {
 	if v, ok := eu.mutation.Numero(); ok {
 		if err := endereco.NumeroValidator(v); err != nil {
 			return &ValidationError{Name: "numero", err: fmt.Errorf(`ent: validator failed for field "Endereco.numero": %w`, err)}
 		}
+	}
+	if _, ok := eu.mutation.CepID(); eu.mutation.CepCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Endereco.cep"`)
 	}
 	return nil
 }
@@ -151,6 +162,13 @@ func (eu *EnderecoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := eu.mutation.UpdateTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: endereco.FieldUpdateTime,
+		})
 	}
 	if value, ok := eu.mutation.Numero(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
@@ -213,6 +231,12 @@ type EnderecoUpdateOne struct {
 	mutation *EnderecoMutation
 }
 
+// SetUpdateTime sets the "update_time" field.
+func (euo *EnderecoUpdateOne) SetUpdateTime(t time.Time) *EnderecoUpdateOne {
+	euo.mutation.SetUpdateTime(t)
+	return euo
+}
+
 // SetNumero sets the "numero" field.
 func (euo *EnderecoUpdateOne) SetNumero(s string) *EnderecoUpdateOne {
 	euo.mutation.SetNumero(s)
@@ -222,14 +246,6 @@ func (euo *EnderecoUpdateOne) SetNumero(s string) *EnderecoUpdateOne {
 // SetCepID sets the "cep" edge to the Cep entity by ID.
 func (euo *EnderecoUpdateOne) SetCepID(id int32) *EnderecoUpdateOne {
 	euo.mutation.SetCepID(id)
-	return euo
-}
-
-// SetNillableCepID sets the "cep" edge to the Cep entity by ID if the given value is not nil.
-func (euo *EnderecoUpdateOne) SetNillableCepID(id *int32) *EnderecoUpdateOne {
-	if id != nil {
-		euo = euo.SetCepID(*id)
-	}
 	return euo
 }
 
@@ -262,6 +278,7 @@ func (euo *EnderecoUpdateOne) Save(ctx context.Context) (*Endereco, error) {
 		err  error
 		node *Endereco
 	)
+	euo.defaults()
 	if len(euo.hooks) == 0 {
 		if err = euo.check(); err != nil {
 			return nil, err
@@ -316,12 +333,23 @@ func (euo *EnderecoUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (euo *EnderecoUpdateOne) defaults() {
+	if _, ok := euo.mutation.UpdateTime(); !ok {
+		v := endereco.UpdateDefaultUpdateTime()
+		euo.mutation.SetUpdateTime(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (euo *EnderecoUpdateOne) check() error {
 	if v, ok := euo.mutation.Numero(); ok {
 		if err := endereco.NumeroValidator(v); err != nil {
 			return &ValidationError{Name: "numero", err: fmt.Errorf(`ent: validator failed for field "Endereco.numero": %w`, err)}
 		}
+	}
+	if _, ok := euo.mutation.CepID(); euo.mutation.CepCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Endereco.cep"`)
 	}
 	return nil
 }
@@ -360,6 +388,13 @@ func (euo *EnderecoUpdateOne) sqlSave(ctx context.Context) (_node *Endereco, err
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := euo.mutation.UpdateTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: endereco.FieldUpdateTime,
+		})
 	}
 	if value, ok := euo.mutation.Numero(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{

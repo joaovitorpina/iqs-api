@@ -27,7 +27,7 @@ const (
 	// EnderecosTable is the table that holds the enderecos relation/edge.
 	EnderecosTable = "enderecos"
 	// EnderecosInverseTable is the table name for the Endereco entity.
-	// It exists in this package in order to avoid circular dependency with the "endereco-controller" package.
+	// It exists in this package in order to avoid circular dependency with the "endereco" package.
 	EnderecosInverseTable = "enderecos"
 	// EnderecosColumn is the table column denoting the enderecos relation/edge.
 	EnderecosColumn = "cep_enderecos"

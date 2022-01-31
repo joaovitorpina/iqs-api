@@ -47,14 +47,6 @@ func (cu *CepUpdate) SetCidadeID(id int) *CepUpdate {
 	return cu
 }
 
-// SetNillableCidadeID sets the "cidade" edge to the Cidade entity by ID if the given value is not nil.
-func (cu *CepUpdate) SetNillableCidadeID(id *int) *CepUpdate {
-	if id != nil {
-		cu = cu.SetCidadeID(*id)
-	}
-	return cu
-}
-
 // SetCidade sets the "cidade" edge to the Cidade entity.
 func (cu *CepUpdate) SetCidade(c *Cidade) *CepUpdate {
 	return cu.SetCidadeID(c.ID)
@@ -178,6 +170,9 @@ func (cu *CepUpdate) check() error {
 		if err := cep.BairroValidator(v); err != nil {
 			return &ValidationError{Name: "bairro", err: fmt.Errorf(`ent: validator failed for field "Cep.bairro": %w`, err)}
 		}
+	}
+	if _, ok := cu.mutation.CidadeID(); cu.mutation.CidadeCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Cep.cidade"`)
 	}
 	return nil
 }
@@ -340,14 +335,6 @@ func (cuo *CepUpdateOne) SetCidadeID(id int) *CepUpdateOne {
 	return cuo
 }
 
-// SetNillableCidadeID sets the "cidade" edge to the Cidade entity by ID if the given value is not nil.
-func (cuo *CepUpdateOne) SetNillableCidadeID(id *int) *CepUpdateOne {
-	if id != nil {
-		cuo = cuo.SetCidadeID(*id)
-	}
-	return cuo
-}
-
 // SetCidade sets the "cidade" edge to the Cidade entity.
 func (cuo *CepUpdateOne) SetCidade(c *Cidade) *CepUpdateOne {
 	return cuo.SetCidadeID(c.ID)
@@ -478,6 +465,9 @@ func (cuo *CepUpdateOne) check() error {
 		if err := cep.BairroValidator(v); err != nil {
 			return &ValidationError{Name: "bairro", err: fmt.Errorf(`ent: validator failed for field "Cep.bairro": %w`, err)}
 		}
+	}
+	if _, ok := cuo.mutation.CidadeID(); cuo.mutation.CidadeCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "Cep.cidade"`)
 	}
 	return nil
 }

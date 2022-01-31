@@ -44,14 +44,6 @@ func (vc *VideoCreate) SetProfissionalID(id int) *VideoCreate {
 	return vc
 }
 
-// SetNillableProfissionalID sets the "profissional" edge to the Profissional entity by ID if the given value is not nil.
-func (vc *VideoCreate) SetNillableProfissionalID(id *int) *VideoCreate {
-	if id != nil {
-		vc = vc.SetProfissionalID(*id)
-	}
-	return vc
-}
-
 // SetProfissional sets the "profissional" edge to the Profissional entity.
 func (vc *VideoCreate) SetProfissional(p *Profissional) *VideoCreate {
 	return vc.SetProfissionalID(p.ID)
@@ -135,6 +127,9 @@ func (vc *VideoCreate) check() error {
 	}
 	if _, ok := vc.mutation.URLThumbnail(); !ok {
 		return &ValidationError{Name: "url_thumbnail", err: errors.New(`ent: missing required field "Video.url_thumbnail"`)}
+	}
+	if _, ok := vc.mutation.ProfissionalID(); !ok {
+		return &ValidationError{Name: "profissional", err: errors.New(`ent: missing required edge "Video.profissional"`)}
 	}
 	return nil
 }
