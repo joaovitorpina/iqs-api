@@ -128,13 +128,13 @@ func (vc *VideoCreate) ExecX(ctx context.Context) {
 // check runs all checks and user-defined validators on the builder.
 func (vc *VideoCreate) check() error {
 	if _, ok := vc.mutation.Titulo(); !ok {
-		return &ValidationError{Name: "titulo", err: errors.New(`ent: missing required field "titulo"`)}
+		return &ValidationError{Name: "titulo", err: errors.New(`ent: missing required field "Video.titulo"`)}
 	}
 	if _, ok := vc.mutation.URL(); !ok {
-		return &ValidationError{Name: "url", err: errors.New(`ent: missing required field "url"`)}
+		return &ValidationError{Name: "url", err: errors.New(`ent: missing required field "Video.url"`)}
 	}
 	if _, ok := vc.mutation.URLThumbnail(); !ok {
-		return &ValidationError{Name: "url_thumbnail", err: errors.New(`ent: missing required field "url_thumbnail"`)}
+		return &ValidationError{Name: "url_thumbnail", err: errors.New(`ent: missing required field "Video.url_thumbnail"`)}
 	}
 	return nil
 }

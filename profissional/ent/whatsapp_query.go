@@ -415,6 +415,10 @@ func (waq *WhatsAppQuery) sqlAll(ctx context.Context) ([]*WhatsApp, error) {
 
 func (waq *WhatsAppQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := waq.querySpec()
+	_spec.Node.Columns = waq.fields
+	if len(waq.fields) > 0 {
+		_spec.Unique = waq.unique != nil && *waq.unique
+	}
 	return sqlgraph.CountNodes(ctx, waq.driver, _spec)
 }
 
@@ -485,6 +489,9 @@ func (waq *WhatsAppQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if waq.sql != nil {
 		selector = waq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if waq.unique != nil && *waq.unique {
+		selector.Distinct()
 	}
 	for _, p := range waq.predicates {
 		p(selector)
@@ -764,9 +771,7 @@ func (wagb *WhatsAppGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range wagb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(wagb.fields...)...)

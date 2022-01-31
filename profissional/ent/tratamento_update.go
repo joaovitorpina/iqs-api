@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"profissional/ent/predicate"
 	"profissional/ent/profissional"
@@ -306,7 +307,7 @@ func (tuo *TratamentoUpdateOne) sqlSave(ctx context.Context) (_node *Tratamento,
 	}
 	id, ok := tuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Tratamento.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Tratamento.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := tuo.fields; len(fields) > 0 {

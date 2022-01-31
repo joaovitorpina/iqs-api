@@ -415,6 +415,10 @@ func (fq *FotoQuery) sqlAll(ctx context.Context) ([]*Foto, error) {
 
 func (fq *FotoQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := fq.querySpec()
+	_spec.Node.Columns = fq.fields
+	if len(fq.fields) > 0 {
+		_spec.Unique = fq.unique != nil && *fq.unique
+	}
 	return sqlgraph.CountNodes(ctx, fq.driver, _spec)
 }
 
@@ -485,6 +489,9 @@ func (fq *FotoQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	if fq.sql != nil {
 		selector = fq.sql
 		selector.Select(selector.Columns(columns...)...)
+	}
+	if fq.unique != nil && *fq.unique {
+		selector.Distinct()
 	}
 	for _, p := range fq.predicates {
 		p(selector)
@@ -764,9 +771,7 @@ func (fgb *FotoGroupBy) sqlQuery() *sql.Selector {
 		for _, f := range fgb.fields {
 			columns = append(columns, selector.C(f))
 		}
-		for _, c := range aggregation {
-			columns = append(columns, c)
-		}
+		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
 	return selector.GroupBy(selector.Columns(fgb.fields...)...)

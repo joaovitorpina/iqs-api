@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"profissional/ent/foto"
 	"profissional/ent/predicate"
@@ -325,7 +326,7 @@ func (fuo *FotoUpdateOne) sqlSave(ctx context.Context) (_node *Foto, err error) 
 	}
 	id, ok := fuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Foto.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Foto.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := fuo.fields; len(fields) > 0 {

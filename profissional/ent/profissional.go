@@ -35,9 +35,9 @@ type Profissional struct {
 	// NumeroIdentificacao holds the value of the "numero_identificacao" field.
 	NumeroIdentificacao string `json:"numero_identificacao,omitempty"`
 	// Telefone holds the value of the "telefone" field.
-	Telefone int32 `json:"telefone,omitempty"`
+	Telefone int64 `json:"telefone,omitempty"`
 	// Celular holds the value of the "celular" field.
-	Celular int32 `json:"celular,omitempty"`
+	Celular int64 `json:"celular,omitempty"`
 	// Email holds the value of the "email" field.
 	Email string `json:"email,omitempty"`
 	// Site holds the value of the "site" field.
@@ -237,13 +237,13 @@ func (pr *Profissional) assignValues(columns []string, values []interface{}) err
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field telefone", values[i])
 			} else if value.Valid {
-				pr.Telefone = int32(value.Int64)
+				pr.Telefone = value.Int64
 			}
 		case profissional.FieldCelular:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field celular", values[i])
 			} else if value.Valid {
-				pr.Celular = int32(value.Int64)
+				pr.Celular = value.Int64
 			}
 		case profissional.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {

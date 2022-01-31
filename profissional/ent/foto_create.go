@@ -122,10 +122,10 @@ func (fc *FotoCreate) ExecX(ctx context.Context) {
 // check runs all checks and user-defined validators on the builder.
 func (fc *FotoCreate) check() error {
 	if _, ok := fc.mutation.Titulo(); !ok {
-		return &ValidationError{Name: "titulo", err: errors.New(`ent: missing required field "titulo"`)}
+		return &ValidationError{Name: "titulo", err: errors.New(`ent: missing required field "Foto.titulo"`)}
 	}
 	if _, ok := fc.mutation.URL(); !ok {
-		return &ValidationError{Name: "url", err: errors.New(`ent: missing required field "url"`)}
+		return &ValidationError{Name: "url", err: errors.New(`ent: missing required field "Foto.url"`)}
 	}
 	return nil
 }

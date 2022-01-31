@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"profissional/ent/areasaude"
 	"profissional/ent/especializacao"
@@ -433,7 +434,7 @@ func (euo *EspecializacaoUpdateOne) sqlSave(ctx context.Context) (_node *Especia
 	}
 	id, ok := euo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Especializacao.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Especializacao.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := euo.fields; len(fields) > 0 {

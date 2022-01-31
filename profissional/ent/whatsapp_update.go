@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"profissional/ent/predicate"
 	"profissional/ent/profissional"
@@ -362,7 +363,7 @@ func (wauo *WhatsAppUpdateOne) sqlSave(ctx context.Context) (_node *WhatsApp, er
 	}
 	id, ok := wauo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing WhatsApp.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "WhatsApp.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := wauo.fields; len(fields) > 0 {

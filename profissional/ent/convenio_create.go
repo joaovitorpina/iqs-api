@@ -116,7 +116,7 @@ func (cc *ConvenioCreate) ExecX(ctx context.Context) {
 // check runs all checks and user-defined validators on the builder.
 func (cc *ConvenioCreate) check() error {
 	if _, ok := cc.mutation.Nome(); !ok {
-		return &ValidationError{Name: "nome", err: errors.New(`ent: missing required field "nome"`)}
+		return &ValidationError{Name: "nome", err: errors.New(`ent: missing required field "Convenio.nome"`)}
 	}
 	return nil
 }

@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"profissional/ent/predicate"
 	"profissional/ent/profissional"
@@ -344,7 +345,7 @@ func (vuo *VideoUpdateOne) sqlSave(ctx context.Context) (_node *Video, err error
 	}
 	id, ok := vuo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Video.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Video.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := vuo.fields; len(fields) > 0 {

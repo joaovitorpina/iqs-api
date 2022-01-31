@@ -116,7 +116,7 @@ func (tc *TratamentoCreate) ExecX(ctx context.Context) {
 // check runs all checks and user-defined validators on the builder.
 func (tc *TratamentoCreate) check() error {
 	if _, ok := tc.mutation.Descricao(); !ok {
-		return &ValidationError{Name: "descricao", err: errors.New(`ent: missing required field "descricao"`)}
+		return &ValidationError{Name: "descricao", err: errors.New(`ent: missing required field "Tratamento.descricao"`)}
 	}
 	return nil
 }

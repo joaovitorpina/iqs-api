@@ -139,10 +139,10 @@ func (wac *WhatsAppCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (wac *WhatsAppCreate) check() error {
 	if _, ok := wac.mutation.Numero(); !ok {
-		return &ValidationError{Name: "numero", err: errors.New(`ent: missing required field "numero"`)}
+		return &ValidationError{Name: "numero", err: errors.New(`ent: missing required field "WhatsApp.numero"`)}
 	}
 	if _, ok := wac.mutation.Principal(); !ok {
-		return &ValidationError{Name: "principal", err: errors.New(`ent: missing required field "principal"`)}
+		return &ValidationError{Name: "principal", err: errors.New(`ent: missing required field "WhatsApp.principal"`)}
 	}
 	return nil
 }

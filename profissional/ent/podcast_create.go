@@ -122,10 +122,10 @@ func (pc *PodcastCreate) ExecX(ctx context.Context) {
 // check runs all checks and user-defined validators on the builder.
 func (pc *PodcastCreate) check() error {
 	if _, ok := pc.mutation.Titulo(); !ok {
-		return &ValidationError{Name: "titulo", err: errors.New(`ent: missing required field "titulo"`)}
+		return &ValidationError{Name: "titulo", err: errors.New(`ent: missing required field "Podcast.titulo"`)}
 	}
 	if _, ok := pc.mutation.Codigo(); !ok {
-		return &ValidationError{Name: "codigo", err: errors.New(`ent: missing required field "codigo"`)}
+		return &ValidationError{Name: "codigo", err: errors.New(`ent: missing required field "Podcast.codigo"`)}
 	}
 	return nil
 }

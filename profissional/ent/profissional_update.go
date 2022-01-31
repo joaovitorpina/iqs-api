@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"profissional/ent/convenio"
 	"profissional/ent/especializacao"
@@ -14,6 +15,7 @@ import (
 	"profissional/ent/tratamento"
 	"profissional/ent/video"
 	"profissional/ent/whatsapp"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -30,6 +32,12 @@ type ProfissionalUpdate struct {
 // Where appends a list predicates to the ProfissionalUpdate builder.
 func (pu *ProfissionalUpdate) Where(ps ...predicate.Profissional) *ProfissionalUpdate {
 	pu.mutation.Where(ps...)
+	return pu
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (pu *ProfissionalUpdate) SetUpdateTime(t time.Time) *ProfissionalUpdate {
+	pu.mutation.SetUpdateTime(t)
 	return pu
 }
 
@@ -134,27 +142,27 @@ func (pu *ProfissionalUpdate) ClearNumeroIdentificacao() *ProfissionalUpdate {
 }
 
 // SetTelefone sets the "telefone" field.
-func (pu *ProfissionalUpdate) SetTelefone(i int32) *ProfissionalUpdate {
+func (pu *ProfissionalUpdate) SetTelefone(i int64) *ProfissionalUpdate {
 	pu.mutation.ResetTelefone()
 	pu.mutation.SetTelefone(i)
 	return pu
 }
 
 // AddTelefone adds i to the "telefone" field.
-func (pu *ProfissionalUpdate) AddTelefone(i int32) *ProfissionalUpdate {
+func (pu *ProfissionalUpdate) AddTelefone(i int64) *ProfissionalUpdate {
 	pu.mutation.AddTelefone(i)
 	return pu
 }
 
 // SetCelular sets the "celular" field.
-func (pu *ProfissionalUpdate) SetCelular(i int32) *ProfissionalUpdate {
+func (pu *ProfissionalUpdate) SetCelular(i int64) *ProfissionalUpdate {
 	pu.mutation.ResetCelular()
 	pu.mutation.SetCelular(i)
 	return pu
 }
 
 // AddCelular adds i to the "celular" field.
-func (pu *ProfissionalUpdate) AddCelular(i int32) *ProfissionalUpdate {
+func (pu *ProfissionalUpdate) AddCelular(i int64) *ProfissionalUpdate {
 	pu.mutation.AddCelular(i)
 	return pu
 }
@@ -613,22 +621,22 @@ func (pu *ProfissionalUpdate) defaults() {
 func (pu *ProfissionalUpdate) check() error {
 	if v, ok := pu.mutation.Nome(); ok {
 		if err := profissional.NomeValidator(v); err != nil {
-			return &ValidationError{Name: "nome", err: fmt.Errorf("ent: validator failed for field \"nome\": %w", err)}
+			return &ValidationError{Name: "nome", err: fmt.Errorf(`ent: validator failed for field "Profissional.nome": %w`, err)}
 		}
 	}
 	if v, ok := pu.mutation.URLAmigavel(); ok {
 		if err := profissional.URLAmigavelValidator(v); err != nil {
-			return &ValidationError{Name: "url_amigavel", err: fmt.Errorf("ent: validator failed for field \"url_amigavel\": %w", err)}
+			return &ValidationError{Name: "url_amigavel", err: fmt.Errorf(`ent: validator failed for field "Profissional.url_amigavel": %w`, err)}
 		}
 	}
 	if v, ok := pu.mutation.UnidadeID(); ok {
 		if err := profissional.UnidadeIDValidator(v); err != nil {
-			return &ValidationError{Name: "unidade_id", err: fmt.Errorf("ent: validator failed for field \"unidade_id\": %w", err)}
+			return &ValidationError{Name: "unidade_id", err: fmt.Errorf(`ent: validator failed for field "Profissional.unidade_id": %w`, err)}
 		}
 	}
 	if v, ok := pu.mutation.EnderecoID(); ok {
 		if err := profissional.EnderecoIDValidator(v); err != nil {
-			return &ValidationError{Name: "endereco_id", err: fmt.Errorf("ent: validator failed for field \"endereco_id\": %w", err)}
+			return &ValidationError{Name: "endereco_id", err: fmt.Errorf(`ent: validator failed for field "Profissional.endereco_id": %w`, err)}
 		}
 	}
 	return nil
@@ -728,28 +736,28 @@ func (pu *ProfissionalUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := pu.mutation.Telefone(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldTelefone,
 		})
 	}
 	if value, ok := pu.mutation.AddedTelefone(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldTelefone,
 		})
 	}
 	if value, ok := pu.mutation.Celular(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldCelular,
 		})
 	}
 	if value, ok := pu.mutation.AddedCelular(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldCelular,
 		})
@@ -1252,6 +1260,12 @@ type ProfissionalUpdateOne struct {
 	mutation *ProfissionalMutation
 }
 
+// SetUpdateTime sets the "update_time" field.
+func (puo *ProfissionalUpdateOne) SetUpdateTime(t time.Time) *ProfissionalUpdateOne {
+	puo.mutation.SetUpdateTime(t)
+	return puo
+}
+
 // SetNome sets the "nome" field.
 func (puo *ProfissionalUpdateOne) SetNome(s string) *ProfissionalUpdateOne {
 	puo.mutation.SetNome(s)
@@ -1353,27 +1367,27 @@ func (puo *ProfissionalUpdateOne) ClearNumeroIdentificacao() *ProfissionalUpdate
 }
 
 // SetTelefone sets the "telefone" field.
-func (puo *ProfissionalUpdateOne) SetTelefone(i int32) *ProfissionalUpdateOne {
+func (puo *ProfissionalUpdateOne) SetTelefone(i int64) *ProfissionalUpdateOne {
 	puo.mutation.ResetTelefone()
 	puo.mutation.SetTelefone(i)
 	return puo
 }
 
 // AddTelefone adds i to the "telefone" field.
-func (puo *ProfissionalUpdateOne) AddTelefone(i int32) *ProfissionalUpdateOne {
+func (puo *ProfissionalUpdateOne) AddTelefone(i int64) *ProfissionalUpdateOne {
 	puo.mutation.AddTelefone(i)
 	return puo
 }
 
 // SetCelular sets the "celular" field.
-func (puo *ProfissionalUpdateOne) SetCelular(i int32) *ProfissionalUpdateOne {
+func (puo *ProfissionalUpdateOne) SetCelular(i int64) *ProfissionalUpdateOne {
 	puo.mutation.ResetCelular()
 	puo.mutation.SetCelular(i)
 	return puo
 }
 
 // AddCelular adds i to the "celular" field.
-func (puo *ProfissionalUpdateOne) AddCelular(i int32) *ProfissionalUpdateOne {
+func (puo *ProfissionalUpdateOne) AddCelular(i int64) *ProfissionalUpdateOne {
 	puo.mutation.AddCelular(i)
 	return puo
 }
@@ -1839,22 +1853,22 @@ func (puo *ProfissionalUpdateOne) defaults() {
 func (puo *ProfissionalUpdateOne) check() error {
 	if v, ok := puo.mutation.Nome(); ok {
 		if err := profissional.NomeValidator(v); err != nil {
-			return &ValidationError{Name: "nome", err: fmt.Errorf("ent: validator failed for field \"nome\": %w", err)}
+			return &ValidationError{Name: "nome", err: fmt.Errorf(`ent: validator failed for field "Profissional.nome": %w`, err)}
 		}
 	}
 	if v, ok := puo.mutation.URLAmigavel(); ok {
 		if err := profissional.URLAmigavelValidator(v); err != nil {
-			return &ValidationError{Name: "url_amigavel", err: fmt.Errorf("ent: validator failed for field \"url_amigavel\": %w", err)}
+			return &ValidationError{Name: "url_amigavel", err: fmt.Errorf(`ent: validator failed for field "Profissional.url_amigavel": %w`, err)}
 		}
 	}
 	if v, ok := puo.mutation.UnidadeID(); ok {
 		if err := profissional.UnidadeIDValidator(v); err != nil {
-			return &ValidationError{Name: "unidade_id", err: fmt.Errorf("ent: validator failed for field \"unidade_id\": %w", err)}
+			return &ValidationError{Name: "unidade_id", err: fmt.Errorf(`ent: validator failed for field "Profissional.unidade_id": %w`, err)}
 		}
 	}
 	if v, ok := puo.mutation.EnderecoID(); ok {
 		if err := profissional.EnderecoIDValidator(v); err != nil {
-			return &ValidationError{Name: "endereco_id", err: fmt.Errorf("ent: validator failed for field \"endereco_id\": %w", err)}
+			return &ValidationError{Name: "endereco_id", err: fmt.Errorf(`ent: validator failed for field "Profissional.endereco_id": %w`, err)}
 		}
 	}
 	return nil
@@ -1873,7 +1887,7 @@ func (puo *ProfissionalUpdateOne) sqlSave(ctx context.Context) (_node *Profissio
 	}
 	id, ok := puo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Profissional.ID for update")}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Profissional.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := puo.fields; len(fields) > 0 {
@@ -1971,28 +1985,28 @@ func (puo *ProfissionalUpdateOne) sqlSave(ctx context.Context) (_node *Profissio
 	}
 	if value, ok := puo.mutation.Telefone(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldTelefone,
 		})
 	}
 	if value, ok := puo.mutation.AddedTelefone(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldTelefone,
 		})
 	}
 	if value, ok := puo.mutation.Celular(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldCelular,
 		})
 	}
 	if value, ok := puo.mutation.AddedCelular(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldCelular,
 		})

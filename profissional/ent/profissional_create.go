@@ -138,13 +138,13 @@ func (pc *ProfissionalCreate) SetNillableNumeroIdentificacao(s *string) *Profiss
 }
 
 // SetTelefone sets the "telefone" field.
-func (pc *ProfissionalCreate) SetTelefone(i int32) *ProfissionalCreate {
+func (pc *ProfissionalCreate) SetTelefone(i int64) *ProfissionalCreate {
 	pc.mutation.SetTelefone(i)
 	return pc
 }
 
 // SetCelular sets the "celular" field.
-func (pc *ProfissionalCreate) SetCelular(i int32) *ProfissionalCreate {
+func (pc *ProfissionalCreate) SetCelular(i int64) *ProfissionalCreate {
 	pc.mutation.SetCelular(i)
 	return pc
 }
@@ -432,63 +432,63 @@ func (pc *ProfissionalCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (pc *ProfissionalCreate) check() error {
 	if _, ok := pc.mutation.CreateTime(); !ok {
-		return &ValidationError{Name: "create_time", err: errors.New(`ent: missing required field "create_time"`)}
+		return &ValidationError{Name: "create_time", err: errors.New(`ent: missing required field "Profissional.create_time"`)}
 	}
 	if _, ok := pc.mutation.UpdateTime(); !ok {
-		return &ValidationError{Name: "update_time", err: errors.New(`ent: missing required field "update_time"`)}
+		return &ValidationError{Name: "update_time", err: errors.New(`ent: missing required field "Profissional.update_time"`)}
 	}
 	if _, ok := pc.mutation.Nome(); !ok {
-		return &ValidationError{Name: "nome", err: errors.New(`ent: missing required field "nome"`)}
+		return &ValidationError{Name: "nome", err: errors.New(`ent: missing required field "Profissional.nome"`)}
 	}
 	if v, ok := pc.mutation.Nome(); ok {
 		if err := profissional.NomeValidator(v); err != nil {
-			return &ValidationError{Name: "nome", err: fmt.Errorf(`ent: validator failed for field "nome": %w`, err)}
+			return &ValidationError{Name: "nome", err: fmt.Errorf(`ent: validator failed for field "Profissional.nome": %w`, err)}
 		}
 	}
 	if _, ok := pc.mutation.URLAmigavel(); !ok {
-		return &ValidationError{Name: "url_amigavel", err: errors.New(`ent: missing required field "url_amigavel"`)}
+		return &ValidationError{Name: "url_amigavel", err: errors.New(`ent: missing required field "Profissional.url_amigavel"`)}
 	}
 	if v, ok := pc.mutation.URLAmigavel(); ok {
 		if err := profissional.URLAmigavelValidator(v); err != nil {
-			return &ValidationError{Name: "url_amigavel", err: fmt.Errorf(`ent: validator failed for field "url_amigavel": %w`, err)}
+			return &ValidationError{Name: "url_amigavel", err: fmt.Errorf(`ent: validator failed for field "Profissional.url_amigavel": %w`, err)}
 		}
 	}
 	if _, ok := pc.mutation.Recomendado(); !ok {
-		return &ValidationError{Name: "recomendado", err: errors.New(`ent: missing required field "recomendado"`)}
+		return &ValidationError{Name: "recomendado", err: errors.New(`ent: missing required field "Profissional.recomendado"`)}
 	}
 	if _, ok := pc.mutation.Ativo(); !ok {
-		return &ValidationError{Name: "ativo", err: errors.New(`ent: missing required field "ativo"`)}
+		return &ValidationError{Name: "ativo", err: errors.New(`ent: missing required field "Profissional.ativo"`)}
 	}
 	if _, ok := pc.mutation.Telefone(); !ok {
-		return &ValidationError{Name: "telefone", err: errors.New(`ent: missing required field "telefone"`)}
+		return &ValidationError{Name: "telefone", err: errors.New(`ent: missing required field "Profissional.telefone"`)}
 	}
 	if _, ok := pc.mutation.Celular(); !ok {
-		return &ValidationError{Name: "celular", err: errors.New(`ent: missing required field "celular"`)}
+		return &ValidationError{Name: "celular", err: errors.New(`ent: missing required field "Profissional.celular"`)}
 	}
 	if _, ok := pc.mutation.Email(); !ok {
-		return &ValidationError{Name: "email", err: errors.New(`ent: missing required field "email"`)}
+		return &ValidationError{Name: "email", err: errors.New(`ent: missing required field "Profissional.email"`)}
 	}
 	if _, ok := pc.mutation.Site(); !ok {
-		return &ValidationError{Name: "site", err: errors.New(`ent: missing required field "site"`)}
+		return &ValidationError{Name: "site", err: errors.New(`ent: missing required field "Profissional.site"`)}
 	}
 	if _, ok := pc.mutation.UnidadeID(); !ok {
-		return &ValidationError{Name: "unidade_id", err: errors.New(`ent: missing required field "unidade_id"`)}
+		return &ValidationError{Name: "unidade_id", err: errors.New(`ent: missing required field "Profissional.unidade_id"`)}
 	}
 	if v, ok := pc.mutation.UnidadeID(); ok {
 		if err := profissional.UnidadeIDValidator(v); err != nil {
-			return &ValidationError{Name: "unidade_id", err: fmt.Errorf(`ent: validator failed for field "unidade_id": %w`, err)}
+			return &ValidationError{Name: "unidade_id", err: fmt.Errorf(`ent: validator failed for field "Profissional.unidade_id": %w`, err)}
 		}
 	}
 	if _, ok := pc.mutation.EnderecoID(); !ok {
-		return &ValidationError{Name: "endereco_id", err: errors.New(`ent: missing required field "endereco_id"`)}
+		return &ValidationError{Name: "endereco_id", err: errors.New(`ent: missing required field "Profissional.endereco_id"`)}
 	}
 	if v, ok := pc.mutation.EnderecoID(); ok {
 		if err := profissional.EnderecoIDValidator(v); err != nil {
-			return &ValidationError{Name: "endereco_id", err: fmt.Errorf(`ent: validator failed for field "endereco_id": %w`, err)}
+			return &ValidationError{Name: "endereco_id", err: fmt.Errorf(`ent: validator failed for field "Profissional.endereco_id": %w`, err)}
 		}
 	}
 	if _, ok := pc.mutation.ImagemPerfilURL(); !ok {
-		return &ValidationError{Name: "imagem_perfil_url", err: errors.New(`ent: missing required field "imagem_perfil_url"`)}
+		return &ValidationError{Name: "imagem_perfil_url", err: errors.New(`ent: missing required field "Profissional.imagem_perfil_url"`)}
 	}
 	return nil
 }
@@ -591,7 +591,7 @@ func (pc *ProfissionalCreate) createSpec() (*Profissional, *sqlgraph.CreateSpec)
 	}
 	if value, ok := pc.mutation.Telefone(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldTelefone,
 		})
@@ -599,7 +599,7 @@ func (pc *ProfissionalCreate) createSpec() (*Profissional, *sqlgraph.CreateSpec)
 	}
 	if value, ok := pc.mutation.Celular(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt32,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: profissional.FieldCelular,
 		})

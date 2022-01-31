@@ -132,7 +132,7 @@ func (ec *EspecializacaoCreate) ExecX(ctx context.Context) {
 // check runs all checks and user-defined validators on the builder.
 func (ec *EspecializacaoCreate) check() error {
 	if _, ok := ec.mutation.Descricao(); !ok {
-		return &ValidationError{Name: "descricao", err: errors.New(`ent: missing required field "descricao"`)}
+		return &ValidationError{Name: "descricao", err: errors.New(`ent: missing required field "Especializacao.descricao"`)}
 	}
 	return nil
 }

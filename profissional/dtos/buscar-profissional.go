@@ -9,8 +9,8 @@ type BuscarProfissionalResponse struct {
 	Especialidades      []string `json:"especialidades"`
 	Conselho            string   `json:"conselho"`
 	NumeroIdentificacao string   `json:"numero_identificacao"`
-	Telefone            int32    `json:"telefone"`
-	Celular             int32    `json:"celular"`
+	Telefone            int64    `json:"telefone"`
+	Celular             int64    `json:"celular"`
 	Facebook            string   `json:"facebook"`
 	Instagram           string   `json:"instagram"`
 	Email               string   `json:"email"`

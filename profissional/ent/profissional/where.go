@@ -157,14 +157,14 @@ func NumeroIdentificacao(v string) predicate.Profissional {
 }
 
 // Telefone applies equality check predicate on the "telefone" field. It's identical to TelefoneEQ.
-func Telefone(v int32) predicate.Profissional {
+func Telefone(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldTelefone), v))
 	})
 }
 
 // Celular applies equality check predicate on the "celular" field. It's identical to CelularEQ.
-func Celular(v int32) predicate.Profissional {
+func Celular(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldCelular), v))
 	})
@@ -1011,21 +1011,21 @@ func NumeroIdentificacaoContainsFold(v string) predicate.Profissional {
 }
 
 // TelefoneEQ applies the EQ predicate on the "telefone" field.
-func TelefoneEQ(v int32) predicate.Profissional {
+func TelefoneEQ(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldTelefone), v))
 	})
 }
 
 // TelefoneNEQ applies the NEQ predicate on the "telefone" field.
-func TelefoneNEQ(v int32) predicate.Profissional {
+func TelefoneNEQ(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldTelefone), v))
 	})
 }
 
 // TelefoneIn applies the In predicate on the "telefone" field.
-func TelefoneIn(vs ...int32) predicate.Profissional {
+func TelefoneIn(vs ...int64) predicate.Profissional {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -1042,7 +1042,7 @@ func TelefoneIn(vs ...int32) predicate.Profissional {
 }
 
 // TelefoneNotIn applies the NotIn predicate on the "telefone" field.
-func TelefoneNotIn(vs ...int32) predicate.Profissional {
+func TelefoneNotIn(vs ...int64) predicate.Profissional {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -1059,49 +1059,49 @@ func TelefoneNotIn(vs ...int32) predicate.Profissional {
 }
 
 // TelefoneGT applies the GT predicate on the "telefone" field.
-func TelefoneGT(v int32) predicate.Profissional {
+func TelefoneGT(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldTelefone), v))
 	})
 }
 
 // TelefoneGTE applies the GTE predicate on the "telefone" field.
-func TelefoneGTE(v int32) predicate.Profissional {
+func TelefoneGTE(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldTelefone), v))
 	})
 }
 
 // TelefoneLT applies the LT predicate on the "telefone" field.
-func TelefoneLT(v int32) predicate.Profissional {
+func TelefoneLT(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldTelefone), v))
 	})
 }
 
 // TelefoneLTE applies the LTE predicate on the "telefone" field.
-func TelefoneLTE(v int32) predicate.Profissional {
+func TelefoneLTE(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldTelefone), v))
 	})
 }
 
 // CelularEQ applies the EQ predicate on the "celular" field.
-func CelularEQ(v int32) predicate.Profissional {
+func CelularEQ(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldCelular), v))
 	})
 }
 
 // CelularNEQ applies the NEQ predicate on the "celular" field.
-func CelularNEQ(v int32) predicate.Profissional {
+func CelularNEQ(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldCelular), v))
 	})
 }
 
 // CelularIn applies the In predicate on the "celular" field.
-func CelularIn(vs ...int32) predicate.Profissional {
+func CelularIn(vs ...int64) predicate.Profissional {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -1118,7 +1118,7 @@ func CelularIn(vs ...int32) predicate.Profissional {
 }
 
 // CelularNotIn applies the NotIn predicate on the "celular" field.
-func CelularNotIn(vs ...int32) predicate.Profissional {
+func CelularNotIn(vs ...int64) predicate.Profissional {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -1135,28 +1135,28 @@ func CelularNotIn(vs ...int32) predicate.Profissional {
 }
 
 // CelularGT applies the GT predicate on the "celular" field.
-func CelularGT(v int32) predicate.Profissional {
+func CelularGT(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldCelular), v))
 	})
 }
 
 // CelularGTE applies the GTE predicate on the "celular" field.
-func CelularGTE(v int32) predicate.Profissional {
+func CelularGTE(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldCelular), v))
 	})
 }
 
 // CelularLT applies the LT predicate on the "celular" field.
-func CelularLT(v int32) predicate.Profissional {
+func CelularLT(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldCelular), v))
 	})
 }
 
 // CelularLTE applies the LTE predicate on the "celular" field.
-func CelularLTE(v int32) predicate.Profissional {
+func CelularLTE(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldCelular), v))
 	})
