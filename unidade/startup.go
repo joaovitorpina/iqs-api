@@ -2,6 +2,7 @@ package unidade
 
 import (
 	"github.com/gin-gonic/gin"
+	"unidade/controllers"
 	"unidade/services"
 )
 
@@ -15,6 +16,7 @@ func addRoutes(server *gin.Engine) {
 
 	routes := server.Group("/unidades")
 	{
-
+		unidadesController := controllers.UnidadesController{Client: client}
+		routes.GET("/", unidadesController.ListarUnidades)
 	}
 }

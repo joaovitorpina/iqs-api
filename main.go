@@ -31,7 +31,7 @@ func main() {
 
 	profissional.Startup(server)
 	endereco.Startup(server)
-	unidade.Startup()
+	unidade.Startup(server)
 
 	err := server.Run()
 
