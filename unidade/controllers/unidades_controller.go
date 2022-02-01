@@ -17,7 +17,7 @@ type UnidadesController struct {
 // @Description  Retorna uma listagem com todas as unidades
 // @Tags         Unidade
 // @Produce      json
-// @Success      200  {object}  dtos.BuscarUnidadesResponse  "Unidades"
+// @Success      200  {object}  []dtos.BuscarUnidadesResponse  "Unidades"
 // @Router       /unidades [get]
 func (controller UnidadesController) ListarUnidades(httpContext *gin.Context) {
 	unidades, err := controller.Client.Unidade.Query().All(context.Background())

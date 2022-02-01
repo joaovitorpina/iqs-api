@@ -343,7 +343,10 @@ var doc = `{
                     "200": {
                         "description": "Unidades",
                         "schema": {
-                            "$ref": "#/definitions/dtos.BuscarUnidadesResponse"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dtos.BuscarUnidadesResponse"
+                            }
                         }
                     }
                 }
