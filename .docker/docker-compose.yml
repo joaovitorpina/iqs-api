@@ -16,12 +16,9 @@ services:
 
   mysql:
     container_name: mysql
-    image: mysql:8.0
-    platform: linux/x86_64
+    image: mysql/mysql-server:8.0
     ports:
       - 3306:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
     extra_hosts:
       - 'host.docker.internal:172.17.0.1'
     networks:
