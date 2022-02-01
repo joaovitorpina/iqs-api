@@ -4,6 +4,7 @@ type BuscarListagemProfissionaisResponse struct {
 	Data       []ProfissionalReduzido `json:"data"`
 	Pagina     int                    `json:"pagina"`
 	Quantidade int                    `json:"quantidade"`
+	Total      int                    `json:"total"`
 }
 
 type ProfissionalReduzido struct {

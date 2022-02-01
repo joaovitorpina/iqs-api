@@ -43,7 +43,7 @@ func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContex
 	})
 
 	if form.Limite >= 0 {
-		form.Limite = 50
+		form.Limite = 5
 	}
 
 	if form.Pagina >= 0 {
@@ -75,7 +75,19 @@ func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContex
 		return
 	}
 
-	responseBody := dtos.BuscarListagemProfissionaisResponse{Data: []dtos.ProfissionalReduzido{}, Pagina: form.Pagina, Quantidade: len(data)}
+	total, err := controller.Client.Profissional.Query().Count(context.Background())
+
+	if err != nil {
+		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	responseBody := dtos.BuscarListagemProfissionaisResponse{
+		Data:       []dtos.ProfissionalReduzido{},
+		Pagina:     form.Pagina,
+		Quantidade: len(data),
+		Total:      total,
+	}
 
 	for _, profissionalDb := range data {
 		profissionalResponse := dtos.ProfissionalReduzido{
@@ -106,7 +118,7 @@ func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContex
 // @Tags         Profissional
 // @Produce      json
 // @Param        id   path      int                                       true  "Id do profissional"
-// @Success      200         {object}  dtos.BuscarListagemProfissionaisResponse  "Listagem profissionais"
+// @Success      200         {object}  dtos.BuscarProfissionalResponse  "Profissional"
 // @Router       /profissionais/{id} [get]
 func (controller ProfissionaisController) BuscarProfissionalPorId(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
