@@ -9,6 +9,7 @@ import (
 	_ "iqs-api/docs"
 	"log"
 	"profissional"
+	"unidade"
 )
 
 // @title           IQS API
@@ -30,6 +31,7 @@ func main() {
 
 	profissional.Startup(server)
 	endereco.Startup(server)
+	unidade.Startup()
 
 	err := server.Run()
 

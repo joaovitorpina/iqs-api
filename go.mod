@@ -6,6 +6,8 @@ replace profissional => ./profissional
 
 replace endereco => ./endereco
 
+replace unidade => ./unidade
+
 require (
 	endereco v0.0.0-00010101000000-000000000000
 	github.com/gin-gonic/gin v1.7.7
@@ -13,6 +15,7 @@ require (
 	github.com/swaggo/gin-swagger v1.4.0
 	github.com/swaggo/swag v1.7.8
 	profissional v0.0.0-00010101000000-000000000000
+	unidade v0.0.0-00010101000000-000000000000
 )
 
 require (
