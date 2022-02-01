@@ -312,6 +312,26 @@
           }
         }
       }
+    },
+    "/unidades": {
+      "get": {
+        "description": "Retorna uma listagem com todas as unidades",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Unidade"
+        ],
+        "summary": "Lista todas as unidades",
+        "responses": {
+          "200": {
+            "description": "Unidades",
+            "schema": {
+              "$ref": "#/definitions/dtos.BuscarUnidadesResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -384,6 +404,50 @@
           "type": "string"
         },
         "titulo": {
+          "type": "string"
+        }
+      }
+    },
+    "dtos.BuscarUnidadesResponse": {
+      "type": "object",
+      "properties": {
+        "ativo": {
+          "type": "boolean"
+        },
+        "celular": {
+          "type": "integer"
+        },
+        "descricao": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "endereco_id": {
+          "type": "integer"
+        },
+        "facebook": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "instagram": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "telefone": {
+          "type": "integer"
+        },
+        "url_amigavel": {
+          "type": "string"
+        },
+        "youtube": {
           "type": "string"
         }
       }

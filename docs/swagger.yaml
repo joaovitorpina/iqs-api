@@ -46,6 +46,35 @@ definitions:
       titulo:
         type: string
     type: object
+  dtos.BuscarUnidadesResponse:
+    properties:
+      ativo:
+        type: boolean
+      celular:
+        type: integer
+      descricao:
+        type: string
+      email:
+        type: string
+      endereco_id:
+        type: integer
+      facebook:
+        type: string
+      id:
+        type: integer
+      instagram:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      telefone:
+        type: integer
+      url_amigavel:
+        type: string
+      youtube:
+        type: string
+    type: object
   dtos.BuscarVideosResponse:
     properties:
       titulo:
@@ -299,4 +328,17 @@ paths:
       summary: Busca os WhatsApp`s do profissional
       tags:
         - WhatsApp
+  /unidades:
+    get:
+      description: Retorna uma listagem com todas as unidades
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Unidades
+          schema:
+            $ref: '#/definitions/dtos.BuscarUnidadesResponse'
+      summary: Lista todas as unidades
+      tags:
+        - Unidade
 swagger: "2.0"
