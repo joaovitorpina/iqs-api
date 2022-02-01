@@ -38,12 +38,49 @@ definitions:
         type: integer
       quantidade:
         type: integer
+      total:
+        type: integer
     type: object
   dtos.BuscarPodcastsResponse:
     properties:
       codigo:
         type: string
       titulo:
+        type: string
+    type: object
+  dtos.BuscarProfissionalResponse:
+    properties:
+      celular:
+        type: integer
+      conselho:
+        type: string
+      email:
+        type: string
+      endereco_id:
+        type: integer
+      especialidades:
+        items:
+          type: string
+        type: array
+      facebook:
+        type: string
+      id:
+        type: integer
+      imagem_perfil_url:
+        type: string
+      instagram:
+        type: string
+      nome:
+        type: string
+      numero_identificacao:
+        type: string
+      site:
+        type: string
+      sobre:
+        type: string
+      telefone:
+        type: integer
+      tipo:
         type: string
     type: object
   dtos.BuscarUnidadesResponse:
@@ -198,9 +235,9 @@ paths:
         - application/json
       responses:
         "200":
-          description: Listagem profissionais
+          description: Profissional
           schema:
-            $ref: '#/definitions/dtos.BuscarListagemProfissionaisResponse'
+            $ref: '#/definitions/dtos.BuscarProfissionalResponse'
       summary: Busca todas as informacões do profissional
       tags:
         - Profissional

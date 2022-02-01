@@ -132,9 +132,9 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Listagem profissionais",
+                        "description": "Profissional",
                         "schema": {
-                            "$ref": "#/definitions/dtos.BuscarListagemProfissionaisResponse"
+                            "$ref": "#/definitions/dtos.BuscarProfissionalResponse"
                         }
                     }
                 }
@@ -413,6 +413,9 @@ var doc = `{
                 },
                 "quantidade": {
                     "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },
@@ -423,6 +426,59 @@ var doc = `{
                     "type": "string"
                 },
                 "titulo": {
+                    "type": "string"
+                }
+            }
+        },
+        "dtos.BuscarProfissionalResponse": {
+            "type": "object",
+            "properties": {
+                "celular": {
+                    "type": "integer"
+                },
+                "conselho": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "endereco_id": {
+                    "type": "integer"
+                },
+                "especialidades": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "facebook": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "imagem_perfil_url": {
+                    "type": "string"
+                },
+                "instagram": {
+                    "type": "string"
+                },
+                "nome": {
+                    "type": "string"
+                },
+                "numero_identificacao": {
+                    "type": "string"
+                },
+                "site": {
+                    "type": "string"
+                },
+                "sobre": {
+                    "type": "string"
+                },
+                "telefone": {
+                    "type": "integer"
+                },
+                "tipo": {
                     "type": "string"
                 }
             }
