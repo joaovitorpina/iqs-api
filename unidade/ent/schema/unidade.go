@@ -15,9 +15,9 @@ func (Unidade) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("descricao"),
 		field.String("url_amigavel"),
-		field.Int64("endereco_id"),
-		field.Int("latitude"),
-		field.Int("longitude"),
+		field.Int("endereco_id"),
+		field.Float32("latitude"),
+		field.Float32("longitude"),
 		field.Int64("telefone").
 			Optional(),
 		field.Int64("celular").

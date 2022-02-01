@@ -32,20 +32,20 @@ func (uc *UnidadeCreate) SetURLAmigavel(s string) *UnidadeCreate {
 }
 
 // SetEnderecoID sets the "endereco_id" field.
-func (uc *UnidadeCreate) SetEnderecoID(i int64) *UnidadeCreate {
+func (uc *UnidadeCreate) SetEnderecoID(i int) *UnidadeCreate {
 	uc.mutation.SetEnderecoID(i)
 	return uc
 }
 
 // SetLatitude sets the "latitude" field.
-func (uc *UnidadeCreate) SetLatitude(i int) *UnidadeCreate {
-	uc.mutation.SetLatitude(i)
+func (uc *UnidadeCreate) SetLatitude(f float32) *UnidadeCreate {
+	uc.mutation.SetLatitude(f)
 	return uc
 }
 
 // SetLongitude sets the "longitude" field.
-func (uc *UnidadeCreate) SetLongitude(i int) *UnidadeCreate {
-	uc.mutation.SetLongitude(i)
+func (uc *UnidadeCreate) SetLongitude(f float32) *UnidadeCreate {
+	uc.mutation.SetLongitude(f)
 	return uc
 }
 
@@ -267,7 +267,7 @@ func (uc *UnidadeCreate) createSpec() (*Unidade, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := uc.mutation.EnderecoID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: unidade.FieldEnderecoID,
 		})
@@ -275,7 +275,7 @@ func (uc *UnidadeCreate) createSpec() (*Unidade, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := uc.mutation.Latitude(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLatitude,
 		})
@@ -283,7 +283,7 @@ func (uc *UnidadeCreate) createSpec() (*Unidade, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := uc.mutation.Longitude(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLongitude,
 		})

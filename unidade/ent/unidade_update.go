@@ -40,41 +40,41 @@ func (uu *UnidadeUpdate) SetURLAmigavel(s string) *UnidadeUpdate {
 }
 
 // SetEnderecoID sets the "endereco_id" field.
-func (uu *UnidadeUpdate) SetEnderecoID(i int64) *UnidadeUpdate {
+func (uu *UnidadeUpdate) SetEnderecoID(i int) *UnidadeUpdate {
 	uu.mutation.ResetEnderecoID()
 	uu.mutation.SetEnderecoID(i)
 	return uu
 }
 
 // AddEnderecoID adds i to the "endereco_id" field.
-func (uu *UnidadeUpdate) AddEnderecoID(i int64) *UnidadeUpdate {
+func (uu *UnidadeUpdate) AddEnderecoID(i int) *UnidadeUpdate {
 	uu.mutation.AddEnderecoID(i)
 	return uu
 }
 
 // SetLatitude sets the "latitude" field.
-func (uu *UnidadeUpdate) SetLatitude(i int) *UnidadeUpdate {
+func (uu *UnidadeUpdate) SetLatitude(f float32) *UnidadeUpdate {
 	uu.mutation.ResetLatitude()
-	uu.mutation.SetLatitude(i)
+	uu.mutation.SetLatitude(f)
 	return uu
 }
 
-// AddLatitude adds i to the "latitude" field.
-func (uu *UnidadeUpdate) AddLatitude(i int) *UnidadeUpdate {
-	uu.mutation.AddLatitude(i)
+// AddLatitude adds f to the "latitude" field.
+func (uu *UnidadeUpdate) AddLatitude(f float32) *UnidadeUpdate {
+	uu.mutation.AddLatitude(f)
 	return uu
 }
 
 // SetLongitude sets the "longitude" field.
-func (uu *UnidadeUpdate) SetLongitude(i int) *UnidadeUpdate {
+func (uu *UnidadeUpdate) SetLongitude(f float32) *UnidadeUpdate {
 	uu.mutation.ResetLongitude()
-	uu.mutation.SetLongitude(i)
+	uu.mutation.SetLongitude(f)
 	return uu
 }
 
-// AddLongitude adds i to the "longitude" field.
-func (uu *UnidadeUpdate) AddLongitude(i int) *UnidadeUpdate {
-	uu.mutation.AddLongitude(i)
+// AddLongitude adds f to the "longitude" field.
+func (uu *UnidadeUpdate) AddLongitude(f float32) *UnidadeUpdate {
+	uu.mutation.AddLongitude(f)
 	return uu
 }
 
@@ -297,42 +297,42 @@ func (uu *UnidadeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := uu.mutation.EnderecoID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: unidade.FieldEnderecoID,
 		})
 	}
 	if value, ok := uu.mutation.AddedEnderecoID(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: unidade.FieldEnderecoID,
 		})
 	}
 	if value, ok := uu.mutation.Latitude(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLatitude,
 		})
 	}
 	if value, ok := uu.mutation.AddedLatitude(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLatitude,
 		})
 	}
 	if value, ok := uu.mutation.Longitude(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLongitude,
 		})
 	}
 	if value, ok := uu.mutation.AddedLongitude(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLongitude,
 		})
@@ -462,41 +462,41 @@ func (uuo *UnidadeUpdateOne) SetURLAmigavel(s string) *UnidadeUpdateOne {
 }
 
 // SetEnderecoID sets the "endereco_id" field.
-func (uuo *UnidadeUpdateOne) SetEnderecoID(i int64) *UnidadeUpdateOne {
+func (uuo *UnidadeUpdateOne) SetEnderecoID(i int) *UnidadeUpdateOne {
 	uuo.mutation.ResetEnderecoID()
 	uuo.mutation.SetEnderecoID(i)
 	return uuo
 }
 
 // AddEnderecoID adds i to the "endereco_id" field.
-func (uuo *UnidadeUpdateOne) AddEnderecoID(i int64) *UnidadeUpdateOne {
+func (uuo *UnidadeUpdateOne) AddEnderecoID(i int) *UnidadeUpdateOne {
 	uuo.mutation.AddEnderecoID(i)
 	return uuo
 }
 
 // SetLatitude sets the "latitude" field.
-func (uuo *UnidadeUpdateOne) SetLatitude(i int) *UnidadeUpdateOne {
+func (uuo *UnidadeUpdateOne) SetLatitude(f float32) *UnidadeUpdateOne {
 	uuo.mutation.ResetLatitude()
-	uuo.mutation.SetLatitude(i)
+	uuo.mutation.SetLatitude(f)
 	return uuo
 }
 
-// AddLatitude adds i to the "latitude" field.
-func (uuo *UnidadeUpdateOne) AddLatitude(i int) *UnidadeUpdateOne {
-	uuo.mutation.AddLatitude(i)
+// AddLatitude adds f to the "latitude" field.
+func (uuo *UnidadeUpdateOne) AddLatitude(f float32) *UnidadeUpdateOne {
+	uuo.mutation.AddLatitude(f)
 	return uuo
 }
 
 // SetLongitude sets the "longitude" field.
-func (uuo *UnidadeUpdateOne) SetLongitude(i int) *UnidadeUpdateOne {
+func (uuo *UnidadeUpdateOne) SetLongitude(f float32) *UnidadeUpdateOne {
 	uuo.mutation.ResetLongitude()
-	uuo.mutation.SetLongitude(i)
+	uuo.mutation.SetLongitude(f)
 	return uuo
 }
 
-// AddLongitude adds i to the "longitude" field.
-func (uuo *UnidadeUpdateOne) AddLongitude(i int) *UnidadeUpdateOne {
-	uuo.mutation.AddLongitude(i)
+// AddLongitude adds f to the "longitude" field.
+func (uuo *UnidadeUpdateOne) AddLongitude(f float32) *UnidadeUpdateOne {
+	uuo.mutation.AddLongitude(f)
 	return uuo
 }
 
@@ -743,42 +743,42 @@ func (uuo *UnidadeUpdateOne) sqlSave(ctx context.Context) (_node *Unidade, err e
 	}
 	if value, ok := uuo.mutation.EnderecoID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: unidade.FieldEnderecoID,
 		})
 	}
 	if value, ok := uuo.mutation.AddedEnderecoID(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt64,
+			Type:   field.TypeInt,
 			Value:  value,
 			Column: unidade.FieldEnderecoID,
 		})
 	}
 	if value, ok := uuo.mutation.Latitude(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLatitude,
 		})
 	}
 	if value, ok := uuo.mutation.AddedLatitude(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLatitude,
 		})
 	}
 	if value, ok := uuo.mutation.Longitude(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLongitude,
 		})
 	}
 	if value, ok := uuo.mutation.AddedLongitude(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeFloat32,
 			Value:  value,
 			Column: unidade.FieldLongitude,
 		})

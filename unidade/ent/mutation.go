@@ -33,12 +33,12 @@ type UnidadeMutation struct {
 	id             *int
 	descricao      *string
 	url_amigavel   *string
-	endereco_id    *int64
-	addendereco_id *int64
-	latitude       *int
-	addlatitude    *int
-	longitude      *int
-	addlongitude   *int
+	endereco_id    *int
+	addendereco_id *int
+	latitude       *float32
+	addlatitude    *float32
+	longitude      *float32
+	addlongitude   *float32
 	telefone       *int64
 	addtelefone    *int64
 	celular        *int64
@@ -225,13 +225,13 @@ func (m *UnidadeMutation) ResetURLAmigavel() {
 }
 
 // SetEnderecoID sets the "endereco_id" field.
-func (m *UnidadeMutation) SetEnderecoID(i int64) {
+func (m *UnidadeMutation) SetEnderecoID(i int) {
 	m.endereco_id = &i
 	m.addendereco_id = nil
 }
 
 // EnderecoID returns the value of the "endereco_id" field in the mutation.
-func (m *UnidadeMutation) EnderecoID() (r int64, exists bool) {
+func (m *UnidadeMutation) EnderecoID() (r int, exists bool) {
 	v := m.endereco_id
 	if v == nil {
 		return
@@ -242,7 +242,7 @@ func (m *UnidadeMutation) EnderecoID() (r int64, exists bool) {
 // OldEnderecoID returns the old "endereco_id" field's value of the Unidade entity.
 // If the Unidade object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UnidadeMutation) OldEnderecoID(ctx context.Context) (v int64, err error) {
+func (m *UnidadeMutation) OldEnderecoID(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldEnderecoID is only allowed on UpdateOne operations")
 	}
@@ -257,7 +257,7 @@ func (m *UnidadeMutation) OldEnderecoID(ctx context.Context) (v int64, err error
 }
 
 // AddEnderecoID adds i to the "endereco_id" field.
-func (m *UnidadeMutation) AddEnderecoID(i int64) {
+func (m *UnidadeMutation) AddEnderecoID(i int) {
 	if m.addendereco_id != nil {
 		*m.addendereco_id += i
 	} else {
@@ -266,7 +266,7 @@ func (m *UnidadeMutation) AddEnderecoID(i int64) {
 }
 
 // AddedEnderecoID returns the value that was added to the "endereco_id" field in this mutation.
-func (m *UnidadeMutation) AddedEnderecoID() (r int64, exists bool) {
+func (m *UnidadeMutation) AddedEnderecoID() (r int, exists bool) {
 	v := m.addendereco_id
 	if v == nil {
 		return
@@ -281,13 +281,13 @@ func (m *UnidadeMutation) ResetEnderecoID() {
 }
 
 // SetLatitude sets the "latitude" field.
-func (m *UnidadeMutation) SetLatitude(i int) {
-	m.latitude = &i
+func (m *UnidadeMutation) SetLatitude(f float32) {
+	m.latitude = &f
 	m.addlatitude = nil
 }
 
 // Latitude returns the value of the "latitude" field in the mutation.
-func (m *UnidadeMutation) Latitude() (r int, exists bool) {
+func (m *UnidadeMutation) Latitude() (r float32, exists bool) {
 	v := m.latitude
 	if v == nil {
 		return
@@ -298,7 +298,7 @@ func (m *UnidadeMutation) Latitude() (r int, exists bool) {
 // OldLatitude returns the old "latitude" field's value of the Unidade entity.
 // If the Unidade object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UnidadeMutation) OldLatitude(ctx context.Context) (v int, err error) {
+func (m *UnidadeMutation) OldLatitude(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldLatitude is only allowed on UpdateOne operations")
 	}
@@ -312,17 +312,17 @@ func (m *UnidadeMutation) OldLatitude(ctx context.Context) (v int, err error) {
 	return oldValue.Latitude, nil
 }
 
-// AddLatitude adds i to the "latitude" field.
-func (m *UnidadeMutation) AddLatitude(i int) {
+// AddLatitude adds f to the "latitude" field.
+func (m *UnidadeMutation) AddLatitude(f float32) {
 	if m.addlatitude != nil {
-		*m.addlatitude += i
+		*m.addlatitude += f
 	} else {
-		m.addlatitude = &i
+		m.addlatitude = &f
 	}
 }
 
 // AddedLatitude returns the value that was added to the "latitude" field in this mutation.
-func (m *UnidadeMutation) AddedLatitude() (r int, exists bool) {
+func (m *UnidadeMutation) AddedLatitude() (r float32, exists bool) {
 	v := m.addlatitude
 	if v == nil {
 		return
@@ -337,13 +337,13 @@ func (m *UnidadeMutation) ResetLatitude() {
 }
 
 // SetLongitude sets the "longitude" field.
-func (m *UnidadeMutation) SetLongitude(i int) {
-	m.longitude = &i
+func (m *UnidadeMutation) SetLongitude(f float32) {
+	m.longitude = &f
 	m.addlongitude = nil
 }
 
 // Longitude returns the value of the "longitude" field in the mutation.
-func (m *UnidadeMutation) Longitude() (r int, exists bool) {
+func (m *UnidadeMutation) Longitude() (r float32, exists bool) {
 	v := m.longitude
 	if v == nil {
 		return
@@ -354,7 +354,7 @@ func (m *UnidadeMutation) Longitude() (r int, exists bool) {
 // OldLongitude returns the old "longitude" field's value of the Unidade entity.
 // If the Unidade object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UnidadeMutation) OldLongitude(ctx context.Context) (v int, err error) {
+func (m *UnidadeMutation) OldLongitude(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldLongitude is only allowed on UpdateOne operations")
 	}
@@ -368,17 +368,17 @@ func (m *UnidadeMutation) OldLongitude(ctx context.Context) (v int, err error) {
 	return oldValue.Longitude, nil
 }
 
-// AddLongitude adds i to the "longitude" field.
-func (m *UnidadeMutation) AddLongitude(i int) {
+// AddLongitude adds f to the "longitude" field.
+func (m *UnidadeMutation) AddLongitude(f float32) {
 	if m.addlongitude != nil {
-		*m.addlongitude += i
+		*m.addlongitude += f
 	} else {
-		m.addlongitude = &i
+		m.addlongitude = &f
 	}
 }
 
 // AddedLongitude returns the value that was added to the "longitude" field in this mutation.
-func (m *UnidadeMutation) AddedLongitude() (r int, exists bool) {
+func (m *UnidadeMutation) AddedLongitude() (r float32, exists bool) {
 	v := m.addlongitude
 	if v == nil {
 		return
@@ -896,21 +896,21 @@ func (m *UnidadeMutation) SetField(name string, value ent.Value) error {
 		m.SetURLAmigavel(v)
 		return nil
 	case unidade.FieldEnderecoID:
-		v, ok := value.(int64)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetEnderecoID(v)
 		return nil
 	case unidade.FieldLatitude:
-		v, ok := value.(int)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetLatitude(v)
 		return nil
 	case unidade.FieldLongitude:
-		v, ok := value.(int)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1016,21 +1016,21 @@ func (m *UnidadeMutation) AddedField(name string) (ent.Value, bool) {
 func (m *UnidadeMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case unidade.FieldEnderecoID:
-		v, ok := value.(int64)
+		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddEnderecoID(v)
 		return nil
 	case unidade.FieldLatitude:
-		v, ok := value.(int)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddLatitude(v)
 		return nil
 	case unidade.FieldLongitude:
-		v, ok := value.(int)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

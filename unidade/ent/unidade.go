@@ -20,11 +20,11 @@ type Unidade struct {
 	// URLAmigavel holds the value of the "url_amigavel" field.
 	URLAmigavel string `json:"url_amigavel,omitempty"`
 	// EnderecoID holds the value of the "endereco_id" field.
-	EnderecoID int64 `json:"endereco_id,omitempty"`
+	EnderecoID int `json:"endereco_id,omitempty"`
 	// Latitude holds the value of the "latitude" field.
-	Latitude int `json:"latitude,omitempty"`
+	Latitude float32 `json:"latitude,omitempty"`
 	// Longitude holds the value of the "longitude" field.
-	Longitude int `json:"longitude,omitempty"`
+	Longitude float32 `json:"longitude,omitempty"`
 	// Telefone holds the value of the "telefone" field.
 	Telefone int64 `json:"telefone,omitempty"`
 	// Celular holds the value of the "celular" field.
@@ -48,7 +48,9 @@ func (*Unidade) scanValues(columns []string) ([]interface{}, error) {
 		switch columns[i] {
 		case unidade.FieldAtivo:
 			values[i] = new(sql.NullBool)
-		case unidade.FieldID, unidade.FieldEnderecoID, unidade.FieldLatitude, unidade.FieldLongitude, unidade.FieldTelefone, unidade.FieldCelular:
+		case unidade.FieldLatitude, unidade.FieldLongitude:
+			values[i] = new(sql.NullFloat64)
+		case unidade.FieldID, unidade.FieldEnderecoID, unidade.FieldTelefone, unidade.FieldCelular:
 			values[i] = new(sql.NullInt64)
 		case unidade.FieldDescricao, unidade.FieldURLAmigavel, unidade.FieldEmail, unidade.FieldFacebook, unidade.FieldInstagram, unidade.FieldYoutube:
 			values[i] = new(sql.NullString)
@@ -89,19 +91,19 @@ func (u *Unidade) assignValues(columns []string, values []interface{}) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field endereco_id", values[i])
 			} else if value.Valid {
-				u.EnderecoID = value.Int64
+				u.EnderecoID = int(value.Int64)
 			}
 		case unidade.FieldLatitude:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field latitude", values[i])
 			} else if value.Valid {
-				u.Latitude = int(value.Int64)
+				u.Latitude = float32(value.Float64)
 			}
 		case unidade.FieldLongitude:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field longitude", values[i])
 			} else if value.Valid {
-				u.Longitude = int(value.Int64)
+				u.Longitude = float32(value.Float64)
 			}
 		case unidade.FieldTelefone:
 			if value, ok := values[i].(*sql.NullInt64); !ok {

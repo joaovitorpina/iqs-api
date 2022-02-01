@@ -106,21 +106,21 @@ func URLAmigavel(v string) predicate.Unidade {
 }
 
 // EnderecoID applies equality check predicate on the "endereco_id" field. It's identical to EnderecoIDEQ.
-func EnderecoID(v int64) predicate.Unidade {
+func EnderecoID(v int) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldEnderecoID), v))
 	})
 }
 
 // Latitude applies equality check predicate on the "latitude" field. It's identical to LatitudeEQ.
-func Latitude(v int) predicate.Unidade {
+func Latitude(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldLatitude), v))
 	})
 }
 
 // Longitude applies equality check predicate on the "longitude" field. It's identical to LongitudeEQ.
-func Longitude(v int) predicate.Unidade {
+func Longitude(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldLongitude), v))
 	})
@@ -398,21 +398,21 @@ func URLAmigavelContainsFold(v string) predicate.Unidade {
 }
 
 // EnderecoIDEQ applies the EQ predicate on the "endereco_id" field.
-func EnderecoIDEQ(v int64) predicate.Unidade {
+func EnderecoIDEQ(v int) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldEnderecoID), v))
 	})
 }
 
 // EnderecoIDNEQ applies the NEQ predicate on the "endereco_id" field.
-func EnderecoIDNEQ(v int64) predicate.Unidade {
+func EnderecoIDNEQ(v int) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldEnderecoID), v))
 	})
 }
 
 // EnderecoIDIn applies the In predicate on the "endereco_id" field.
-func EnderecoIDIn(vs ...int64) predicate.Unidade {
+func EnderecoIDIn(vs ...int) predicate.Unidade {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -429,7 +429,7 @@ func EnderecoIDIn(vs ...int64) predicate.Unidade {
 }
 
 // EnderecoIDNotIn applies the NotIn predicate on the "endereco_id" field.
-func EnderecoIDNotIn(vs ...int64) predicate.Unidade {
+func EnderecoIDNotIn(vs ...int) predicate.Unidade {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -446,49 +446,49 @@ func EnderecoIDNotIn(vs ...int64) predicate.Unidade {
 }
 
 // EnderecoIDGT applies the GT predicate on the "endereco_id" field.
-func EnderecoIDGT(v int64) predicate.Unidade {
+func EnderecoIDGT(v int) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldEnderecoID), v))
 	})
 }
 
 // EnderecoIDGTE applies the GTE predicate on the "endereco_id" field.
-func EnderecoIDGTE(v int64) predicate.Unidade {
+func EnderecoIDGTE(v int) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldEnderecoID), v))
 	})
 }
 
 // EnderecoIDLT applies the LT predicate on the "endereco_id" field.
-func EnderecoIDLT(v int64) predicate.Unidade {
+func EnderecoIDLT(v int) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldEnderecoID), v))
 	})
 }
 
 // EnderecoIDLTE applies the LTE predicate on the "endereco_id" field.
-func EnderecoIDLTE(v int64) predicate.Unidade {
+func EnderecoIDLTE(v int) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldEnderecoID), v))
 	})
 }
 
 // LatitudeEQ applies the EQ predicate on the "latitude" field.
-func LatitudeEQ(v int) predicate.Unidade {
+func LatitudeEQ(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldLatitude), v))
 	})
 }
 
 // LatitudeNEQ applies the NEQ predicate on the "latitude" field.
-func LatitudeNEQ(v int) predicate.Unidade {
+func LatitudeNEQ(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldLatitude), v))
 	})
 }
 
 // LatitudeIn applies the In predicate on the "latitude" field.
-func LatitudeIn(vs ...int) predicate.Unidade {
+func LatitudeIn(vs ...float32) predicate.Unidade {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -505,7 +505,7 @@ func LatitudeIn(vs ...int) predicate.Unidade {
 }
 
 // LatitudeNotIn applies the NotIn predicate on the "latitude" field.
-func LatitudeNotIn(vs ...int) predicate.Unidade {
+func LatitudeNotIn(vs ...float32) predicate.Unidade {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -522,49 +522,49 @@ func LatitudeNotIn(vs ...int) predicate.Unidade {
 }
 
 // LatitudeGT applies the GT predicate on the "latitude" field.
-func LatitudeGT(v int) predicate.Unidade {
+func LatitudeGT(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldLatitude), v))
 	})
 }
 
 // LatitudeGTE applies the GTE predicate on the "latitude" field.
-func LatitudeGTE(v int) predicate.Unidade {
+func LatitudeGTE(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldLatitude), v))
 	})
 }
 
 // LatitudeLT applies the LT predicate on the "latitude" field.
-func LatitudeLT(v int) predicate.Unidade {
+func LatitudeLT(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldLatitude), v))
 	})
 }
 
 // LatitudeLTE applies the LTE predicate on the "latitude" field.
-func LatitudeLTE(v int) predicate.Unidade {
+func LatitudeLTE(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldLatitude), v))
 	})
 }
 
 // LongitudeEQ applies the EQ predicate on the "longitude" field.
-func LongitudeEQ(v int) predicate.Unidade {
+func LongitudeEQ(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldLongitude), v))
 	})
 }
 
 // LongitudeNEQ applies the NEQ predicate on the "longitude" field.
-func LongitudeNEQ(v int) predicate.Unidade {
+func LongitudeNEQ(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldLongitude), v))
 	})
 }
 
 // LongitudeIn applies the In predicate on the "longitude" field.
-func LongitudeIn(vs ...int) predicate.Unidade {
+func LongitudeIn(vs ...float32) predicate.Unidade {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -581,7 +581,7 @@ func LongitudeIn(vs ...int) predicate.Unidade {
 }
 
 // LongitudeNotIn applies the NotIn predicate on the "longitude" field.
-func LongitudeNotIn(vs ...int) predicate.Unidade {
+func LongitudeNotIn(vs ...float32) predicate.Unidade {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -598,28 +598,28 @@ func LongitudeNotIn(vs ...int) predicate.Unidade {
 }
 
 // LongitudeGT applies the GT predicate on the "longitude" field.
-func LongitudeGT(v int) predicate.Unidade {
+func LongitudeGT(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldLongitude), v))
 	})
 }
 
 // LongitudeGTE applies the GTE predicate on the "longitude" field.
-func LongitudeGTE(v int) predicate.Unidade {
+func LongitudeGTE(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldLongitude), v))
 	})
 }
 
 // LongitudeLT applies the LT predicate on the "longitude" field.
-func LongitudeLT(v int) predicate.Unidade {
+func LongitudeLT(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldLongitude), v))
 	})
 }
 
 // LongitudeLTE applies the LTE predicate on the "longitude" field.
-func LongitudeLTE(v int) predicate.Unidade {
+func LongitudeLTE(v float32) predicate.Unidade {
 	return predicate.Unidade(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldLongitude), v))
 	})
