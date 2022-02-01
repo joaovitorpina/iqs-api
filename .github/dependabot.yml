@@ -5,17 +5,22 @@
 
 version: 2
 updates:
-  - package-ecosystem: "gomod" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "gomod"
+    directory: "/"
     schedule:
       interval: "daily"
 
-  - package-ecosystem: "gomod" # See documentation for possible values
-    directory: "/endereco" # Location of package manifests
+  - package-ecosystem: "gomod"
+    directory: "/endereco"
     schedule:
       interval: "daily"
 
-  - package-ecosystem: "gomod" # See documentation for possible values
-    directory: "/profissional" # Location of package manifests
+  - package-ecosystem: "gomod"
+    directory: "/profissional"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "gomod"
+    directory: "/unidade"
     schedule:
       interval: "daily"
