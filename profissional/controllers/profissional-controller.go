@@ -98,11 +98,13 @@ func (controller ProfissionaisController) ListarReduzido(httpContext *gin.Contex
 			Recomendado:     profissionalDb.Recomendado,
 			ImagemPerfilUrl: profissionalDb.ImagemPerfilURL,
 			UnidadeId:       profissionalDb.UnidadeID,
-			Facebook:        profissionalDb.Facebook,
 			WhatsApp:        profissionalDb.Edges.Whatsapps[0].Numero,
-			Instagram:       profissionalDb.Instagram,
 			Email:           profissionalDb.Email,
 			Site:            profissionalDb.Site,
+			Facebook:        profissionalDb.Facebook,
+			Instagram:       profissionalDb.Instagram,
+			Youtube:         profissionalDb.Youtube,
+			Linkedin:        profissionalDb.Linkedin,
 		}
 
 		responseBody.Data = append(responseBody.Data, profissionalResponse)
@@ -160,22 +162,17 @@ func (controller ProfissionaisController) BuscarPorId(httpContext *gin.Context) 
 
 // BuscarPorUrlAmigavel godoc
 // @Summary      Busca todas as informacões do profissional
-// @Description  Retorna todos os detalhes do profissional pelo id
+// @Description  Retorna todos os detalhes do profissional pelo Url Amigavel
 // @Tags         Profissional
 // @Produce      json
-// @Param        id   path      int                                   true  "Id do profissional"
+// @Param        url_amigavel   path      string                                   true  "Url Amigavel do profissional"
 // @Success      200  {object}  dtos.BuscarProfissionalPorIdResponse  "Profissional"
-// @Router       /admin/profissionais/{id} [get]
+// @Router       /profissionais/{url_amigavel} [get]
 func (controller ProfissionaisController) BuscarPorUrlAmigavel(httpContext *gin.Context) {
-	id, err := strconv.Atoi(httpContext.Param("id"))
-
-	if err != nil {
-		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+	urlAmigavel := httpContext.Param("url_amigavel")
 
 	profissional, err := controller.Client.Profissional.Query().
-		Where(profissionalQuery.ID(id)).
+		Where(profissionalQuery.URLAmigavel(urlAmigavel)).
 		WithEspecializacoes(func(especializacaoQuery *ent.EspecializacaoQuery) {
 			especializacaoQuery.WithAreasaude()
 		}).
@@ -186,21 +183,25 @@ func (controller ProfissionaisController) BuscarPorUrlAmigavel(httpContext *gin.
 		return
 	}
 
-	httpContext.JSON(http.StatusOK, dtos.BuscarProfissionalPorIdResponse{
-		Id:                  profissional.ID,
+	httpContext.JSON(http.StatusOK, dtos.BuscarProfissionalPorUrlAmigavel{
 		Nome:                profissional.Nome,
-		ImagemPerfilUrl:     profissional.ImagemPerfilURL,
-		EnderecoId:          profissional.EnderecoID,
-		Tipo:                profissional.Edges.Especializacoes[0].Edges.Areasaude.Descricao,
-		Especialidades:      especializacao_mapper.ToDomain(profissional.Edges.Especializacoes),
-		Telefone:            profissional.Telefone,
-		Celular:             profissional.Celular,
-		Facebook:            profissional.Facebook,
-		Instagram:           profissional.Instagram,
-		Email:               profissional.Email,
-		Site:                profissional.Site,
+		UrlAmigavel:         profissional.URLAmigavel,
+		Recomendado:         profissional.Recomendado,
 		Sobre:               profissional.Sobre,
 		Conselho:            profissional.Conselho,
 		NumeroIdentificacao: profissional.NumeroIdentificacao,
+		Telefone:            profissional.Telefone,
+		Celular:             profissional.Celular,
+		Email:               profissional.Email,
+		Site:                profissional.Site,
+		Facebook:            profissional.Facebook,
+		Instagram:           profissional.Instagram,
+		Youtube:             profissional.Youtube,
+		Linkedin:            profissional.Linkedin,
+		UnidadeId:           profissional.UnidadeID,
+		EnderecoId:          profissional.EnderecoID,
+		ImagemPerfilUrl:     profissional.ImagemPerfilURL,
+		Tipo:                profissional.Edges.Especializacoes[0].Edges.Areasaude.Descricao,
+		Especialidades:      especializacao_mapper.ToDomain(profissional.Edges.Especializacoes),
 	})
 }
