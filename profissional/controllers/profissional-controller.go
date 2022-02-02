@@ -18,15 +18,15 @@ type ProfissionaisController struct {
 	Client *ent.Client
 }
 
-// ListarProfissionaisReduzido godoc
+// ListarReduzido godoc
 // @Summary      Listagem de profissionais pela busca
 // @Description  Realiza a listagem com paginacão dos profissionais a partir dos dados enviados para busca
 // @Tags         Profissional
 // @Produce      json
 // @Param        parametros  query     dtos.BuscarListagemProfissionaisQuery     true  "Parametros"
-// @Success      200  {object}  dtos.BuscarListagemProfissionaisResponse  "Listagem profissionais"
+// @Success      200         {object}  dtos.BuscarListagemProfissionaisResponse  "Listagem profissionais"
 // @Router       /profissionais [get]
-func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContext *gin.Context) {
+func (controller ProfissionaisController) ListarReduzido(httpContext *gin.Context) {
 	var form dtos.BuscarListagemProfissionaisQuery
 	err := httpContext.BindQuery(&form)
 
@@ -40,7 +40,7 @@ func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContex
 			especializacaoQuery.WithAreasaude()
 		}).WithWhatsapps(func(whatsAppQuery *ent.WhatsAppQuery) {
 		whatsAppQuery.Where(whatsapp.Principal(true))
-	})
+	}).Order(ent.Desc(profissionalQuery.FieldRecomendado))
 
 	if form.Limite >= 0 {
 		form.Limite = 5
@@ -91,7 +91,6 @@ func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContex
 
 	for _, profissionalDb := range data {
 		profissionalResponse := dtos.ProfissionalReduzido{
-			Id:              profissionalDb.ID,
 			Nome:            profissionalDb.Nome,
 			UrlAmigavel:     profissionalDb.URLAmigavel,
 			Tipo:            profissionalDb.Edges.Especializacoes[0].Edges.Areasaude.Descricao,
@@ -112,15 +111,15 @@ func (controller ProfissionaisController) ListarProfissionaisReduzido(httpContex
 	httpContext.JSON(http.StatusOK, responseBody)
 }
 
-// BuscarProfissionalPorId godoc
+// BuscarPorId godoc
 // @Summary      Busca todas as informacões do profissional
 // @Description  Retorna todos os detalhes do profissional pelo id
 // @Tags         Profissional
 // @Produce      json
-// @Param        id   path      int                                       true  "Id do profissional"
-// @Success      200         {object}  dtos.BuscarProfissionalResponse  "Profissional"
-// @Router       /profissionais/{id} [get]
-func (controller ProfissionaisController) BuscarProfissionalPorId(httpContext *gin.Context) {
+// @Param        url_amigavel  path      string                                true  "Url Amigavel do profissional"
+// @Success      200           {object}  dtos.BuscarProfissionalPorIdResponse  "Profissional"
+// @Router       /profissionais/{url_amigavel} [get]
+func (controller ProfissionaisController) BuscarPorId(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 
 	if err != nil {
@@ -133,14 +132,61 @@ func (controller ProfissionaisController) BuscarProfissionalPorId(httpContext *g
 		WithEspecializacoes(func(especializacaoQuery *ent.EspecializacaoQuery) {
 			especializacaoQuery.WithAreasaude()
 		}).
-		First(context.Background())
+		Only(context.Background())
 
 	if err != nil {
 		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	httpContext.JSON(http.StatusOK, dtos.BuscarProfissionalResponse{
+	httpContext.JSON(http.StatusOK, dtos.BuscarProfissionalPorIdResponse{
+		Id:                  profissional.ID,
+		Nome:                profissional.Nome,
+		ImagemPerfilUrl:     profissional.ImagemPerfilURL,
+		EnderecoId:          profissional.EnderecoID,
+		Tipo:                profissional.Edges.Especializacoes[0].Edges.Areasaude.Descricao,
+		Especialidades:      especializacao_mapper.ToDomain(profissional.Edges.Especializacoes),
+		Telefone:            profissional.Telefone,
+		Celular:             profissional.Celular,
+		Facebook:            profissional.Facebook,
+		Instagram:           profissional.Instagram,
+		Email:               profissional.Email,
+		Site:                profissional.Site,
+		Sobre:               profissional.Sobre,
+		Conselho:            profissional.Conselho,
+		NumeroIdentificacao: profissional.NumeroIdentificacao,
+	})
+}
+
+// BuscarPorUrlAmigavel godoc
+// @Summary      Busca todas as informacões do profissional
+// @Description  Retorna todos os detalhes do profissional pelo id
+// @Tags         Profissional
+// @Produce      json
+// @Param        id   path      int                                   true  "Id do profissional"
+// @Success      200  {object}  dtos.BuscarProfissionalPorIdResponse  "Profissional"
+// @Router       /admin/profissionais/{id} [get]
+func (controller ProfissionaisController) BuscarPorUrlAmigavel(httpContext *gin.Context) {
+	id, err := strconv.Atoi(httpContext.Param("id"))
+
+	if err != nil {
+		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	profissional, err := controller.Client.Profissional.Query().
+		Where(profissionalQuery.ID(id)).
+		WithEspecializacoes(func(especializacaoQuery *ent.EspecializacaoQuery) {
+			especializacaoQuery.WithAreasaude()
+		}).
+		Only(context.Background())
+
+	if err != nil {
+		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	httpContext.JSON(http.StatusOK, dtos.BuscarProfissionalPorIdResponse{
 		Id:                  profissional.ID,
 		Nome:                profissional.Nome,
 		ImagemPerfilUrl:     profissional.ImagemPerfilURL,

@@ -16,22 +16,37 @@ type Profissional struct {
 func (Profissional) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("nome").NotEmpty(),
-		field.String("url_amigavel").NotEmpty(),
-		field.Bool("recomendado").Default(false),
-		field.Bool("ativo").Default(true),
-		field.Text("sobre").Optional(),
-		field.String("conselho").Optional(),
-		field.String("numero_identificacao").Optional(),
+		field.String("url_amigavel").
+			NotEmpty().
+			Unique(),
+		field.Bool("recomendado").
+			Default(false),
+		field.Bool("ativo").
+			Default(true),
+		field.Text("sobre").
+			Optional(),
+		field.String("conselho").
+			Optional(),
+		field.String("numero_identificacao").
+			Optional(),
 		field.Int64("telefone"),
 		field.Int64("celular"),
-		field.String("email").Optional(),
-		field.String("site").Optional(),
-		field.String("facebook").Optional(),
-		field.String("instagram").Optional(),
-		field.String("youtube").Optional(),
-		field.String("linkedin").Optional(),
-		field.Int("unidade_id").Min(1),
-		field.Int("endereco_id").Min(1),
+		field.String("email").
+			Optional(),
+		field.String("site").
+			Optional(),
+		field.String("facebook").
+			Optional(),
+		field.String("instagram").
+			Optional(),
+		field.String("youtube").
+			Optional(),
+		field.String("linkedin").
+			Optional(),
+		field.Int("unidade_id").
+			Min(1),
+		field.Int("endereco_id").
+			Min(1),
 		field.String("imagem_perfil_url"),
 	}
 }

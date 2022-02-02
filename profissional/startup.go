@@ -14,36 +14,60 @@ func Startup(server *gin.Engine) {
 func AddRoutes(server *gin.Engine) {
 	client := services.CreateDbClient()
 
-	routes := server.Group("/profissionais")
+	profissionaisController := controllers.ProfissionaisController{Client: client}
+	tratamentosController := controllers.TratamentosController{Client: client}
+	whatsappController := controllers.WhatsappController{Client: client}
+	convenioController := controllers.ConvenioController{Client: client}
+	midiasController := controllers.MidiasController{Client: client}
+
+	siteRoutes := server.Group("/profissionais")
 	{
-		profissionaisController := controllers.ProfissionaisController{Client: client}
-		routes.GET("/", profissionaisController.ListarProfissionaisReduzido)
-		routes.GET("/:id", profissionaisController.BuscarProfissionalPorId)
+		siteRoutes.GET("/", profissionaisController.ListarReduzido)
 
-		tratamentoRoutes := routes.Group("/:id/tratamentos")
+		profissionalRoutes := siteRoutes.Group("/:url_amigavel")
 		{
-			tratamentosController := controllers.TratamentosController{Client: client}
-			tratamentoRoutes.GET("/", tratamentosController.ListarTratamentosPorProfissional)
+			profissionalRoutes.GET("/convenios", convenioController.BuscarConveniosPorUrlAmigavelProfissional)
+			profissionalRoutes.GET("/whatsapps", whatsappController.BuscarWhatsappsPorUrlAmigavelProfissional)
+
+			midiasRoutes := profissionalRoutes.Group("/midias")
+			{
+				midiasRoutes.GET("/fotos", midiasController.BuscarFotosPorUrlAmigavelProfissional)
+				midiasRoutes.GET("/videos", midiasController.BuscarVideosPorUrlAmigavelProfissional)
+				midiasRoutes.GET("/podcasts", midiasController.BuscarPodcastsPorUrlAmigavelProfissional)
+			}
+
+			profissionalRoutes.GET("/tratamentos", tratamentosController.ListarTratamentosPorUrlAmigavelProfissional)
 		}
+	}
 
-		whatsappRoutes := routes.Group("/:id/whatsapps")
-		{
-			whatsappController := controllers.WhatsappController{Client: client}
-			whatsappRoutes.GET("/", whatsappController.BuscarWhatsappsPorProfissional)
-		}
+	adminRoutes := server.Group("/admin/profissionais")
+	{
 
-		convenioRoutes := routes.Group("/:id/convenios")
+		profissionalRoutes := adminRoutes.Group("/:id")
 		{
-			convenioController := controllers.ConvenioController{Client: client}
-			convenioRoutes.GET("/", convenioController.BuscarConveniosPorProfissional)
-		}
+			profissionalRoutes.GET("/", profissionaisController.BuscarPorId)
 
-		midiasRoutes := routes.Group("/:id/midias")
-		{
-			midiasController := controllers.MidiasController{Client: client}
-			midiasRoutes.GET("/fotos", midiasController.BuscarFotosPorProfissional)
-			midiasRoutes.GET("/videos", midiasController.BuscarVideosPorProfissional)
-			midiasRoutes.GET("/podcasts", midiasController.BuscarPodcastsPorProfissional)
+			tratamentoRoutes := profissionalRoutes.Group("/tratamentos")
+			{
+				tratamentoRoutes.GET("/", tratamentosController.ListarTratamentosPorIdProfissional)
+			}
+
+			whatsappRoutes := profissionalRoutes.Group("/whatsapps")
+			{
+				whatsappRoutes.GET("/", whatsappController.BuscarWhatsappsPorIdProfissional)
+			}
+
+			convenioRoutes := profissionalRoutes.Group("/convenios")
+			{
+				convenioRoutes.GET("/", convenioController.BuscarConveniosPorIdProfissional)
+			}
+
+			midiasRoutes := profissionalRoutes.Group("/midias")
+			{
+				midiasRoutes.GET("/fotos", midiasController.BuscarFotosPorIdProfissional)
+				midiasRoutes.GET("/videos", midiasController.BuscarVideosPorIdProfissional)
+				midiasRoutes.GET("/podcasts", midiasController.BuscarPodcastsPorIdProfissional)
+			}
 		}
 	}
 }

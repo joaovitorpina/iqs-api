@@ -14,7 +14,8 @@ type Convenio struct {
 // Fields of the Convenio.
 func (Convenio) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("nome").Unique(),
+		field.String("nome").
+			Unique(),
 	}
 }
 

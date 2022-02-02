@@ -1,11 +1,4 @@
 definitions:
-  dtos.BuscarConveniosResponse:
-    properties:
-      data:
-        items:
-          type: string
-        type: array
-    type: object
   dtos.BuscarEnderecoResponse:
     properties:
       bairro:
@@ -48,7 +41,7 @@ definitions:
       titulo:
         type: string
     type: object
-  dtos.BuscarProfissionalResponse:
+  dtos.BuscarProfissionalPorIdResponse:
     properties:
       celular:
         type: integer
@@ -138,11 +131,11 @@ definitions:
         type: array
       facebook:
         type: string
-      id:
-        type: integer
       imagem_perfil_url:
         type: string
       instagram:
+        type: string
+      linkedin:
         type: string
       nome:
         type: string
@@ -158,6 +151,8 @@ definitions:
         type: string
       whatsapp:
         type: integer
+      youtube:
+        type: string
     type: object
 info:
   contact:
@@ -170,6 +165,151 @@ info:
   title: IQS API
   version: "1.0"
 paths:
+  /admin/profissionais/{id}:
+    get:
+      description: Retorna todos os detalhes do profissional pelo id
+      parameters:
+        - description: Id do profissional
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Profissional
+          schema:
+            $ref: '#/definitions/dtos.BuscarProfissionalPorIdResponse'
+      summary: Busca todas as informacões do profissional
+      tags:
+        - Profissional
+  /admin/profissionais/{id}/convenios:
+    get:
+      description: Buscar os convenios do profisional por id
+      parameters:
+        - description: Id do profissional
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Convenios
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Busca os convenios do profissional
+      tags:
+        - Convenio
+  /admin/profissionais/{id}/midias/fotos:
+    get:
+      description: Buscar as fotos do profisional por id
+      parameters:
+        - description: Id do profissional
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Fotos
+          schema:
+            items:
+              $ref: '#/definitions/dtos.BuscarFotosResponse'
+            type: array
+      summary: Busca as fotos do profissional
+      tags:
+        - Midias
+  /admin/profissionais/{id}/midias/podcasts:
+    get:
+      description: Buscar os podcasts do profisional por id
+      parameters:
+        - description: Id do profissional
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Podcasts
+          schema:
+            items:
+              $ref: '#/definitions/dtos.BuscarPodcastsResponse'
+            type: array
+      summary: Busca os podcasts do profissional
+      tags:
+        - Midias
+  /admin/profissionais/{id}/midias/videos:
+    get:
+      description: Buscar os videos do profisional por id
+      parameters:
+        - description: Id do profissional
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Videos
+          schema:
+            items:
+              $ref: '#/definitions/dtos.BuscarVideosResponse'
+            type: array
+      summary: Busca os videos do profissional
+      tags:
+        - Midias
+  /admin/profissionais/{id}/tratamentos:
+    get:
+      description: Buscar os tratamentos do profisional por id
+      parameters:
+        - description: Id do profissional
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Tratamentos
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Busca os tratamentos do profissional
+      tags:
+        - Tratamentos
+  /admin/profissionais/{id}/whatsapps:
+    get:
+      description: Buscar os WhatsApp`s do profisional por id
+      parameters:
+        - description: Id do profissional
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: WhatsApp`s
+          schema:
+            items:
+              $ref: '#/definitions/dtos.BuscarWhatsappsResponse'
+            type: array
+      summary: Busca os WhatsApp`s do profissional
+      tags:
+        - WhatsApp
   /enderecos/{id}:
     get:
       description: Retorna o endereco pelo id enviado
@@ -222,53 +362,55 @@ paths:
       summary: Listagem de profissionais pela busca
       tags:
         - Profissional
-  /profissionais/{id}:
+  /profissionais/{url_amigavel}:
     get:
       description: Retorna todos os detalhes do profissional pelo id
       parameters:
-        - description: Id do profissional
+        - description: Url Amigavel do profissional
           in: path
-          name: id
+          name: url_amigavel
           required: true
-          type: integer
+          type: string
       produces:
         - application/json
       responses:
         "200":
           description: Profissional
           schema:
-            $ref: '#/definitions/dtos.BuscarProfissionalResponse'
+            $ref: '#/definitions/dtos.BuscarProfissionalPorIdResponse'
       summary: Busca todas as informacões do profissional
       tags:
         - Profissional
-  /profissionais/{id}/convenios:
+  /profissionais/{url_amigavel}/convenios:
     get:
-      description: Buscar os convenios do profisional por id
+      description: Buscar os convenios do profisional por Url Amigavel
       parameters:
-        - description: Id do profissional
+        - description: Url Amigavel do profissional
           in: path
-          name: id
+          name: url_amigavel
           required: true
-          type: integer
+          type: string
       produces:
         - application/json
       responses:
         "200":
           description: Convenios
           schema:
-            $ref: '#/definitions/dtos.BuscarConveniosResponse'
+            items:
+              type: string
+            type: array
       summary: Busca os convenios do profissional
       tags:
         - Convenio
-  /profissionais/{id}/midias/fotos:
+  /profissionais/{url_amigavel}/midias/fotos:
     get:
-      description: Buscar as fotos do profisional por id
+      description: Buscar as fotos do profisional por Url Amigavel
       parameters:
-        - description: Id do profissional
+        - description: Url Amigavel do profissional
           in: path
-          name: id
+          name: url_amigavel
           required: true
-          type: integer
+          type: string
       produces:
         - application/json
       responses:
@@ -281,15 +423,15 @@ paths:
       summary: Busca as fotos do profissional
       tags:
         - Midias
-  /profissionais/{id}/midias/podcasts:
+  /profissionais/{url_amigavel}/midias/podcasts:
     get:
-      description: Buscar os podcasts do profisional por id
+      description: Buscar os podcasts do profisional por Url Amigavel
       parameters:
-        - description: Id do profissional
+        - description: Url Amigavel do profissional
           in: path
-          name: id
+          name: url_amigavel
           required: true
-          type: integer
+          type: string
       produces:
         - application/json
       responses:
@@ -302,15 +444,15 @@ paths:
       summary: Busca os podcasts do profissional
       tags:
         - Midias
-  /profissionais/{id}/midias/videos:
+  /profissionais/{url_amigavel}/midias/videos:
     get:
-      description: Buscar os videos do profisional por id
+      description: Buscar os videos do profisional por Url Amigavel
       parameters:
-        - description: Id do profissional
+        - description: Url Amigavel do profissional
           in: path
-          name: id
+          name: url_amigavel
           required: true
-          type: integer
+          type: string
       produces:
         - application/json
       responses:
@@ -323,15 +465,15 @@ paths:
       summary: Busca os videos do profissional
       tags:
         - Midias
-  /profissionais/{id}/tratamentos:
+  /profissionais/{url_amigavel}/tratamentos:
     get:
-      description: Buscar os tratamentos do profisional por id
+      description: Buscar os tratamentos do profisional por Url Amigavel
       parameters:
-        - description: Id do profissional
+        - description: Url Amigavel do profissional
           in: path
-          name: id
+          name: url_amigavel
           required: true
-          type: integer
+          type: string
       produces:
         - application/json
       responses:
@@ -344,15 +486,15 @@ paths:
       summary: Busca os tratamentos do profissional
       tags:
         - Tratamentos
-  /profissionais/{id}/whatsapps:
+  /profissionais/{url_amigavel}/whatsapps:
     get:
-      description: Buscar os WhatsApp`s do profisional por id
+      description: Buscar os WhatsApp`s do profisional por Url Amigavel
       parameters:
-        - description: Id do profissional
+        - description: Url Amigavel do profissional
           in: path
-          name: id
+          name: url_amigavel
           required: true
-          type: integer
+          type: string
       produces:
         - application/json
       responses:

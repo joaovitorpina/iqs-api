@@ -107,7 +107,7 @@ var (
 		{Name: "create_time", Type: field.TypeTime},
 		{Name: "update_time", Type: field.TypeTime},
 		{Name: "nome", Type: field.TypeString},
-		{Name: "url_amigavel", Type: field.TypeString},
+		{Name: "url_amigavel", Type: field.TypeString, Unique: true},
 		{Name: "recomendado", Type: field.TypeBool, Default: false},
 		{Name: "ativo", Type: field.TypeBool, Default: true},
 		{Name: "sobre", Type: field.TypeString, Nullable: true, Size: 2147483647},

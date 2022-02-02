@@ -8,7 +8,6 @@ type BuscarListagemProfissionaisResponse struct {
 }
 
 type ProfissionalReduzido struct {
-	Id              int      `json:"id"`
 	Nome            string   `json:"nome"`
 	UrlAmigavel     string   `json:"url_amigavel"`
 	Tipo            string   `json:"tipo"`
@@ -16,11 +15,13 @@ type ProfissionalReduzido struct {
 	Recomendado     bool     `json:"recomendado"`
 	ImagemPerfilUrl string   `json:"imagem_perfil_url"`
 	UnidadeId       int      `json:"unidade_id"`
-	Facebook        string   `json:"facebook"`
 	WhatsApp        int64    `json:"whatsapp"`
-	Instagram       string   `json:"instagram"`
-	Email           string   `json:"email"`
-	Site            string   `json:"site"`
+	Email           string   `json:"email,omitempty"`
+	Site            string   `json:"site,omitempty"`
+	Facebook        string   `json:"facebook,omitempty"`
+	Instagram       string   `json:"instagram,omitempty"`
+	Youtube         string   `json:"youtube,omitempty"`
+	Linkedin        string   `json:"linkedin,omitempty"`
 }
 
 type BuscarListagemProfissionaisQuery struct {
