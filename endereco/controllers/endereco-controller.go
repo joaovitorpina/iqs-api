@@ -5,11 +5,14 @@ import (
 	"endereco/dtos"
 	"endereco/ent"
 	enderecoQuery "endereco/ent/endereco"
-	"endereco/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
+
+type EnderecosController struct {
+	Client *ent.Client
+}
 
 // BuscarEnderecoPorId godoc
 // @Summary      Busca um endereco por id
@@ -19,7 +22,7 @@ import (
 // @Param        id   path      int                          true  "Id do Endereco"
 // @Success      200  {object}  dtos.BuscarEnderecoResponse  "Endereco"
 // @Router       /enderecos/{id} [get]
-func BuscarEnderecoPorId(httpContext *gin.Context) {
+func (controller EnderecosController) BuscarEnderecoPorId(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 
 	if err != nil {
@@ -27,7 +30,7 @@ func BuscarEnderecoPorId(httpContext *gin.Context) {
 		return
 	}
 
-	endereco, err := services.DbClient.Endereco.Query().Where(enderecoQuery.ID(id)).WithCep(func(cepQuery *ent.CepQuery) {
+	endereco, err := controller.Client.Endereco.Query().Where(enderecoQuery.ID(id)).WithCep(func(cepQuery *ent.CepQuery) {
 		cepQuery.WithCidade(func(cidadeQuery *ent.CidadeQuery) {
 			cidadeQuery.WithEstado()
 		})
@@ -39,6 +42,7 @@ func BuscarEnderecoPorId(httpContext *gin.Context) {
 	}
 
 	httpContext.JSON(http.StatusOK, dtos.BuscarEnderecoResponse{
+		Id:         endereco.ID,
 		Logradouro: endereco.Edges.Cep.Logradouro,
 		Bairro:     endereco.Edges.Cep.Bairro,
 		Numero:     endereco.Numero,

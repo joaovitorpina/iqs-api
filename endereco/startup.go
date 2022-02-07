@@ -12,8 +12,11 @@ func Startup(server *gin.Engine) {
 }
 
 func AddRoutes(server *gin.Engine) {
+	dbClient := services.CreateDbClient()
+	enderecoController := controllers.EnderecosController{Client: dbClient}
+
 	routes := server.Group("/enderecos")
 	{
-		routes.GET("/:id", controllers.BuscarEnderecoPorId)
+		routes.GET("/:id", enderecoController.BuscarEnderecoPorId)
 	}
 }
