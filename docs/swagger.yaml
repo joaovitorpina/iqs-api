@@ -9,6 +9,8 @@ definitions:
         type: string
       estado:
         type: string
+      id:
+        type: integer
       logradouro:
         type: string
       numero:
@@ -33,6 +35,29 @@ definitions:
         type: integer
       total:
         type: integer
+    type: object
+  dtos.BuscarMateriaResponse:
+    properties:
+      fonte:
+        type: string
+      imagem_url:
+        type: string
+      link_fonte:
+        type: string
+      patrocinado:
+        type: boolean
+      profissionais:
+        items:
+          type: integer
+        type: array
+      texto:
+        type: string
+      titulo:
+        type: string
+      unidade_id:
+        type: integer
+      url_amigavel:
+        type: string
     type: object
   dtos.BuscarPodcastsResponse:
     properties:
@@ -121,6 +146,43 @@ definitions:
       principal:
         type: boolean
     type: object
+  dtos.ListarCategoriasResponse:
+    properties:
+      descricao:
+        type: string
+      id:
+        type: integer
+    type: object
+  dtos.ListarMateriasResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dtos.MateriaReduzida'
+        type: array
+      pagina:
+        type: integer
+      quantidade:
+        type: integer
+      total:
+        type: integer
+    type: object
+  dtos.MateriaReduzida:
+    properties:
+      imagem_url:
+        type: string
+      profissionais:
+        items:
+          type: integer
+        type: array
+      texto:
+        type: string
+      titulo:
+        type: string
+      unidade_id:
+        type: integer
+      url_amigavel:
+        type: string
+    type: object
   dtos.ProfissionalReduzido:
     properties:
       email:
@@ -165,25 +227,6 @@ info:
   title: IQS API
   version: "1.0"
 paths:
-  /admin/profissionais/{id}:
-    get:
-      description: Retorna todos os detalhes do profissional pelo id
-      parameters:
-        - description: Id do profissional
-          in: path
-          name: id
-          required: true
-          type: integer
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: Profissional
-          schema:
-            $ref: '#/definitions/dtos.BuscarProfissionalPorIdResponse'
-      summary: Busca todas as informacões do profissional
-      tags:
-        - Profissional
   /admin/profissionais/{id}/convenios:
     get:
       description: Buscar os convenios do profisional por id
@@ -310,6 +353,21 @@ paths:
       summary: Busca os WhatsApp`s do profissional
       tags:
         - WhatsApp
+  /categorias:
+    get:
+      description: Realiza a listagem de categorias
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Listagem Categorias
+          schema:
+            items:
+              $ref: '#/definitions/dtos.ListarCategoriasResponse'
+            type: array
+      summary: Listagem todas categorias de materias
+      tags:
+        - Materia
   /enderecos/{id}:
     get:
       description: Retorna o endereco pelo id enviado
@@ -329,6 +387,54 @@ paths:
       summary: Busca um endereco por id
       tags:
         - Endereco
+  /materias:
+    get:
+      description: Realiza a listagem com paginacão das materias a partir dos dados
+        enviados para busca
+      parameters:
+        - in: query
+          items:
+            type: integer
+          name: categorias
+          type: array
+        - in: query
+          name: limite
+          type: integer
+        - in: query
+          name: pagina
+          type: integer
+        - in: query
+          name: titulo
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Listagem Materias
+          schema:
+            $ref: '#/definitions/dtos.ListarMateriasResponse'
+      summary: Listagem de materias pela busca
+      tags:
+        - Materia
+  /materias/{url_amigavel}:
+    get:
+      description: Retorna todos os detalhes da materia pelo Url Amigavel
+      parameters:
+        - description: Url Amigavel da Materia
+          in: path
+          name: url_amigavel
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Materia
+          schema:
+            $ref: '#/definitions/dtos.BuscarMateriaResponse'
+      summary: Busca todas as informacões da materia
+      tags:
+        - Materia
   /profissionais:
     get:
       description: Realiza a listagem com paginacão dos profissionais a partir dos
@@ -362,9 +468,28 @@ paths:
       summary: Listagem de profissionais pela busca
       tags:
         - Profissional
-  /profissionais/{url_amigavel}:
+  /profissionais/{id}:
     get:
       description: Retorna todos os detalhes do profissional pelo id
+      parameters:
+        - description: Url Amigavel do profissional
+          in: path
+          name: url_amigavel
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Profissional
+          schema:
+            $ref: '#/definitions/dtos.BuscarProfissionalPorIdResponse'
+      summary: Busca todas as informacões do profissional
+      tags:
+        - Profissional
+  /profissionais/{url_amigavel}:
+    get:
+      description: Retorna todos os detalhes do profissional pelo Url Amigavel
       parameters:
         - description: Url Amigavel do profissional
           in: path

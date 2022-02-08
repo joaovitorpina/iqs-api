@@ -120,7 +120,7 @@ func (controller ProfissionaisController) ListarReduzido(httpContext *gin.Contex
 // @Produce      json
 // @Param        url_amigavel  path      string                                true  "Url Amigavel do profissional"
 // @Success      200           {object}  dtos.BuscarProfissionalPorIdResponse  "Profissional"
-// @Router       /profissionais/{url_amigavel} [get]
+// @Router       /profissionais/{id} [get]
 func (controller ProfissionaisController) BuscarPorId(httpContext *gin.Context) {
 	id, err := strconv.Atoi(httpContext.Param("id"))
 
@@ -165,8 +165,8 @@ func (controller ProfissionaisController) BuscarPorId(httpContext *gin.Context) 
 // @Description  Retorna todos os detalhes do profissional pelo Url Amigavel
 // @Tags         Profissional
 // @Produce      json
-// @Param        url_amigavel   path      string                                   true  "Url Amigavel do profissional"
-// @Success      200  {object}  dtos.BuscarProfissionalPorIdResponse  "Profissional"
+// @Param        url_amigavel  path      string                                true  "Url Amigavel do profissional"
+// @Success      200           {object}  dtos.BuscarProfissionalPorIdResponse  "Profissional"
 // @Router       /profissionais/{url_amigavel} [get]
 func (controller ProfissionaisController) BuscarPorUrlAmigavel(httpContext *gin.Context) {
 	urlAmigavel := httpContext.Param("url_amigavel")

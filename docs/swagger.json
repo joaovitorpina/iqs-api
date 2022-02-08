@@ -14,35 +14,6 @@
     "version": "1.0"
   },
   "paths": {
-    "/admin/profissionais/{id}": {
-      "get": {
-        "description": "Retorna todos os detalhes do profissional pelo id",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "Profissional"
-        ],
-        "summary": "Busca todas as informacões do profissional",
-        "parameters": [
-          {
-            "type": "integer",
-            "description": "Id do profissional",
-            "name": "id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Profissional",
-            "schema": {
-              "$ref": "#/definitions/dtos.BuscarProfissionalPorIdResponse"
-            }
-          }
-        }
-      }
-    },
     "/admin/profissionais/{id}/convenios": {
       "get": {
         "description": "Buscar os convenios do profisional por id",
@@ -235,6 +206,29 @@
         }
       }
     },
+    "/categorias": {
+      "get": {
+        "description": "Realiza a listagem de categorias",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Materia"
+        ],
+        "summary": "Listagem todas categorias de materias",
+        "responses": {
+          "200": {
+            "description": "Listagem Categorias",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dtos.ListarCategoriasResponse"
+              }
+            }
+          }
+        }
+      }
+    },
     "/enderecos/{id}": {
       "get": {
         "description": "Retorna o endereco pelo id enviado",
@@ -259,6 +253,80 @@
             "description": "Endereco",
             "schema": {
               "$ref": "#/definitions/dtos.BuscarEnderecoResponse"
+            }
+          }
+        }
+      }
+    },
+    "/materias": {
+      "get": {
+        "description": "Realiza a listagem com paginacão das materias a partir dos dados enviados para busca",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Materia"
+        ],
+        "summary": "Listagem de materias pela busca",
+        "parameters": [
+          {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "name": "categorias",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "limite",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "pagina",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "titulo",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listagem Materias",
+            "schema": {
+              "$ref": "#/definitions/dtos.ListarMateriasResponse"
+            }
+          }
+        }
+      }
+    },
+    "/materias/{url_amigavel}": {
+      "get": {
+        "description": "Retorna todos os detalhes da materia pelo Url Amigavel",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Materia"
+        ],
+        "summary": "Busca todas as informacões da materia",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Url Amigavel da Materia",
+            "name": "url_amigavel",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Materia",
+            "schema": {
+              "$ref": "#/definitions/dtos.BuscarMateriaResponse"
             }
           }
         }
@@ -316,9 +384,38 @@
         }
       }
     },
-    "/profissionais/{url_amigavel}": {
+    "/profissionais/{id}": {
       "get": {
         "description": "Retorna todos os detalhes do profissional pelo id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Profissional"
+        ],
+        "summary": "Busca todas as informacões do profissional",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Url Amigavel do profissional",
+            "name": "url_amigavel",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profissional",
+            "schema": {
+              "$ref": "#/definitions/dtos.BuscarProfissionalPorIdResponse"
+            }
+          }
+        }
+      }
+    },
+    "/profissionais/{url_amigavel}": {
+      "get": {
+        "description": "Retorna todos os detalhes do profissional pelo Url Amigavel",
         "produces": [
           "application/json"
         ],
@@ -577,6 +674,9 @@
         "estado": {
           "type": "string"
         },
+        "id": {
+          "type": "integer"
+        },
         "logradouro": {
           "type": "string"
         },
@@ -613,6 +713,41 @@
         },
         "total": {
           "type": "integer"
+        }
+      }
+    },
+    "dtos.BuscarMateriaResponse": {
+      "type": "object",
+      "properties": {
+        "fonte": {
+          "type": "string"
+        },
+        "imagem_url": {
+          "type": "string"
+        },
+        "link_fonte": {
+          "type": "string"
+        },
+        "patrocinado": {
+          "type": "boolean"
+        },
+        "profissionais": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "texto": {
+          "type": "string"
+        },
+        "titulo": {
+          "type": "string"
+        },
+        "unidade_id": {
+          "type": "integer"
+        },
+        "url_amigavel": {
+          "type": "string"
         }
       }
     },
@@ -746,6 +881,63 @@
         },
         "principal": {
           "type": "boolean"
+        }
+      }
+    },
+    "dtos.ListarCategoriasResponse": {
+      "type": "object",
+      "properties": {
+        "descricao": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        }
+      }
+    },
+    "dtos.ListarMateriasResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dtos.MateriaReduzida"
+          }
+        },
+        "pagina": {
+          "type": "integer"
+        },
+        "quantidade": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
+    "dtos.MateriaReduzida": {
+      "type": "object",
+      "properties": {
+        "imagem_url": {
+          "type": "string"
+        },
+        "profissionais": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "texto": {
+          "type": "string"
+        },
+        "titulo": {
+          "type": "string"
+        },
+        "unidade_id": {
+          "type": "integer"
+        },
+        "url_amigavel": {
+          "type": "string"
         }
       }
     },

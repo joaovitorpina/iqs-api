@@ -8,13 +8,14 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	_ "iqs-api/docs"
 	"log"
+	"materia"
 	"profissional"
 	"unidade"
 )
 
-// @title           IQS API
-// @version         1.0
-// @description     Essa é a API para o site do Informacão que Salva e o admin.
+// @title        IQS API
+// @version      1.0
+// @description  Essa é a API para o site do Informacão que Salva e o admin.
 
 // @contact.name   João Vitor Goncalves Pina
 // @contact.email  joaovitorpina@icloud.com
@@ -32,6 +33,7 @@ func main() {
 	profissional.Startup(server)
 	endereco.Startup(server)
 	unidade.Startup(server)
+	materia.Startup(server)
 
 	err := server.Run()
 
