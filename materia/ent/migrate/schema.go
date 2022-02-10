@@ -25,7 +25,7 @@ var (
 		{Name: "unidade_id", Type: field.TypeInt},
 		{Name: "titulo", Type: field.TypeString},
 		{Name: "url_amigavel", Type: field.TypeString, Unique: true},
-		{Name: "data_agendamento", Type: field.TypeTime},
+		{Name: "data_agendamento", Type: field.TypeTime, Nullable: true},
 		{Name: "fonte", Type: field.TypeString, Nullable: true},
 		{Name: "link_fonte", Type: field.TypeString, Nullable: true},
 		{Name: "texto", Type: field.TypeString, Size: 2147483647},
@@ -51,6 +51,7 @@ var (
 	// ProfissionalMateriasColumns holds the columns for the "profissional_materias" table.
 	ProfissionalMateriasColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "profissional_id", Type: field.TypeInt},
 		{Name: "materia_profissional_materias", Type: field.TypeInt, Nullable: true},
 	}
 	// ProfissionalMateriasTable holds the schema information for the "profissional_materias" table.
@@ -61,7 +62,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "profissional_materias_materia_profissional_materias",
-				Columns:    []*schema.Column{ProfissionalMateriasColumns[1]},
+				Columns:    []*schema.Column{ProfissionalMateriasColumns[2]},
 				RefColumns: []*schema.Column{MateriaColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

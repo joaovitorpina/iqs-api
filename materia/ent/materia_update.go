@@ -61,6 +61,20 @@ func (mu *MateriaUpdate) SetDataAgendamento(t time.Time) *MateriaUpdate {
 	return mu
 }
 
+// SetNillableDataAgendamento sets the "data_agendamento" field if the given value is not nil.
+func (mu *MateriaUpdate) SetNillableDataAgendamento(t *time.Time) *MateriaUpdate {
+	if t != nil {
+		mu.SetDataAgendamento(*t)
+	}
+	return mu
+}
+
+// ClearDataAgendamento clears the value of the "data_agendamento" field.
+func (mu *MateriaUpdate) ClearDataAgendamento() *MateriaUpdate {
+	mu.mutation.ClearDataAgendamento()
+	return mu
+}
+
 // SetFonte sets the "fonte" field.
 func (mu *MateriaUpdate) SetFonte(s string) *MateriaUpdate {
 	mu.mutation.SetFonte(s)
@@ -334,6 +348,12 @@ func (mu *MateriaUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: materia.FieldDataAgendamento,
 		})
 	}
+	if mu.mutation.DataAgendamentoCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Column: materia.FieldDataAgendamento,
+		})
+	}
 	if value, ok := mu.mutation.Fonte(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -530,6 +550,20 @@ func (muo *MateriaUpdateOne) SetURLAmigavel(s string) *MateriaUpdateOne {
 // SetDataAgendamento sets the "data_agendamento" field.
 func (muo *MateriaUpdateOne) SetDataAgendamento(t time.Time) *MateriaUpdateOne {
 	muo.mutation.SetDataAgendamento(t)
+	return muo
+}
+
+// SetNillableDataAgendamento sets the "data_agendamento" field if the given value is not nil.
+func (muo *MateriaUpdateOne) SetNillableDataAgendamento(t *time.Time) *MateriaUpdateOne {
+	if t != nil {
+		muo.SetDataAgendamento(*t)
+	}
+	return muo
+}
+
+// ClearDataAgendamento clears the value of the "data_agendamento" field.
+func (muo *MateriaUpdateOne) ClearDataAgendamento() *MateriaUpdateOne {
+	muo.mutation.ClearDataAgendamento()
 	return muo
 }
 
@@ -827,6 +861,12 @@ func (muo *MateriaUpdateOne) sqlSave(ctx context.Context) (_node *Materia, err e
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
+			Column: materia.FieldDataAgendamento,
+		})
+	}
+	if muo.mutation.DataAgendamentoCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
 			Column: materia.FieldDataAgendamento,
 		})
 	}

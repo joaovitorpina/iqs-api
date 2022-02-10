@@ -24,8 +24,8 @@ func init() {
 	materia.DefaultStatus = materiaDescStatus.Default.(bool)
 	profissionalmateriasFields := schema.ProfissionalMaterias{}.Fields()
 	_ = profissionalmateriasFields
-	// profissionalmateriasDescID is the schema descriptor for id field.
-	profissionalmateriasDescID := profissionalmateriasFields[0].Descriptor()
-	// profissionalmaterias.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	profissionalmaterias.IDValidator = profissionalmateriasDescID.Validators[0].(func(int) error)
+	// profissionalmateriasDescProfissionalID is the schema descriptor for profissional_id field.
+	profissionalmateriasDescProfissionalID := profissionalmateriasFields[0].Descriptor()
+	// profissionalmaterias.ProfissionalIDValidator is a validator for the "profissional_id" field. It is called by the builders before save.
+	profissionalmaterias.ProfissionalIDValidator = profissionalmateriasDescProfissionalID.Validators[0].(func(int) error)
 }
