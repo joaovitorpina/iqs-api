@@ -27,6 +27,8 @@ func AddRoutes(server *gin.Engine) {
 
 		profissionalRoutes := siteRoutes.Group("/:url_amigavel")
 		{
+			profissionalRoutes.GET("/", profissionaisController.BuscarPorUrlAmigavel)
+
 			profissionalRoutes.GET("/convenios", convenioController.BuscarConveniosPorUrlAmigavelProfissional)
 			profissionalRoutes.GET("/whatsapps", whatsappController.BuscarWhatsappsPorUrlAmigavelProfissional)
 
@@ -72,5 +74,5 @@ func AddRoutes(server *gin.Engine) {
 		}
 	}
 
-	server.GET("/tipos-profissionais", areaSaudeController.Listar)
+	server.GET("/tipos-profissional", areaSaudeController.Listar)
 }

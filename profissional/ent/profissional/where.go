@@ -1086,6 +1086,20 @@ func TelefoneLTE(v int64) predicate.Profissional {
 	})
 }
 
+// TelefoneIsNil applies the IsNil predicate on the "telefone" field.
+func TelefoneIsNil() predicate.Profissional {
+	return predicate.Profissional(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldTelefone)))
+	})
+}
+
+// TelefoneNotNil applies the NotNil predicate on the "telefone" field.
+func TelefoneNotNil() predicate.Profissional {
+	return predicate.Profissional(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldTelefone)))
+	})
+}
+
 // CelularEQ applies the EQ predicate on the "celular" field.
 func CelularEQ(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
@@ -1159,6 +1173,20 @@ func CelularLT(v int64) predicate.Profissional {
 func CelularLTE(v int64) predicate.Profissional {
 	return predicate.Profissional(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldCelular), v))
+	})
+}
+
+// CelularIsNil applies the IsNil predicate on the "celular" field.
+func CelularIsNil() predicate.Profissional {
+	return predicate.Profissional(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldCelular)))
+	})
+}
+
+// CelularNotNil applies the NotNil predicate on the "celular" field.
+func CelularNotNil() predicate.Profissional {
+	return predicate.Profissional(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldCelular)))
 	})
 }
 

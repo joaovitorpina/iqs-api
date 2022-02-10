@@ -2725,10 +2725,24 @@ func (m *ProfissionalMutation) AddedTelefone() (r int64, exists bool) {
 	return *v, true
 }
 
+// ClearTelefone clears the value of the "telefone" field.
+func (m *ProfissionalMutation) ClearTelefone() {
+	m.telefone = nil
+	m.addtelefone = nil
+	m.clearedFields[profissional.FieldTelefone] = struct{}{}
+}
+
+// TelefoneCleared returns if the "telefone" field was cleared in this mutation.
+func (m *ProfissionalMutation) TelefoneCleared() bool {
+	_, ok := m.clearedFields[profissional.FieldTelefone]
+	return ok
+}
+
 // ResetTelefone resets all changes to the "telefone" field.
 func (m *ProfissionalMutation) ResetTelefone() {
 	m.telefone = nil
 	m.addtelefone = nil
+	delete(m.clearedFields, profissional.FieldTelefone)
 }
 
 // SetCelular sets the "celular" field.
@@ -2781,10 +2795,24 @@ func (m *ProfissionalMutation) AddedCelular() (r int64, exists bool) {
 	return *v, true
 }
 
+// ClearCelular clears the value of the "celular" field.
+func (m *ProfissionalMutation) ClearCelular() {
+	m.celular = nil
+	m.addcelular = nil
+	m.clearedFields[profissional.FieldCelular] = struct{}{}
+}
+
+// CelularCleared returns if the "celular" field was cleared in this mutation.
+func (m *ProfissionalMutation) CelularCleared() bool {
+	_, ok := m.clearedFields[profissional.FieldCelular]
+	return ok
+}
+
 // ResetCelular resets all changes to the "celular" field.
 func (m *ProfissionalMutation) ResetCelular() {
 	m.celular = nil
 	m.addcelular = nil
+	delete(m.clearedFields, profissional.FieldCelular)
 }
 
 // SetEmail sets the "email" field.
@@ -4023,6 +4051,12 @@ func (m *ProfissionalMutation) ClearedFields() []string {
 	if m.FieldCleared(profissional.FieldNumeroIdentificacao) {
 		fields = append(fields, profissional.FieldNumeroIdentificacao)
 	}
+	if m.FieldCleared(profissional.FieldTelefone) {
+		fields = append(fields, profissional.FieldTelefone)
+	}
+	if m.FieldCleared(profissional.FieldCelular) {
+		fields = append(fields, profissional.FieldCelular)
+	}
 	if m.FieldCleared(profissional.FieldEmail) {
 		fields = append(fields, profissional.FieldEmail)
 	}
@@ -4063,6 +4097,12 @@ func (m *ProfissionalMutation) ClearField(name string) error {
 		return nil
 	case profissional.FieldNumeroIdentificacao:
 		m.ClearNumeroIdentificacao()
+		return nil
+	case profissional.FieldTelefone:
+		m.ClearTelefone()
+		return nil
+	case profissional.FieldCelular:
+		m.ClearCelular()
 		return nil
 	case profissional.FieldEmail:
 		m.ClearEmail()

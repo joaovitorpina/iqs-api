@@ -98,7 +98,6 @@ func (controller ProfissionaisController) ListarReduzido(httpContext *gin.Contex
 			Recomendado:     profissionalDb.Recomendado,
 			ImagemPerfilUrl: profissionalDb.ImagemPerfilURL,
 			UnidadeId:       profissionalDb.UnidadeID,
-			WhatsApp:        profissionalDb.Edges.Whatsapps[0].Numero,
 			Email:           profissionalDb.Email,
 			Site:            profissionalDb.Site,
 			Facebook:        profissionalDb.Facebook,
@@ -107,6 +106,11 @@ func (controller ProfissionaisController) ListarReduzido(httpContext *gin.Contex
 			Linkedin:        profissionalDb.Linkedin,
 		}
 
+		for _, whatsApp := range profissionalDb.Edges.Whatsapps {
+			if whatsApp.Principal {
+				profissionalResponse.WhatsApp = whatsApp.Numero
+			}
+		}
 		responseBody.Data = append(responseBody.Data, profissionalResponse)
 	}
 

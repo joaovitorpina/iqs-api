@@ -148,9 +148,23 @@ func (pu *ProfissionalUpdate) SetTelefone(i int64) *ProfissionalUpdate {
 	return pu
 }
 
+// SetNillableTelefone sets the "telefone" field if the given value is not nil.
+func (pu *ProfissionalUpdate) SetNillableTelefone(i *int64) *ProfissionalUpdate {
+	if i != nil {
+		pu.SetTelefone(*i)
+	}
+	return pu
+}
+
 // AddTelefone adds i to the "telefone" field.
 func (pu *ProfissionalUpdate) AddTelefone(i int64) *ProfissionalUpdate {
 	pu.mutation.AddTelefone(i)
+	return pu
+}
+
+// ClearTelefone clears the value of the "telefone" field.
+func (pu *ProfissionalUpdate) ClearTelefone() *ProfissionalUpdate {
+	pu.mutation.ClearTelefone()
 	return pu
 }
 
@@ -161,9 +175,23 @@ func (pu *ProfissionalUpdate) SetCelular(i int64) *ProfissionalUpdate {
 	return pu
 }
 
+// SetNillableCelular sets the "celular" field if the given value is not nil.
+func (pu *ProfissionalUpdate) SetNillableCelular(i *int64) *ProfissionalUpdate {
+	if i != nil {
+		pu.SetCelular(*i)
+	}
+	return pu
+}
+
 // AddCelular adds i to the "celular" field.
 func (pu *ProfissionalUpdate) AddCelular(i int64) *ProfissionalUpdate {
 	pu.mutation.AddCelular(i)
+	return pu
+}
+
+// ClearCelular clears the value of the "celular" field.
+func (pu *ProfissionalUpdate) ClearCelular() *ProfissionalUpdate {
+	pu.mutation.ClearCelular()
 	return pu
 }
 
@@ -776,6 +804,12 @@ func (pu *ProfissionalUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: profissional.FieldTelefone,
 		})
 	}
+	if pu.mutation.TelefoneCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt64,
+			Column: profissional.FieldTelefone,
+		})
+	}
 	if value, ok := pu.mutation.Celular(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt64,
@@ -787,6 +821,12 @@ func (pu *ProfissionalUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt64,
 			Value:  value,
+			Column: profissional.FieldCelular,
+		})
+	}
+	if pu.mutation.CelularCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt64,
 			Column: profissional.FieldCelular,
 		})
 	}
@@ -1413,9 +1453,23 @@ func (puo *ProfissionalUpdateOne) SetTelefone(i int64) *ProfissionalUpdateOne {
 	return puo
 }
 
+// SetNillableTelefone sets the "telefone" field if the given value is not nil.
+func (puo *ProfissionalUpdateOne) SetNillableTelefone(i *int64) *ProfissionalUpdateOne {
+	if i != nil {
+		puo.SetTelefone(*i)
+	}
+	return puo
+}
+
 // AddTelefone adds i to the "telefone" field.
 func (puo *ProfissionalUpdateOne) AddTelefone(i int64) *ProfissionalUpdateOne {
 	puo.mutation.AddTelefone(i)
+	return puo
+}
+
+// ClearTelefone clears the value of the "telefone" field.
+func (puo *ProfissionalUpdateOne) ClearTelefone() *ProfissionalUpdateOne {
+	puo.mutation.ClearTelefone()
 	return puo
 }
 
@@ -1426,9 +1480,23 @@ func (puo *ProfissionalUpdateOne) SetCelular(i int64) *ProfissionalUpdateOne {
 	return puo
 }
 
+// SetNillableCelular sets the "celular" field if the given value is not nil.
+func (puo *ProfissionalUpdateOne) SetNillableCelular(i *int64) *ProfissionalUpdateOne {
+	if i != nil {
+		puo.SetCelular(*i)
+	}
+	return puo
+}
+
 // AddCelular adds i to the "celular" field.
 func (puo *ProfissionalUpdateOne) AddCelular(i int64) *ProfissionalUpdateOne {
 	puo.mutation.AddCelular(i)
+	return puo
+}
+
+// ClearCelular clears the value of the "celular" field.
+func (puo *ProfissionalUpdateOne) ClearCelular() *ProfissionalUpdateOne {
+	puo.mutation.ClearCelular()
 	return puo
 }
 
@@ -2065,6 +2133,12 @@ func (puo *ProfissionalUpdateOne) sqlSave(ctx context.Context) (_node *Profissio
 			Column: profissional.FieldTelefone,
 		})
 	}
+	if puo.mutation.TelefoneCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt64,
+			Column: profissional.FieldTelefone,
+		})
+	}
 	if value, ok := puo.mutation.Celular(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt64,
@@ -2076,6 +2150,12 @@ func (puo *ProfissionalUpdateOne) sqlSave(ctx context.Context) (_node *Profissio
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt64,
 			Value:  value,
+			Column: profissional.FieldCelular,
+		})
+	}
+	if puo.mutation.CelularCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt64,
 			Column: profissional.FieldCelular,
 		})
 	}
