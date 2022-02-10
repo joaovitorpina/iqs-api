@@ -24,3 +24,8 @@ updates:
     directory: "/unidade"
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "gomod"
+    directory: "/materia"
+    schedule:
+      interval: "daily"
