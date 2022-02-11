@@ -2,14 +2,15 @@ package main
 
 import (
 	"endereco"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	cors "github.com/rs/cors/wrapper/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	_ "iqs-api/docs"
 	"log"
 	"materia"
+	"net/http"
 	"profissional"
 	"unidade"
 )
@@ -24,13 +25,13 @@ import (
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
-	server := gin.New()
-
-	server.Use(gin.Logger())
-	server.Use(gin.Recovery())
-	server.Use(cors.Default())
+	server := gin.Default()
+	server.Use(cors.AllowAll())
 
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	server.OPTIONS("/*any", func(context *gin.Context) {
+		context.String(http.StatusOK, "")
+	})
 
 	profissional.Startup(server)
 	endereco.Startup(server)
