@@ -2,6 +2,7 @@ package main
 
 import (
 	"endereco"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -27,6 +28,7 @@ func main() {
 
 	server.Use(gin.Logger())
 	server.Use(gin.Recovery())
+	server.Use(cors.Default())
 
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
