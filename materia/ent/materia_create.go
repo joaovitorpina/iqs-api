@@ -46,6 +46,14 @@ func (mc *MateriaCreate) SetDataAgendamento(t time.Time) *MateriaCreate {
 	return mc
 }
 
+// SetNillableDataAgendamento sets the "data_agendamento" field if the given value is not nil.
+func (mc *MateriaCreate) SetNillableDataAgendamento(t *time.Time) *MateriaCreate {
+	if t != nil {
+		mc.SetDataAgendamento(*t)
+	}
+	return mc
+}
+
 // SetFonte sets the "fonte" field.
 func (mc *MateriaCreate) SetFonte(s string) *MateriaCreate {
 	mc.mutation.SetFonte(s)
@@ -239,9 +247,6 @@ func (mc *MateriaCreate) check() error {
 	}
 	if _, ok := mc.mutation.URLAmigavel(); !ok {
 		return &ValidationError{Name: "url_amigavel", err: errors.New(`ent: missing required field "Materia.url_amigavel"`)}
-	}
-	if _, ok := mc.mutation.DataAgendamento(); !ok {
-		return &ValidationError{Name: "data_agendamento", err: errors.New(`ent: missing required field "Materia.data_agendamento"`)}
 	}
 	if _, ok := mc.mutation.Texto(); !ok {
 		return &ValidationError{Name: "texto", err: errors.New(`ent: missing required field "Materia.texto"`)}

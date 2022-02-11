@@ -18,7 +18,8 @@ func (Materia) Fields() []ent.Field {
 		field.String("titulo"),
 		field.String("url_amigavel").
 			Unique(),
-		field.Time("data_agendamento"),
+		field.Time("data_agendamento").
+			Optional(),
 		field.String("fonte").
 			Optional(),
 		field.String("link_fonte").

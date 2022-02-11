@@ -287,6 +287,19 @@ func (pmq *ProfissionalMateriasQuery) WithMateria(opts ...func(*MateriaQuery)) *
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		ProfissionalID int `json:"profissional_id,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.ProfissionalMaterias.Query().
+//		GroupBy(profissionalmaterias.FieldProfissionalID).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (pmq *ProfissionalMateriasQuery) GroupBy(field string, fields ...string) *ProfissionalMateriasGroupBy {
 	group := &ProfissionalMateriasGroupBy{config: pmq.config}
 	group.fields = append([]string{field}, fields...)
@@ -301,6 +314,17 @@ func (pmq *ProfissionalMateriasQuery) GroupBy(field string, fields ...string) *P
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		ProfissionalID int `json:"profissional_id,omitempty"`
+//	}
+//
+//	client.ProfissionalMaterias.Query().
+//		Select(profissionalmaterias.FieldProfissionalID).
+//		Scan(ctx, &v)
+//
 func (pmq *ProfissionalMateriasQuery) Select(fields ...string) *ProfissionalMateriasSelect {
 	pmq.fields = append(pmq.fields, fields...)
 	return &ProfissionalMateriasSelect{ProfissionalMateriasQuery: pmq}

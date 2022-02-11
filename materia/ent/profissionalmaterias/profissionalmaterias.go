@@ -7,6 +7,8 @@ const (
 	Label = "profissional_materias"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldProfissionalID holds the string denoting the profissional_id field in the database.
+	FieldProfissionalID = "profissional_id"
 	// EdgeMateria holds the string denoting the materia edge name in mutations.
 	EdgeMateria = "materia"
 	// Table holds the table name of the profissionalmaterias in the database.
@@ -23,6 +25,7 @@ const (
 // Columns holds all SQL columns for profissionalmaterias fields.
 var Columns = []string{
 	FieldID,
+	FieldProfissionalID,
 }
 
 // ForeignKeys holds the SQL foreign-keys that are owned by the "profissional_materias"
@@ -47,6 +50,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// IDValidator is a validator for the "id" field. It is called by the builders before save.
-	IDValidator func(int) error
+	// ProfissionalIDValidator is a validator for the "profissional_id" field. It is called by the builders before save.
+	ProfissionalIDValidator func(int) error
 )

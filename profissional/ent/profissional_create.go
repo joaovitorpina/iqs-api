@@ -143,9 +143,25 @@ func (pc *ProfissionalCreate) SetTelefone(i int64) *ProfissionalCreate {
 	return pc
 }
 
+// SetNillableTelefone sets the "telefone" field if the given value is not nil.
+func (pc *ProfissionalCreate) SetNillableTelefone(i *int64) *ProfissionalCreate {
+	if i != nil {
+		pc.SetTelefone(*i)
+	}
+	return pc
+}
+
 // SetCelular sets the "celular" field.
 func (pc *ProfissionalCreate) SetCelular(i int64) *ProfissionalCreate {
 	pc.mutation.SetCelular(i)
+	return pc
+}
+
+// SetNillableCelular sets the "celular" field if the given value is not nil.
+func (pc *ProfissionalCreate) SetNillableCelular(i *int64) *ProfissionalCreate {
+	if i != nil {
+		pc.SetCelular(*i)
+	}
 	return pc
 }
 
@@ -474,12 +490,6 @@ func (pc *ProfissionalCreate) check() error {
 	}
 	if _, ok := pc.mutation.Ativo(); !ok {
 		return &ValidationError{Name: "ativo", err: errors.New(`ent: missing required field "Profissional.ativo"`)}
-	}
-	if _, ok := pc.mutation.Telefone(); !ok {
-		return &ValidationError{Name: "telefone", err: errors.New(`ent: missing required field "Profissional.telefone"`)}
-	}
-	if _, ok := pc.mutation.Celular(); !ok {
-		return &ValidationError{Name: "celular", err: errors.New(`ent: missing required field "Profissional.celular"`)}
 	}
 	if _, ok := pc.mutation.UnidadeID(); !ok {
 		return &ValidationError{Name: "unidade_id", err: errors.New(`ent: missing required field "Profissional.unidade_id"`)}

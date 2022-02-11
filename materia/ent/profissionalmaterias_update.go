@@ -28,6 +28,19 @@ func (pmu *ProfissionalMateriasUpdate) Where(ps ...predicate.ProfissionalMateria
 	return pmu
 }
 
+// SetProfissionalID sets the "profissional_id" field.
+func (pmu *ProfissionalMateriasUpdate) SetProfissionalID(i int) *ProfissionalMateriasUpdate {
+	pmu.mutation.ResetProfissionalID()
+	pmu.mutation.SetProfissionalID(i)
+	return pmu
+}
+
+// AddProfissionalID adds i to the "profissional_id" field.
+func (pmu *ProfissionalMateriasUpdate) AddProfissionalID(i int) *ProfissionalMateriasUpdate {
+	pmu.mutation.AddProfissionalID(i)
+	return pmu
+}
+
 // SetMateriaID sets the "materia" edge to the Materia entity by ID.
 func (pmu *ProfissionalMateriasUpdate) SetMateriaID(id int) *ProfissionalMateriasUpdate {
 	pmu.mutation.SetMateriaID(id)
@@ -112,6 +125,11 @@ func (pmu *ProfissionalMateriasUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (pmu *ProfissionalMateriasUpdate) check() error {
+	if v, ok := pmu.mutation.ProfissionalID(); ok {
+		if err := profissionalmaterias.ProfissionalIDValidator(v); err != nil {
+			return &ValidationError{Name: "profissional_id", err: fmt.Errorf(`ent: validator failed for field "ProfissionalMaterias.profissional_id": %w`, err)}
+		}
+	}
 	if _, ok := pmu.mutation.MateriaID(); pmu.mutation.MateriaCleared() && !ok {
 		return errors.New(`ent: clearing a required unique edge "ProfissionalMaterias.materia"`)
 	}
@@ -135,6 +153,20 @@ func (pmu *ProfissionalMateriasUpdate) sqlSave(ctx context.Context) (n int, err 
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := pmu.mutation.ProfissionalID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: profissionalmaterias.FieldProfissionalID,
+		})
+	}
+	if value, ok := pmu.mutation.AddedProfissionalID(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: profissionalmaterias.FieldProfissionalID,
+		})
 	}
 	if pmu.mutation.MateriaCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -188,6 +220,19 @@ type ProfissionalMateriasUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *ProfissionalMateriasMutation
+}
+
+// SetProfissionalID sets the "profissional_id" field.
+func (pmuo *ProfissionalMateriasUpdateOne) SetProfissionalID(i int) *ProfissionalMateriasUpdateOne {
+	pmuo.mutation.ResetProfissionalID()
+	pmuo.mutation.SetProfissionalID(i)
+	return pmuo
+}
+
+// AddProfissionalID adds i to the "profissional_id" field.
+func (pmuo *ProfissionalMateriasUpdateOne) AddProfissionalID(i int) *ProfissionalMateriasUpdateOne {
+	pmuo.mutation.AddProfissionalID(i)
+	return pmuo
 }
 
 // SetMateriaID sets the "materia" edge to the Materia entity by ID.
@@ -281,6 +326,11 @@ func (pmuo *ProfissionalMateriasUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (pmuo *ProfissionalMateriasUpdateOne) check() error {
+	if v, ok := pmuo.mutation.ProfissionalID(); ok {
+		if err := profissionalmaterias.ProfissionalIDValidator(v); err != nil {
+			return &ValidationError{Name: "profissional_id", err: fmt.Errorf(`ent: validator failed for field "ProfissionalMaterias.profissional_id": %w`, err)}
+		}
+	}
 	if _, ok := pmuo.mutation.MateriaID(); pmuo.mutation.MateriaCleared() && !ok {
 		return errors.New(`ent: clearing a required unique edge "ProfissionalMaterias.materia"`)
 	}
@@ -321,6 +371,20 @@ func (pmuo *ProfissionalMateriasUpdateOne) sqlSave(ctx context.Context) (_node *
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := pmuo.mutation.ProfissionalID(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: profissionalmaterias.FieldProfissionalID,
+		})
+	}
+	if value, ok := pmuo.mutation.AddedProfissionalID(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: profissionalmaterias.FieldProfissionalID,
+		})
 	}
 	if pmuo.mutation.MateriaCleared() {
 		edge := &sqlgraph.EdgeSpec{

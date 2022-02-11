@@ -537,6 +537,20 @@ func DataAgendamentoLTE(v time.Time) predicate.Materia {
 	})
 }
 
+// DataAgendamentoIsNil applies the IsNil predicate on the "data_agendamento" field.
+func DataAgendamentoIsNil() predicate.Materia {
+	return predicate.Materia(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldDataAgendamento)))
+	})
+}
+
+// DataAgendamentoNotNil applies the NotNil predicate on the "data_agendamento" field.
+func DataAgendamentoNotNil() predicate.Materia {
+	return predicate.Materia(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldDataAgendamento)))
+	})
+}
+
 // FonteEQ applies the EQ predicate on the "fonte" field.
 func FonteEQ(v string) predicate.Materia {
 	return predicate.Materia(func(s *sql.Selector) {

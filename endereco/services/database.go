@@ -19,7 +19,7 @@ func InitDatabase() {
 }
 
 func CreateDbClient() *ent.Client {
-	client, err := ent.Open("mysql", os.Getenv("DATABASE_URL")+"/profissionais?parseTime=True")
+	client, err := ent.Open("mysql", os.Getenv("DATABASE_URL")+"/enderecos?parseTime=True")
 	if err != nil {
 		log.Fatal(err)
 	}

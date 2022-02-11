@@ -719,9 +719,22 @@ func (m *MateriaMutation) OldDataAgendamento(ctx context.Context) (v time.Time, 
 	return oldValue.DataAgendamento, nil
 }
 
+// ClearDataAgendamento clears the value of the "data_agendamento" field.
+func (m *MateriaMutation) ClearDataAgendamento() {
+	m.data_agendamento = nil
+	m.clearedFields[materia.FieldDataAgendamento] = struct{}{}
+}
+
+// DataAgendamentoCleared returns if the "data_agendamento" field was cleared in this mutation.
+func (m *MateriaMutation) DataAgendamentoCleared() bool {
+	_, ok := m.clearedFields[materia.FieldDataAgendamento]
+	return ok
+}
+
 // ResetDataAgendamento resets all changes to the "data_agendamento" field.
 func (m *MateriaMutation) ResetDataAgendamento() {
 	m.data_agendamento = nil
+	delete(m.clearedFields, materia.FieldDataAgendamento)
 }
 
 // SetFonte sets the "fonte" field.
@@ -1303,6 +1316,9 @@ func (m *MateriaMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *MateriaMutation) ClearedFields() []string {
 	var fields []string
+	if m.FieldCleared(materia.FieldDataAgendamento) {
+		fields = append(fields, materia.FieldDataAgendamento)
+	}
 	if m.FieldCleared(materia.FieldFonte) {
 		fields = append(fields, materia.FieldFonte)
 	}
@@ -1326,6 +1342,9 @@ func (m *MateriaMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *MateriaMutation) ClearField(name string) error {
 	switch name {
+	case materia.FieldDataAgendamento:
+		m.ClearDataAgendamento()
+		return nil
 	case materia.FieldFonte:
 		m.ClearFonte()
 		return nil
@@ -1482,15 +1501,17 @@ func (m *MateriaMutation) ResetEdge(name string) error {
 // ProfissionalMateriasMutation represents an operation that mutates the ProfissionalMaterias nodes in the graph.
 type ProfissionalMateriasMutation struct {
 	config
-	op             Op
-	typ            string
-	id             *int
-	clearedFields  map[string]struct{}
-	materia        *int
-	clearedmateria bool
-	done           bool
-	oldValue       func(context.Context) (*ProfissionalMaterias, error)
-	predicates     []predicate.ProfissionalMaterias
+	op                 Op
+	typ                string
+	id                 *int
+	profissional_id    *int
+	addprofissional_id *int
+	clearedFields      map[string]struct{}
+	materia            *int
+	clearedmateria     bool
+	done               bool
+	oldValue           func(context.Context) (*ProfissionalMaterias, error)
+	predicates         []predicate.ProfissionalMaterias
 }
 
 var _ ent.Mutation = (*ProfissionalMateriasMutation)(nil)
@@ -1563,12 +1584,6 @@ func (m ProfissionalMateriasMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of ProfissionalMaterias entities.
-func (m *ProfissionalMateriasMutation) SetID(id int) {
-	m.id = &id
-}
-
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
 func (m *ProfissionalMateriasMutation) ID() (id int, exists bool) {
@@ -1595,6 +1610,62 @@ func (m *ProfissionalMateriasMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetProfissionalID sets the "profissional_id" field.
+func (m *ProfissionalMateriasMutation) SetProfissionalID(i int) {
+	m.profissional_id = &i
+	m.addprofissional_id = nil
+}
+
+// ProfissionalID returns the value of the "profissional_id" field in the mutation.
+func (m *ProfissionalMateriasMutation) ProfissionalID() (r int, exists bool) {
+	v := m.profissional_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldProfissionalID returns the old "profissional_id" field's value of the ProfissionalMaterias entity.
+// If the ProfissionalMaterias object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ProfissionalMateriasMutation) OldProfissionalID(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldProfissionalID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldProfissionalID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldProfissionalID: %w", err)
+	}
+	return oldValue.ProfissionalID, nil
+}
+
+// AddProfissionalID adds i to the "profissional_id" field.
+func (m *ProfissionalMateriasMutation) AddProfissionalID(i int) {
+	if m.addprofissional_id != nil {
+		*m.addprofissional_id += i
+	} else {
+		m.addprofissional_id = &i
+	}
+}
+
+// AddedProfissionalID returns the value that was added to the "profissional_id" field in this mutation.
+func (m *ProfissionalMateriasMutation) AddedProfissionalID() (r int, exists bool) {
+	v := m.addprofissional_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetProfissionalID resets all changes to the "profissional_id" field.
+func (m *ProfissionalMateriasMutation) ResetProfissionalID() {
+	m.profissional_id = nil
+	m.addprofissional_id = nil
 }
 
 // SetMateriaID sets the "materia" edge to the Materia entity by id.
@@ -1655,7 +1726,10 @@ func (m *ProfissionalMateriasMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ProfissionalMateriasMutation) Fields() []string {
-	fields := make([]string, 0, 0)
+	fields := make([]string, 0, 1)
+	if m.profissional_id != nil {
+		fields = append(fields, profissionalmaterias.FieldProfissionalID)
+	}
 	return fields
 }
 
@@ -1663,6 +1737,10 @@ func (m *ProfissionalMateriasMutation) Fields() []string {
 // return value indicates that this field was not set, or was not defined in the
 // schema.
 func (m *ProfissionalMateriasMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case profissionalmaterias.FieldProfissionalID:
+		return m.ProfissionalID()
+	}
 	return nil, false
 }
 
@@ -1670,6 +1748,10 @@ func (m *ProfissionalMateriasMutation) Field(name string) (ent.Value, bool) {
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
 func (m *ProfissionalMateriasMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case profissionalmaterias.FieldProfissionalID:
+		return m.OldProfissionalID(ctx)
+	}
 	return nil, fmt.Errorf("unknown ProfissionalMaterias field %s", name)
 }
 
@@ -1678,6 +1760,13 @@ func (m *ProfissionalMateriasMutation) OldField(ctx context.Context, name string
 // type.
 func (m *ProfissionalMateriasMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case profissionalmaterias.FieldProfissionalID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetProfissionalID(v)
+		return nil
 	}
 	return fmt.Errorf("unknown ProfissionalMaterias field %s", name)
 }
@@ -1685,13 +1774,21 @@ func (m *ProfissionalMateriasMutation) SetField(name string, value ent.Value) er
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *ProfissionalMateriasMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addprofissional_id != nil {
+		fields = append(fields, profissionalmaterias.FieldProfissionalID)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *ProfissionalMateriasMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case profissionalmaterias.FieldProfissionalID:
+		return m.AddedProfissionalID()
+	}
 	return nil, false
 }
 
@@ -1699,6 +1796,15 @@ func (m *ProfissionalMateriasMutation) AddedField(name string) (ent.Value, bool)
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
 func (m *ProfissionalMateriasMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case profissionalmaterias.FieldProfissionalID:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddProfissionalID(v)
+		return nil
+	}
 	return fmt.Errorf("unknown ProfissionalMaterias numeric field %s", name)
 }
 
@@ -1724,6 +1830,11 @@ func (m *ProfissionalMateriasMutation) ClearField(name string) error {
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
 func (m *ProfissionalMateriasMutation) ResetField(name string) error {
+	switch name {
+	case profissionalmaterias.FieldProfissionalID:
+		m.ResetProfissionalID()
+		return nil
+	}
 	return fmt.Errorf("unknown ProfissionalMaterias field %s", name)
 }
 
