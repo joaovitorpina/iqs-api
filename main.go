@@ -10,7 +10,6 @@ import (
 	_ "iqs-api/docs"
 	"log"
 	"materia"
-	"net/http"
 	"profissional"
 	"unidade"
 )
@@ -29,9 +28,6 @@ func main() {
 	server.Use(cors.AllowAll())
 
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	server.OPTIONS("/*any", func(context *gin.Context) {
-		context.String(http.StatusOK, "")
-	})
 
 	profissional.Startup(server)
 	endereco.Startup(server)

@@ -19,7 +19,7 @@ func AddRoutes(server *gin.Engine) {
 
 	materiasRoutes := server.Group("/materias")
 	{
-		materiasRoutes.GET("/", materiasController.ListarReduzido)
+		materiasRoutes.GET("", materiasController.ListarReduzido)
 		materiasRoutes.GET("/:url_amigavel", materiasController.BuscarPorUrlAmigavel)
 	}
 

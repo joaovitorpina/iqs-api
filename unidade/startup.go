@@ -17,6 +17,6 @@ func addRoutes(server *gin.Engine) {
 	routes := server.Group("/unidades")
 	{
 		unidadesController := controllers.UnidadesController{Client: client}
-		routes.GET("/", unidadesController.ListarUnidades)
+		routes.GET("", unidadesController.ListarUnidades)
 	}
 }

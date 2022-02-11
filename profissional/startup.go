@@ -23,11 +23,11 @@ func AddRoutes(server *gin.Engine) {
 
 	siteRoutes := server.Group("/profissionais")
 	{
-		siteRoutes.GET("/", profissionaisController.ListarReduzido)
+		siteRoutes.GET("", profissionaisController.ListarReduzido)
 
 		profissionalRoutes := siteRoutes.Group("/:url_amigavel")
 		{
-			profissionalRoutes.GET("/", profissionaisController.BuscarPorUrlAmigavel)
+			profissionalRoutes.GET("", profissionaisController.BuscarPorUrlAmigavel)
 
 			profissionalRoutes.GET("/convenios", convenioController.BuscarConveniosPorUrlAmigavelProfissional)
 			profissionalRoutes.GET("/whatsapps", whatsappController.BuscarWhatsappsPorUrlAmigavelProfissional)
@@ -48,21 +48,21 @@ func AddRoutes(server *gin.Engine) {
 
 		profissionalRoutes := adminRoutes.Group("/:id")
 		{
-			profissionalRoutes.GET("/", profissionaisController.BuscarPorId)
+			profissionalRoutes.GET("", profissionaisController.BuscarPorId)
 
 			tratamentoRoutes := profissionalRoutes.Group("/tratamentos")
 			{
-				tratamentoRoutes.GET("/", tratamentosController.ListarTratamentosPorIdProfissional)
+				tratamentoRoutes.GET("", tratamentosController.ListarTratamentosPorIdProfissional)
 			}
 
 			whatsappRoutes := profissionalRoutes.Group("/whatsapps")
 			{
-				whatsappRoutes.GET("/", whatsappController.BuscarWhatsappsPorIdProfissional)
+				whatsappRoutes.GET("", whatsappController.BuscarWhatsappsPorIdProfissional)
 			}
 
 			convenioRoutes := profissionalRoutes.Group("/convenios")
 			{
-				convenioRoutes.GET("/", convenioController.BuscarConveniosPorIdProfissional)
+				convenioRoutes.GET("", convenioController.BuscarConveniosPorIdProfissional)
 			}
 
 			midiasRoutes := profissionalRoutes.Group("/midias")
