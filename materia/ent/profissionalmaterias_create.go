@@ -20,9 +20,9 @@ type ProfissionalMateriasCreate struct {
 	hooks    []Hook
 }
 
-// SetID sets the "id" field.
-func (pmc *ProfissionalMateriasCreate) SetID(i int) *ProfissionalMateriasCreate {
-	pmc.mutation.SetID(i)
+// SetProfissionalID sets the "profissional_id" field.
+func (pmc *ProfissionalMateriasCreate) SetProfissionalID(i int) *ProfissionalMateriasCreate {
+	pmc.mutation.SetProfissionalID(i)
 	return pmc
 }
 
@@ -107,9 +107,12 @@ func (pmc *ProfissionalMateriasCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (pmc *ProfissionalMateriasCreate) check() error {
-	if v, ok := pmc.mutation.ID(); ok {
-		if err := profissionalmaterias.IDValidator(v); err != nil {
-			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "ProfissionalMaterias.id": %w`, err)}
+	if _, ok := pmc.mutation.ProfissionalID(); !ok {
+		return &ValidationError{Name: "profissional_id", err: errors.New(`ent: missing required field "ProfissionalMaterias.profissional_id"`)}
+	}
+	if v, ok := pmc.mutation.ProfissionalID(); ok {
+		if err := profissionalmaterias.ProfissionalIDValidator(v); err != nil {
+			return &ValidationError{Name: "profissional_id", err: fmt.Errorf(`ent: validator failed for field "ProfissionalMaterias.profissional_id": %w`, err)}
 		}
 	}
 	if _, ok := pmc.mutation.MateriaID(); !ok {
@@ -126,10 +129,8 @@ func (pmc *ProfissionalMateriasCreate) sqlSave(ctx context.Context) (*Profission
 		}
 		return nil, err
 	}
-	if _spec.ID.Value != _node.ID {
-		id := _spec.ID.Value.(int64)
-		_node.ID = int(id)
-	}
+	id := _spec.ID.Value.(int64)
+	_node.ID = int(id)
 	return _node, nil
 }
 
@@ -144,9 +145,13 @@ func (pmc *ProfissionalMateriasCreate) createSpec() (*ProfissionalMaterias, *sql
 			},
 		}
 	)
-	if id, ok := pmc.mutation.ID(); ok {
-		_node.ID = id
-		_spec.ID.Value = id
+	if value, ok := pmc.mutation.ProfissionalID(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: profissionalmaterias.FieldProfissionalID,
+		})
+		_node.ProfissionalID = value
 	}
 	if nodes := pmc.mutation.MateriaIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -212,7 +217,7 @@ func (pmcb *ProfissionalMateriasCreateBulk) Save(ctx context.Context) ([]*Profis
 				}
 				mutation.id = &nodes[i].ID
 				mutation.done = true
-				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
+				if specs[i].ID.Value != nil {
 					id := specs[i].ID.Value.(int64)
 					nodes[i].ID = int(id)
 				}

@@ -29,8 +29,10 @@ func (Profissional) Fields() []ent.Field {
 			Optional(),
 		field.String("numero_identificacao").
 			Optional(),
-		field.Int64("telefone"),
-		field.Int64("celular"),
+		field.Int64("telefone").
+			Optional(),
+		field.Int64("celular").
+			Optional(),
 		field.String("email").
 			Optional(),
 		field.String("site").

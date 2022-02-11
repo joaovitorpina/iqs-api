@@ -15,7 +15,7 @@ type ProfissionalReduzido struct {
 	Recomendado     bool     `json:"recomendado"`
 	ImagemPerfilUrl string   `json:"imagem_perfil_url"`
 	UnidadeId       int      `json:"unidade_id"`
-	WhatsApp        int64    `json:"whatsapp"`
+	WhatsApp        int64    `json:"whatsapp,omitempty"`
 	Email           string   `json:"email,omitempty"`
 	Site            string   `json:"site,omitempty"`
 	Facebook        string   `json:"facebook,omitempty"`

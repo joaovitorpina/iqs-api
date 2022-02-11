@@ -56,15 +56,10 @@ func (controller TratamentosController) ListarTratamentosPorIdProfissional(httpC
 // @Success      200  {object}  []string  "Tratamentos"
 // @Router       /profissionais/{url_amigavel}/tratamentos [get]
 func (controller TratamentosController) ListarTratamentosPorUrlAmigavelProfissional(httpContext *gin.Context) {
-	id, err := strconv.Atoi(httpContext.Param("id"))
-
-	if err != nil {
-		httpContext.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+	urlAmigavel := httpContext.Param("url_amigavel")
 
 	tratamentos, err := controller.Client.Tratamento.Query().
-		Where(tratamento.HasProfissionalWith(profissionalQuery.ID(id))).
+		Where(tratamento.HasProfissionalWith(profissionalQuery.URLAmigavel(urlAmigavel))).
 		All(context.Background())
 
 	if err != nil {

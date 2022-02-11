@@ -146,6 +146,24 @@ definitions:
       principal:
         type: boolean
     type: object
+  dtos.Especializacao:
+    properties:
+      descricao:
+        type: string
+      id:
+        type: integer
+    type: object
+  dtos.ListarAreasSaudeResponse:
+    properties:
+      descricao:
+        type: string
+      especializacoes:
+        items:
+          $ref: '#/definitions/dtos.Especializacao'
+        type: array
+      id:
+        type: integer
+    type: object
   dtos.ListarCategoriasResponse:
     properties:
       descricao:
@@ -632,6 +650,22 @@ paths:
       summary: Busca os WhatsApp`s do profissional
       tags:
         - WhatsApp
+  /tipos-profissional:
+    get:
+      description: Retorna uma listagem com todas os tipos de profissionais com as
+        especializacoes
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Tipos de Profissionais
+          schema:
+            items:
+              $ref: '#/definitions/dtos.ListarAreasSaudeResponse'
+            type: array
+      summary: Lista todas os tipos de profissionais
+      tags:
+        - Profissional
   /unidades:
     get:
       description: Retorna uma listagem com todas as unidades

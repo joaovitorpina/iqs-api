@@ -92,6 +92,89 @@ func IDLTE(id int) predicate.ProfissionalMaterias {
 	})
 }
 
+// ProfissionalID applies equality check predicate on the "profissional_id" field. It's identical to ProfissionalIDEQ.
+func ProfissionalID(v int) predicate.ProfissionalMaterias {
+	return predicate.ProfissionalMaterias(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldProfissionalID), v))
+	})
+}
+
+// ProfissionalIDEQ applies the EQ predicate on the "profissional_id" field.
+func ProfissionalIDEQ(v int) predicate.ProfissionalMaterias {
+	return predicate.ProfissionalMaterias(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldProfissionalID), v))
+	})
+}
+
+// ProfissionalIDNEQ applies the NEQ predicate on the "profissional_id" field.
+func ProfissionalIDNEQ(v int) predicate.ProfissionalMaterias {
+	return predicate.ProfissionalMaterias(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldProfissionalID), v))
+	})
+}
+
+// ProfissionalIDIn applies the In predicate on the "profissional_id" field.
+func ProfissionalIDIn(vs ...int) predicate.ProfissionalMaterias {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.ProfissionalMaterias(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.In(s.C(FieldProfissionalID), v...))
+	})
+}
+
+// ProfissionalIDNotIn applies the NotIn predicate on the "profissional_id" field.
+func ProfissionalIDNotIn(vs ...int) predicate.ProfissionalMaterias {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.ProfissionalMaterias(func(s *sql.Selector) {
+		// if not arguments were provided, append the FALSE constants,
+		// since we can't apply "IN ()". This will make this predicate falsy.
+		if len(v) == 0 {
+			s.Where(sql.False())
+			return
+		}
+		s.Where(sql.NotIn(s.C(FieldProfissionalID), v...))
+	})
+}
+
+// ProfissionalIDGT applies the GT predicate on the "profissional_id" field.
+func ProfissionalIDGT(v int) predicate.ProfissionalMaterias {
+	return predicate.ProfissionalMaterias(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldProfissionalID), v))
+	})
+}
+
+// ProfissionalIDGTE applies the GTE predicate on the "profissional_id" field.
+func ProfissionalIDGTE(v int) predicate.ProfissionalMaterias {
+	return predicate.ProfissionalMaterias(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldProfissionalID), v))
+	})
+}
+
+// ProfissionalIDLT applies the LT predicate on the "profissional_id" field.
+func ProfissionalIDLT(v int) predicate.ProfissionalMaterias {
+	return predicate.ProfissionalMaterias(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldProfissionalID), v))
+	})
+}
+
+// ProfissionalIDLTE applies the LTE predicate on the "profissional_id" field.
+func ProfissionalIDLTE(v int) predicate.ProfissionalMaterias {
+	return predicate.ProfissionalMaterias(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldProfissionalID), v))
+	})
+}
+
 // HasMateria applies the HasEdge predicate on the "materia" edge.
 func HasMateria() predicate.ProfissionalMaterias {
 	return predicate.ProfissionalMaterias(func(s *sql.Selector) {

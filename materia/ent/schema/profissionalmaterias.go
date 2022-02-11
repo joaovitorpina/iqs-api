@@ -14,7 +14,7 @@ type ProfissionalMaterias struct {
 // Fields of the ProfissionalMaterias.
 func (ProfissionalMaterias) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("id").
+		field.Int("profissional_id").
 			Positive(),
 	}
 }

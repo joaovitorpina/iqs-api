@@ -13,9 +13,11 @@ import (
 
 // ProfissionalMaterias is the model entity for the ProfissionalMaterias schema.
 type ProfissionalMaterias struct {
-	config
+	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// ProfissionalID holds the value of the "profissional_id" field.
+	ProfissionalID int `json:"profissional_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the ProfissionalMateriasQuery when eager-loading is set.
 	Edges                         ProfissionalMateriasEdges `json:"edges"`
@@ -50,7 +52,7 @@ func (*ProfissionalMaterias) scanValues(columns []string) ([]interface{}, error)
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case profissionalmaterias.FieldID:
+		case profissionalmaterias.FieldID, profissionalmaterias.FieldProfissionalID:
 			values[i] = new(sql.NullInt64)
 		case profissionalmaterias.ForeignKeys[0]: // materia_profissional_materias
 			values[i] = new(sql.NullInt64)
@@ -75,6 +77,12 @@ func (pm *ProfissionalMaterias) assignValues(columns []string, values []interfac
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			pm.ID = int(value.Int64)
+		case profissionalmaterias.FieldProfissionalID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field profissional_id", values[i])
+			} else if value.Valid {
+				pm.ProfissionalID = int(value.Int64)
+			}
 		case profissionalmaterias.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field materia_profissional_materias", value)
@@ -115,6 +123,8 @@ func (pm *ProfissionalMaterias) String() string {
 	var builder strings.Builder
 	builder.WriteString("ProfissionalMaterias(")
 	builder.WriteString(fmt.Sprintf("id=%v", pm.ID))
+	builder.WriteString(", profissional_id=")
+	builder.WriteString(fmt.Sprintf("%v", pm.ProfissionalID))
 	builder.WriteByte(')')
 	return builder.String()
 }

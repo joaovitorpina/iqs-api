@@ -650,6 +650,29 @@ var doc = `{
                 }
             }
         },
+        "/tipos-profissional": {
+            "get": {
+                "description": "Retorna uma listagem com todas os tipos de profissionais com as especializacoes",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Profissional"
+                ],
+                "summary": "Lista todas os tipos de profissionais",
+                "responses": {
+                    "200": {
+                        "description": "Tipos de Profissionais",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dtos.ListarAreasSaudeResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/unidades": {
             "get": {
                 "description": "Retorna uma listagem com todas as unidades",
@@ -897,6 +920,34 @@ var doc = `{
                 },
                 "principal": {
                     "type": "boolean"
+                }
+            }
+        },
+        "dtos.Especializacao": {
+            "type": "object",
+            "properties": {
+                "descricao": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dtos.ListarAreasSaudeResponse": {
+            "type": "object",
+            "properties": {
+                "descricao": {
+                    "type": "string"
+                },
+                "especializacoes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dtos.Especializacao"
+                    }
+                },
+                "id": {
+                    "type": "integer"
                 }
             }
         },

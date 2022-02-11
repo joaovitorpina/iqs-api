@@ -15,6 +15,7 @@ func AddRoutes(server *gin.Engine) {
 	client := services.CreateDbClient()
 
 	profissionaisController := controllers.ProfissionaisController{Client: client}
+	areaSaudeController := controllers.AreaSaudeController{Client: client}
 	tratamentosController := controllers.TratamentosController{Client: client}
 	whatsappController := controllers.WhatsappController{Client: client}
 	convenioController := controllers.ConvenioController{Client: client}
@@ -26,6 +27,8 @@ func AddRoutes(server *gin.Engine) {
 
 		profissionalRoutes := siteRoutes.Group("/:url_amigavel")
 		{
+			profissionalRoutes.GET("/", profissionaisController.BuscarPorUrlAmigavel)
+
 			profissionalRoutes.GET("/convenios", convenioController.BuscarConveniosPorUrlAmigavelProfissional)
 			profissionalRoutes.GET("/whatsapps", whatsappController.BuscarWhatsappsPorUrlAmigavelProfissional)
 
@@ -70,4 +73,6 @@ func AddRoutes(server *gin.Engine) {
 			}
 		}
 	}
+
+	server.GET("/tipos-profissional", areaSaudeController.Listar)
 }
