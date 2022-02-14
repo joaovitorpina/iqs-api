@@ -56,6 +56,7 @@ func (controller WhatsappController) BuscarWhatsappsPorUrlAmigavelProfissional(h
 
 	whatsapps, err := controller.Client.WhatsApp.Query().
 		Where(whatsapp.HasProfissionalWith(profissionalQuery.URLAmigavel(urlAmigavel))).
+		Order(ent.Desc(whatsapp.FieldPrincipal)).
 		All(context.Background())
 
 	if err != nil {
