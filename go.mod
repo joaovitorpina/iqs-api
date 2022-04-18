@@ -14,7 +14,8 @@ require (
 	endereco v0.0.0-00010101000000-000000000000
 	github.com/gin-gonic/gin v1.7.7
 	github.com/joho/godotenv v1.4.0
-	github.com/swaggo/gin-swagger v1.4.1
+	github.com/rs/cors/wrapper/gin v0.0.0-20211222042454-bf1dbac76afe
+	github.com/swaggo/gin-swagger v1.4.2
 	github.com/swaggo/swag v1.7.9
 	materia v0.0.0-00010101000000-000000000000
 	profissional v0.0.0-00010101000000-000000000000
@@ -52,7 +53,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/rs/cors v1.8.2 // indirect
-	github.com/rs/cors/wrapper/gin v0.0.0-20211222042454-bf1dbac76afe // indirect
 	github.com/ugorji/go/codec v1.2.6 // indirect
 	github.com/zclconf/go-cty v1.8.0 // indirect
 	golang.org/x/crypto v0.0.0-20220208050332-20e1d8d225ab // indirect
