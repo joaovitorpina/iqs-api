@@ -5,7 +5,7 @@ go 1.17
 require (
 	entgo.io/ent v0.10.0
 	github.com/gin-gonic/gin v1.7.7
-	github.com/go-sql-driver/mysql v1.6.0
+	github.com/go-sql-driver/mysql v1.7.0
 )
 
 require (
